@@ -1,0 +1,11 @@
+{
+    "title": "Money Minder",
+    "changeLangTitle": "Cambiar Idioma:",
+    "langTitles": {
+        "en": "Ingles",
+        "es": "Español"
+    },
+    "loginMessages": {
+        "success": "Usuario autenticado con exito!"
+    }
+}

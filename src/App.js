@@ -1,11 +1,13 @@
 import React from "react";
+import { createTheme, GlobalStyles, ThemeProvider } from "@mui/material";
+import Main from "./modules/components/Main";
+import { AppProvider } from "./modules/providers/AppProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GOOGLE_AUTH_CLIENT_ID } from "./modules/utils/constants";
+import HeaderContent from "./modules/components/common/HeaderContent";
+import FooterContent from "./modules/components/common/FooterContent";
+import { AuthProvider } from "./modules/providers/AuthProvider";
 import { BrowserRouter } from "react-router-dom";
-
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "react-circular-progressbar/dist/styles.css";
-import { GlobalStyles } from "@mui/material";
-import NotificationContainer from "../containers/notifications/Notification";
-import Main from "./Main";
 
 const familyFont = ["Monserrat", "serif"].join(",");
 const theme = createTheme({
@@ -38,17 +40,23 @@ const theme = createTheme({
     fontFamily: familyFont,
   },
 });
-
 const App = () => {
   return (
     <>
       <React.StrictMode>
         <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <GlobalStyles styles={{ body: theme.body }} />
-            <NotificationContainer />
-            <Main />
-          </ThemeProvider>
+          <GoogleOAuthProvider clientId={GOOGLE_AUTH_CLIENT_ID}>
+            <AppProvider>
+              <AuthProvider>
+                <ThemeProvider theme={theme}>
+                  <GlobalStyles styles={{ body: theme.body }} />
+                  <HeaderContent />
+                  <Main />
+                  <FooterContent />
+                </ThemeProvider>
+              </AuthProvider>
+            </AppProvider>
+          </GoogleOAuthProvider>
         </BrowserRouter>
       </React.StrictMode>
     </>
