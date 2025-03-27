@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useReducer, useState } from "react";
 import english from "../language/en_us.json";
 import spanish from "../language/es_es.json";
 import PropTypes from "prop-types";
+import { initialState, reducer } from "../reducers/app";
 
 const AppContext = createContext();
 
@@ -16,6 +17,7 @@ export const AppProvider = ({ children }) => {
     type: null,
     info: null,
   });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   /**
    * Handle language change events
@@ -41,6 +43,8 @@ export const AppProvider = ({ children }) => {
     language: language,
     notification: notification,
     setNotification: setNotification,
+    state: state,
+    dispatch: dispatch,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

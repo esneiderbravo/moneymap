@@ -9,6 +9,11 @@ const localStorageAuthData =
 
 const authData = {
   name: localStorageAuthData?.name || "",
+  token: localStorageAuthData?.token || "",
+  userId: localStorageAuthData?.userId || "",
+  email: localStorageAuthData?.email || "",
+  role: localStorageAuthData?.role || "",
+  rememberMe: localStorageAuthData?.rememberMe || false,
 };
 
 const initialState = {

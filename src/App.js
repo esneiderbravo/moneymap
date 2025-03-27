@@ -6,7 +6,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GOOGLE_AUTH_CLIENT_ID } from "./modules/utils/constants";
 import HeaderContent from "./modules/components/common/HeaderContent";
 import FooterContent from "./modules/components/common/FooterContent";
-import { AuthProvider } from "./modules/providers/AuthProvider";
 import { BrowserRouter } from "react-router-dom";
 
 const familyFont = ["Monserrat", "serif"].join(",");
@@ -47,14 +46,12 @@ const App = () => {
         <BrowserRouter>
           <GoogleOAuthProvider clientId={GOOGLE_AUTH_CLIENT_ID}>
             <AppProvider>
-              <AuthProvider>
-                <ThemeProvider theme={theme}>
-                  <GlobalStyles styles={{ body: theme.body }} />
-                  <HeaderContent />
-                  <Main />
-                  <FooterContent />
-                </ThemeProvider>
-              </AuthProvider>
+              <ThemeProvider theme={theme}>
+                <GlobalStyles styles={{ body: theme.body }} />
+                <HeaderContent />
+                <Main />
+                <FooterContent />
+              </ThemeProvider>
             </AppProvider>
           </GoogleOAuthProvider>
         </BrowserRouter>
