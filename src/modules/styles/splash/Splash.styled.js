@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-export const SplashContainer = styled(motion.div)`
+export const SplashBox = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;

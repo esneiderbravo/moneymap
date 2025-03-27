@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Splash from "./splash/Splash";
+import SplashContainer from "../containers/splash/SplashContainer";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Splash />} />
+      <Route path="/" element={<SplashContainer />} />
     </Routes>
   );
 };
