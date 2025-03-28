@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SplashBox,
   Title,
@@ -46,12 +46,12 @@ const SplashContent = () => {
    * - If the user is authenticated, displays a button to navigate to the dashboard.
    * - If not authenticated, shows the Google Sign-In component.
    */
-  const loginSection = useMemo(() => {
+  const loginSection = () => {
     return authData ? (
       <MotionDiv
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeInOut", delay: 1 }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 3, ease: "easeInOut", delay: 0.5 }}
       >
         <Button
           onClick={() => {
@@ -66,7 +66,7 @@ const SplashContent = () => {
     ) : (
       <GoogleSignInContainer />
     );
-  }, [authData, buttonText, navigate]);
+  };
 
   return (
     <SplashBox>
@@ -85,7 +85,7 @@ const SplashContent = () => {
           transition={{ duration: 1.5, ease: "easeInOut", delay: 1 }}
         />
       ) : (
-        loginSection
+        loginSection()
       )}
     </SplashBox>
   );

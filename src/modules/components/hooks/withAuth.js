@@ -16,8 +16,6 @@ const WithAuth = ({ children }) => {
   const { state } = useAppContext();
   const { authData } = state;
 
-  console.log(authData);
-
   return authData ? (
     children
   ) : (

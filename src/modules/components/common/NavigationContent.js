@@ -3,6 +3,7 @@ import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PropTypes from "prop-types";
+import { useAppContext } from "../../providers/AppProvider";
 
 /**
  * Navigation Content Component (Fixed bottom navigation bar)
@@ -10,12 +11,14 @@ import PropTypes from "prop-types";
  */
 const NavigationContent = ({ initialValue = "home" }) => {
   const [value, setValue] = useState(initialValue);
+  const { state } = useAppContext();
+  const { authData } = state;
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
 
-  return (
+  return authData ? (
     <Paper
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
@@ -29,7 +32,7 @@ const NavigationContent = ({ initialValue = "home" }) => {
         />
       </BottomNavigation>
     </Paper>
-  );
+  ) : null;
 };
 
 /**
