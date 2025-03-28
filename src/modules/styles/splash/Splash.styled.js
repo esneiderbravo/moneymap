@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 export const SplashBox = styled(motion.div)`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   height: 100vh;
   background-color: #212a31;
@@ -38,4 +39,19 @@ export const Loader = styled(motion.div)`
 export const MotionDiv = styled(motion.div)`
   display: flex;
   justify-content: center;
+`;
+
+export const LogoContainer = styled("img")`
+  max-width: 120px;
+  max-height: 120px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+  }
 `;
