@@ -6,7 +6,7 @@ export const SplashBox = styled(motion.div)`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #003135; /* Your primary color */
+  background-color: #212a31;
 `;
 
 export const Title = styled(motion.h1)`
@@ -34,4 +34,8 @@ export const Loader = styled(motion.div)`
       transform: rotate(360deg);
     }
   }
+`;
+export const MotionDiv = styled(motion.div)`
+  display: flex;
+  justify-content: center;
 `;

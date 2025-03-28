@@ -3,10 +3,10 @@ import SplashContent from "./SplashContent";
 
 /**
  * Splash Component
- * @returns {JSX.Element}
+ * Renders the splash screen content.
+ *
+ * @returns {JSX.Element} The rendered SplashContent component.
  */
-const Splash = () => {
-  return <SplashContent />;
-};
+const Splash = () => <SplashContent />;
 
 export default Splash;

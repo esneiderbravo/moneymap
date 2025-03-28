@@ -1,30 +1,30 @@
 /**
- * Utility class for managing values in the browser's localStorage.
+ * Utility class for managing values in the browser's sessionStorage.
  */
-class LocalStorage {
+class SessionStorage {
   /**
-   * Stores a value in localStorage under the specified key.
+   * Stores a value in sessionStorage under the specified key.
    *
    * @param {string} key - The name of the key to store the value under.
    * @param {string} value - The value to be stored.
    */
   static setItem(key, value) {
     try {
-      localStorage.setItem(key, value);
+      sessionStorage.setItem(key, value);
     } catch (error) {
       console.error(`Error saving key "${key}" with value "${value}":`, error);
     }
   }
 
   /**
-   * Retrieves a stored value from localStorage by key.
+   * Retrieves a stored value from sessionStorage by key.
    *
    * @param {string} key - The name of the key to retrieve.
    * @returns {string | null} - The stored value, or null if not found.
    */
   static getItem(key) {
     try {
-      return localStorage.getItem(key);
+      return sessionStorage.getItem(key);
     } catch (error) {
       console.error(`Error retrieving key "${key}":`, error);
       return null;
@@ -32,17 +32,28 @@ class LocalStorage {
   }
 
   /**
-   * Removes a stored value from localStorage by key.
+   * Removes a stored value from sessionStorage by key.
    *
    * @param {string} key - The name of the key to remove.
    */
   static removeItem(key) {
     try {
-      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
     } catch (error) {
       console.error(`Error removing key "${key}":`, error);
     }
   }
+
+  /**
+   * Clears all data stored in sessionStorage.
+   */
+  static clear() {
+    try {
+      sessionStorage.clear();
+    } catch (error) {
+      console.error("Error clearing sessionStorage:", error);
+    }
+  }
 }
 
-export default LocalStorage;
+export default SessionStorage;

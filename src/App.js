@@ -5,58 +5,80 @@ import { AppProvider } from "./modules/providers/AppProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GOOGLE_AUTH_CLIENT_ID } from "./modules/utils/constants";
 import HeaderContent from "./modules/components/common/HeaderContent";
-import FooterContent from "./modules/components/common/FooterContent";
+import NavigationContent from "./modules/components/common/NavigationContent";
 import { BrowserRouter } from "react-router-dom";
 
-const familyFont = ["Monserrat", "serif"].join(",");
+const familyFont = ["Literata", "serif"].join(",");
+
 const theme = createTheme({
-  body: {
-    width: "100%",
-    margin: 0,
-    overflowX: "hidden",
-    backgroundColor: "#003135",
-    color: "white",
-  },
   palette: {
     primary: {
-      main: "#003135", // Best for headers, text, or buttons
+      main: "#2e3944",
     },
     secondary: {
-      main: "#024950", // Good for backgrounds, cards, or secondary buttons
+      main: "#124e66",
     },
     accent: {
-      main: "#964734", // Can be used for alerts, highlights, or emphasis
+      main: "#748d92",
     },
     highlight: {
-      main: "#0FA4AF", // Good for icons, links, or interactive elements
+      main: "#d3d9d4",
     },
     background: {
-      main: "#AFDDE5", // Ideal for light backgrounds or containers
+      main: "#124e66",
     },
   },
-
   typography: {
     fontFamily: familyFont,
   },
+  components: {
+    MuiBottomNavigation: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#2e3944",
+          height: "60px",
+          boxShadow: "0px -2px 10px rgba(0, 0, 0, 0.1)",
+        },
+      },
+    },
+    MuiBottomNavigationAction: {
+      styleOverrides: {
+        root: {
+          color: "#748d92",
+          "&.Mui-selected": {
+            color: "#d3d9d4",
+          },
+        },
+      },
+    },
+  },
 });
+
 const App = () => {
   return (
-    <>
-      <React.StrictMode>
-        <BrowserRouter>
-          <GoogleOAuthProvider clientId={GOOGLE_AUTH_CLIENT_ID}>
-            <AppProvider>
-              <ThemeProvider theme={theme}>
-                <GlobalStyles styles={{ body: theme.body }} />
-                <HeaderContent />
-                <Main />
-                <FooterContent />
-              </ThemeProvider>
-            </AppProvider>
-          </GoogleOAuthProvider>
-        </BrowserRouter>
-      </React.StrictMode>
-    </>
+    <BrowserRouter>
+      <GoogleOAuthProvider clientId={GOOGLE_AUTH_CLIENT_ID}>
+        <AppProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyles
+              styles={{
+                body: {
+                  width: "100%",
+                  margin: 0,
+                  overflowX: "hidden",
+                  backgroundColor: "#212a31",
+                  color: "white",
+                  fontFamily: familyFont,
+                },
+              }}
+            />
+            <HeaderContent />
+            <Main />
+            <NavigationContent />
+          </ThemeProvider>
+        </AppProvider>
+      </GoogleOAuthProvider>
+    </BrowserRouter>
   );
 };
 
