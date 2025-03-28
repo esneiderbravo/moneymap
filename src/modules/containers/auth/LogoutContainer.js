@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { setAuthData } from "../../actions/state";
 import { useAppContext } from "../../providers/AppProvider";
+import LocalStorage from "../../utils/localStorage";
 
 /**
  * LogoutContainer Component
@@ -20,7 +21,7 @@ const LogoutContainer = () => {
 
   useEffect(() => {
     // Clear authentication data
-    localStorage.removeItem("authData");
+    LocalStorage.removeItem("authData");
     dispatch(setAuthData(null));
 
     // Redirect to the homepage
