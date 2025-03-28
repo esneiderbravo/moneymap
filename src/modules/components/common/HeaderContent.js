@@ -1,31 +1,24 @@
-import { Grid } from "@mui/material";
-import NotificationContent from "../notification/NotificationContent";
 import React from "react";
+import { Grid2 } from "@mui/material";
+import NotificationContent from "../notification/NotificationContent";
 
 /**
  * Header Content Component
- * @return React.JSX.Element
- * */
+ * @returns {React.JSX.Element} Header section with notifications
+ */
 const HeaderContent = () => {
   return (
-    <Grid container spacing={2} display="flex">
-      <Grid
-        item
-        xs={12}
-        md={12}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
+    <Grid2 container spacing={2} justifyContent="center">
+      <Grid2 item xs={12}>
         <NotificationContent />
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 };
 
 /**
- * Footer Content propTypes
- * */
+ * Header Content propTypes
+ */
 HeaderContent.propTypes = {};
 
 export default HeaderContent;

@@ -1,11 +1,20 @@
 {
-    "title": "Money Minder",
-    "changeLangTitle": "Cambiar Idioma:",
-    "langTitles": {
-        "en": "Ingles",
-        "es": "Español"
+    "title": "Money Map",
+    "languageSettings": {
+        "changeLangTitle": "Cambiar Idioma:",
+        "langTitles": {
+            "en": "Inglés",
+            "es": "Español"
+        }
     },
-    "loginMessages": {
-        "success": "Usuario autenticado con exito!"
+    "notifications": {
+        "login": "Usuario autenticado con éxito!",
+        "logout": "La sesión fue cerrada con éxito!"
+    },
+    "splash": {
+        "buttonText": "Ir al Dashboard"
+    },
+    "dashboard": {
+        "logoutButtonText": "Cerrar Sesión"
     }
 }

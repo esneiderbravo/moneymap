@@ -4,23 +4,32 @@ import PropTypes from "prop-types";
 import { useAppContext } from "../../providers/AppProvider";
 
 /**
- * WithAuth - Validate if has token
- * @param {children} React Router Object
+ * WithAuth - Higher-order component for authentication validation.
+ * Redirects unauthenticated users to the login page.
+ *
+ * @param {Object} props - Component props.
+ * @param {React.ReactNode} props.children - Child components to render if authenticated.
+ * @returns {React.JSX.Element} - Authenticated content or a redirect.
  */
 const WithAuth = ({ children }) => {
-  let location = useLocation();
+  const location = useLocation();
   const { state } = useAppContext();
   const { authData } = state;
 
-  if (authData) {
-    return children;
-  }
+  console.log(authData);
 
-  return <Navigate to="/" state={{ from: location }} replace />;
+  return authData ? (
+    children
+  ) : (
+    <Navigate to="/" state={{ from: location }} replace />
+  );
 };
 
+/**
+ * PropTypes for WithAuth
+ */
 WithAuth.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.node.isRequired,
 };
 
 export default WithAuth;

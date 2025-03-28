@@ -3,77 +3,45 @@ import Alert from "@mui/material/Alert";
 import { useAppContext } from "../../providers/AppProvider";
 
 /**
- * Notification Content Component
- * @return React.JSX.Element
- * */
+ * Notification Content Component.
+ * Displays different types of notifications based on context state.
+ *
+ * @returns {React.JSX.Element|null} The rendered notification component or null if no notification is set.
+ */
 const NotificationContent = () => {
-  const [type, setType] = useState("");
-  const [info, setInfo] = useState("");
+  const [type, setType] = useState(null);
+  const [info, setInfo] = useState(null);
   const { notification } = useAppContext();
 
-  /**
-   *  Success notification element generator
-   *  @return React.JSX.Element
-   */
-  const successNotification = () => {
-    return (
-      <Alert severity="success" sx={{ width: "20%" }}>
-        {info}
-      </Alert>
-    );
-  };
-
-  /**
-   *  Error notification element generator
-   *  @return React.JSX.Element
-   * */
-  const errorNotification = () => {
-    return <Alert severity="error">{info}</Alert>;
-  };
-
-  /**
-   *  Warning notification element generator
-   *  @return React.JSX.Element
-   * */
-  const warningNotification = () => {
-    return <Alert severity="warning">{info}</Alert>;
-  };
-
-  /**
-   *  Info notification element generator
-   *  @return React.JSX.Element
-   * */
-  const infoNotification = () => {
-    return <Alert severity="info">{info}</Alert>;
-  };
-
   useEffect(() => {
-    setType(notification.type);
-    setInfo(notification.info);
-    const timeoutId = setTimeout(() => {
-      setType(null);
-      setInfo(null);
-      clearTimeout(timeoutId);
-    }, 5000);
+    if (notification?.type && notification?.info) {
+      setType(notification.type);
+      setInfo(notification.info);
+
+      const timeoutId = setTimeout(() => {
+        setType(null);
+        setInfo(null);
+      }, 5000);
+
+      return () => clearTimeout(timeoutId); // Cleanup function to avoid memory leaks
+    }
   }, [notification]);
 
-  switch (type) {
-    case "success":
-      return successNotification();
-    case "error":
-      return errorNotification();
-    case "warning":
-      return warningNotification();
-    case "info":
-      return infoNotification();
-    default:
-      return null;
-  }
-};
+  /**
+   * Renders a notification based on the type.
+   *
+   * @param {string} severity - The type of the notification (success, error, warning, info).
+   * @returns {React.JSX.Element} The Alert component.
+   */
+  const renderNotification = (severity) => (
+    <Alert severity={severity} sx={{ width: { sm: "90%", md: "20%" } }}>
+      {info}
+    </Alert>
+  );
 
-/**
- *  NotificationContent propTypes
- */
-NotificationContent.propTypes = {};
+  if (!type) return null; // Don't render anything if there's no active notification
+
+  return renderNotification(type);
+};
 
 export default NotificationContent;
