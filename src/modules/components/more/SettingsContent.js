@@ -51,6 +51,23 @@ const SettingsContent = () => {
     dispatch(setOpenSettings(false));
   };
 
+  /**
+   * Listens for the back button event (on Android) or browser navigation.
+   * Closes the settings drawer when the back button is pressed.
+   */
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      if (openSettings) {
+        event.preventDefault();
+        dispatch(setOpenSettings(false));
+      }
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [openSettings, dispatch]);
+
   return (
     <>
       {/* Settings Drawer */}

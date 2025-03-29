@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -44,6 +44,22 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
     setOpenProfile(false);
     setSelectedPage(null);
   };
+
+  /**
+   * Listens for the back button event (on Android) or browser navigation.
+   * Closes the settings drawer when the back button is pressed.
+   */
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.stopPropagation();
+      setOpenProfile(false);
+      setSelectedPage(null);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [setOpenProfile, setSelectedPage]);
 
   /**
    * Handles user logout and redirects to the logout page.

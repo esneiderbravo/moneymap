@@ -4,7 +4,8 @@ import { Chip, Paper } from "@mui/material";
 export const PaperComponent = styled(Paper)`
   padding: 1px;
   border-radius: 14px !important;
-  margin: 0 46px;
+  margin: 0 26px;
+  height: 46px;
 `;
 
 export const ChipComponent = styled(Chip)`
@@ -18,4 +19,6 @@ export const ChipComponent = styled(Chip)`
   color: ${({ selected, option }) =>
     selected === option ? "#124e66" : "#748d92"} !important;
   padding: 10px;
+  height: 46px !important;
+  font-size: 16px !important;
 `;
