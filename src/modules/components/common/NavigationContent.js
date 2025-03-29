@@ -4,7 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useAppContext } from "../../providers/AppProvider";
 import { setCurrentPage } from "../../actions/state";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LocalStorage from "../../utils/localStorage";
 
 /**
@@ -15,10 +15,14 @@ const NavigationContent = () => {
   const { state, dispatch } = useAppContext();
   const { authData, currentPage } = state;
   const navigate = useNavigate();
+  const location = useLocation();
   const navigationElements = [
     { label: "Dashboard", value: "dashboard", icon: <HomeIcon /> },
     { label: "More", value: "more", icon: <MoreHorizIcon /> },
   ];
+
+  // Don't render if the current location is "/"
+  if (location.pathname === "/") return null;
 
   /**
    * Handles changes in the bottom navigation selection.
