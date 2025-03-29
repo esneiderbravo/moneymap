@@ -28,4 +28,15 @@ const setMoreCurrentPage = (moreCurrentPage) => ({
   payload: moreCurrentPage,
 });
 
-export { setAuthData, setCurrentPage, setMoreCurrentPage };
+/**
+ * Action creator for toggling the settings drawer.
+ *
+ * @param {boolean} openSettings - Indicates whether the settings drawer should be open (true) or closed (false).
+ * @returns {Object} Redux action object with type "setOpenSettings" and the new state as payload.
+ */
+const setOpenSettings = (openSettings) => ({
+  type: "setOpenSettings",
+  payload: openSettings,
+});
+
+export { setAuthData, setCurrentPage, setMoreCurrentPage, setOpenSettings };

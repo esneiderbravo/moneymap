@@ -17,8 +17,12 @@ const NavigationContent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const navigationElements = [
-    { label: "Dashboard", value: "dashboard", icon: <HomeIcon /> },
-    { label: "More", value: "more", icon: <MoreHorizIcon /> },
+    {
+      label: "Dashboard",
+      value: "dashboard",
+      icon: <HomeIcon fontSize="large" />,
+    },
+    { label: "More", value: "more", icon: <MoreHorizIcon fontSize="large" /> },
   ];
 
   // Don't render if the current location is "/"
@@ -37,10 +41,15 @@ const NavigationContent = () => {
 
   return authData ? (
     <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, height: "9%" }}
       elevation={3}
     >
-      <BottomNavigation showLabels value={currentPage} onChange={handleChange}>
+      <BottomNavigation
+        showLabels
+        value={currentPage}
+        onChange={handleChange}
+        sx={{ height: "100%" }}
+      >
         {navigationElements.map(({ label, value, icon }) => (
           <BottomNavigationAction
             key={value}

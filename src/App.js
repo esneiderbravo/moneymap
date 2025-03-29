@@ -26,6 +26,13 @@ const theme = createTheme({
     },
     background: {
       main: "#124e66",
+      secondary: "#d3d9d4",
+    },
+    text: {
+      primary: "#124e66",
+      secondary: "#748d92",
+      info: "#55686c",
+      error: "#f44336",
     },
   },
   typography: {
@@ -56,6 +63,26 @@ const theme = createTheme({
         root: {
           backgroundColor: "#2e3944",
           color: "#748d92",
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#212a31",
+          color: "#748d92",
+          width: "100vw",
+          height: "100vh",
+          padding: 3,
+          display: "flex",
+          flexDirection: "column",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#55686c",
         },
       },
     },
