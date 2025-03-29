@@ -1,19 +1,19 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Custom hook that detects a left swipe gesture (on touch devices)
+ * Custom hook that detects swipe gestures in both directions (left-to-right and right-to-left)
  * and triggers a close action when the swipe exceeds a threshold.
  *
  * @param {Object} options - Hook options
  * @param {boolean} options.isOpen - Determines if the event listeners should be active
- * @param {Function} options.onClose - Callback function to execute when a left swipe is detected
- * @param {number} [options.threshold=50] - Minimum swipe distance (in pixels) to trigger `onClose`
+ * @param {Function} options.onClose - Callback function to execute when a swipe is detected
+ * @param {number} [options.threshold=50] - Minimum swipe distance (in pixels) to trigger onClose
  */
 const useSwipeClose = ({ isOpen, onClose, threshold = 50 }) => {
   const startXRef = useRef(0);
 
   useEffect(() => {
-    if (!isOpen) return; // Only attach listeners when open
+    if (!isOpen) return; // Only attach listeners when the component is open
 
     /**
      * Stores the starting X-coordinate of the touch event.
@@ -24,16 +24,15 @@ const useSwipeClose = ({ isOpen, onClose, threshold = 50 }) => {
     };
 
     /**
-     * Detects a left swipe based on the difference between the start and end X-coordinates.
-     * Calls `onClose` if the swipe distance exceeds the threshold.
+     * Detects swipe gestures in either direction and triggers onClose.
      * @param {TouchEvent} event - The touchend event
      */
     const handleTouchEnd = (event) => {
       const endX = event.changedTouches[0].clientX;
       const difference = endX - startXRef.current;
 
-      if (difference < -threshold) {
-        onClose();
+      if (Math.abs(difference) > threshold) {
+        onClose(); // Close on swipe regardless of direction
       }
     };
 
