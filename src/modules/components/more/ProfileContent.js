@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Avatar,
   Box,
@@ -17,6 +17,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../providers/AppProvider";
+import useSwipeClose from "../hooks/swipe";
 
 /**
  * ProfileContent Component
@@ -45,22 +46,13 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
     setSelectedPage(null);
   };
 
-  /**
-   * Listens for the back button event (on Android) or browser navigation.
-   * Closes the settings drawer when the back button is pressed.
-   */
-  useEffect(() => {
-    const handleBackButton = (event) => {
-      event.stopPropagation();
+  useSwipeClose({
+    isOpen: openProfile,
+    onClose: () => {
       setOpenProfile(false);
       setSelectedPage(null);
-    };
-    window.addEventListener("popstate", handleBackButton);
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, [setOpenProfile, setSelectedPage]);
-
+    },
+  });
   /**
    * Handles user logout and redirects to the logout page.
    *

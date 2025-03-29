@@ -16,6 +16,7 @@ import { setOpenSettings } from "../../actions/state";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ProfileContent from "./ProfileContent";
+import useSwipeClose from "../hooks/swipe";
 
 /**
  * SettingsContent Component
@@ -32,6 +33,14 @@ const SettingsContent = () => {
   const [selectedPage, setSelectedPage] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
 
+  useSwipeClose({
+    isOpen: openSettings,
+    onClose: () => {
+      document.activeElement?.blur();
+      dispatch(setOpenSettings(false));
+    },
+  });
+
   /**
    * Opens the profile drawer when "Profile" is selected.
    */
@@ -47,26 +56,9 @@ const SettingsContent = () => {
    */
   const handleCloseSettings = (event) => {
     event.stopPropagation();
-    document.activeElement?.blur(); // Ensure focus is removed from active elements
+    document.activeElement?.blur();
     dispatch(setOpenSettings(false));
   };
-
-  /**
-   * Listens for the back button event (on Android) or browser navigation.
-   * Closes the settings drawer when the back button is pressed.
-   */
-  useEffect(() => {
-    const handleBackButton = (event) => {
-      if (openSettings) {
-        event.preventDefault();
-        dispatch(setOpenSettings(false));
-      }
-    };
-    window.addEventListener("popstate", handleBackButton);
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, [openSettings, dispatch]);
 
   return (
     <>
