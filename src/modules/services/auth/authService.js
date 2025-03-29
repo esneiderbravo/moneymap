@@ -17,9 +17,7 @@ import { AUTH_SERVICE_URL } from "../../utils/constants";
  */
 export const loginService = async (authData) => {
   try {
-    const response = await HTTPHandler.post(AUTH_SERVICE_URL, authData);
-    console.log(response);
-    return response;
+    return await HTTPHandler.post(AUTH_SERVICE_URL, authData);
   } catch (error) {
     console.error("LoginService Error:", error.message);
 

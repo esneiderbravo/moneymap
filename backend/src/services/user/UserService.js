@@ -31,3 +31,35 @@ export const createUser = async (userData) => {
     throw new Error("Database insertion error");
   }
 };
+
+/**
+ * Update user data only if it has changed.
+ *
+ * @param {Object} existingUser - The existing user object.
+ * @param {Object} newUserData - The new user data to compare.
+ * @returns {Promise<Object>} - The updated user object (or original if no changes).
+ */
+export const updateUserIfNeeded = async (existingUser, newUserData) => {
+  const { id, ...storedUserData } = existingUser;
+
+  // Check if there are changes
+  const hasChanges = Object.keys(newUserData).some(
+    (key) => storedUserData[key] !== newUserData[key]
+  );
+
+  if (!hasChanges) {
+    console.log("✅ No updates needed for:", existingUser.email);
+    return existingUser;
+  }
+
+  try {
+    console.log("🛠️ Updating user:", existingUser.email);
+    return await prisma.user.update({
+      where: { id },
+      data: newUserData,
+    });
+  } catch (error) {
+    console.error("❌ Error updating user:", error);
+    throw new Error("Database update error");
+  }
+};

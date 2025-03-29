@@ -23,8 +23,11 @@ class HTTP {
 
       return response.data; // Return only relevant data
     } catch (error) {
-      console.error("HTTP Error:", error.response?.data || error.message);
-      return { error: error.response?.data || "Network error" };
+      console.error("HTTP Error:", error.response?.error || "Network error");
+      return {
+        error: error.response?.error || "Network error",
+        success: false,
+      };
     }
   }
 
