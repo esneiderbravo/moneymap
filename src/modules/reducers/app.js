@@ -1,9 +1,8 @@
 import LocalStorage from "../utils/localStorage";
 
 const notification = {
-  hidden: true,
-  message: "",
-  type: "",
+  info: null,
+  type: null,
 };
 
 const authData = JSON.parse(LocalStorage.getItem("authData")) || null;
@@ -34,16 +33,10 @@ const initialState = {
  */
 const reducer = (state, { type, payload }) => {
   switch (type) {
-    case "hideNotification":
-      return {
-        ...state,
-        notification: { ...state.notification, hidden: true },
-      };
-
     case "setNotification":
       return {
         ...state,
-        notification: { ...state.notification, ...payload, hidden: false },
+        notification: payload,
       };
 
     case "setAuthData":

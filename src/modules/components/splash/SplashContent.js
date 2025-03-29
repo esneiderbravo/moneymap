@@ -26,7 +26,7 @@ import {
  */
 const SplashContent = () => {
   const [showSplash, setShowSplash] = useState(true);
-  const { state, language, dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const { authData } = state;
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ const SplashContent = () => {
           delay: 0.5,
         }}
       >
-        {language?.title ?? "Money Map"} {/* Ensure fallback if undefined */}
+        Money Map
       </Title>
       {showSplash ? (
         <Loader
@@ -66,9 +66,9 @@ const SplashContent = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: LOADER_FADE_IN, ease: "easeInOut", delay: 1 }}
         />
-      ) : (
+      ) : !authData ? (
         <GoogleSignInContainer />
-      )}
+      ) : null}
     </SplashBox>
   );
 };

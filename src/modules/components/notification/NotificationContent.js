@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Alert from "@mui/material/Alert";
 import { useAppContext } from "../../providers/AppProvider";
 import { BoxContent } from "../../styles/notification/NotificationContent.styled";
+import { setNotification } from "../../actions/state";
 
 /**
  * Notification Content Component.
@@ -10,24 +11,23 @@ import { BoxContent } from "../../styles/notification/NotificationContent.styled
  * @returns {React.JSX.Element|null} The rendered notification component or null if no notification is set.
  */
 const NotificationContent = () => {
-  const [type, setType] = useState(null);
-  const [info, setInfo] = useState(null);
-  const { notification, setNotification } = useAppContext();
+  const { dispatch, state } = useAppContext();
+  const { notification } = state;
+  const { type, info } = notification;
 
   useEffect(() => {
-    if (notification?.type && notification?.info) {
-      setType(notification.type);
-      setInfo(notification.info);
-
+    if (type && info) {
       const timeoutId = setTimeout(() => {
-        setType(null);
-        setInfo(null);
-        setNotification(null);
+        dispatch(
+          setNotification({
+            info: null,
+            type: null,
+          })
+        );
       }, 2000);
-
       return () => clearTimeout(timeoutId); // Cleanup function to avoid memory leaks
     }
-  }, [notification, setNotification]);
+  }, [dispatch, type, info]);
 
   /**
    * Renders a notification based on the type.

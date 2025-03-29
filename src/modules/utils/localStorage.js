@@ -43,6 +43,18 @@ class LocalStorage {
       console.error(`Error removing key "${key}":`, error);
     }
   }
+
+  /**
+   * Clears all stored values from localStorage.
+   */
+  static clear() {
+    try {
+      localStorage.clear();
+      console.log("✅ All localStorage data has been cleared.");
+    } catch (error) {
+      console.error("❌ Error clearing localStorage:", error);
+    }
+  }
 }
 
 export default LocalStorage;
