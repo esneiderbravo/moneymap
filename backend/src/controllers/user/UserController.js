@@ -1,6 +1,7 @@
 import {
   createUser,
   findUserByEmail,
+  updateUserIfNeeded,
 } from "../../services/user/UserService.js";
 
 /**
@@ -27,7 +28,8 @@ export const handleGoogleAuth = async (req, res) => {
       console.log(`🆕 Creating new user: ${email}`);
       user = await createUser({ email, ...userData });
     } else {
-      console.log(`✅ User found: ${email}`);
+      console.log(`🔄 Checking if user data needs an update: ${email}`);
+      user = await updateUserIfNeeded(user, userData);
     }
 
     res.status(200).json({ success: true, data: user });
