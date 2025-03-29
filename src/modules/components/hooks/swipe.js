@@ -1,40 +1,53 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 /**
- * Custom hook to detect swipe gestures and trigger a close action.
+ * Custom hook that detects swipe gestures in both directions (left-to-right and right-to-left)
+ * and triggers a close action when the swipe exceeds a threshold.
  *
- * @param {Object} options - Configuration options.
- * @param {boolean} options.isOpen - Whether the component is open.
- * @param {Function} options.onClose - Function to call when a swipe is detected.
+ * @param {Object} options - Hook options
+ * @param {boolean} options.isOpen - Determines if the event listeners should be active
+ * @param {Function} options.onClose - Callback function to execute when a swipe is detected
+ * @param {number} [options.threshold=50] - Minimum swipe distance (in pixels) to trigger onClose
  */
-const useSwipeClose = ({ isOpen, onClose }) => {
+const useSwipeClose = ({ isOpen, onClose, threshold = 50 }) => {
+  const startXRef = useRef(0);
+
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) return; // Only attach listeners when the component is open
 
-    let startX = 0;
-
+    /**
+     * Stores the starting X-coordinate of the touch event.
+     * @param {TouchEvent} event - The touchstart event
+     */
     const handleTouchStart = (event) => {
-      startX = event.touches[0].clientX;
+      startXRef.current = event.touches[0].clientX;
     };
 
+    /**
+     * Detects swipe gestures in either direction and triggers onClose.
+     * @param {TouchEvent} event - The touchend event
+     */
     const handleTouchEnd = (event) => {
       const endX = event.changedTouches[0].clientX;
-      const difference = endX - startX;
+      const difference = endX - startXRef.current;
 
-      // Detect swipes: right-to-left (-50) OR left-to-right (+50)
-      if (Math.abs(difference) > 50) {
-        onClose();
+      if (Math.abs(difference) > threshold) {
+        onClose(); // Close on swipe regardless of direction
       }
     };
 
+    // Add event listeners
     document.addEventListener("touchstart", handleTouchStart);
     document.addEventListener("touchend", handleTouchEnd);
 
+    // Cleanup function to remove event listeners when `isOpen` changes or component unmounts
     return () => {
       document.removeEventListener("touchstart", handleTouchStart);
       document.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, threshold]);
+
+  return null; // Hook does not return anything, only manages events
 };
 
 export default useSwipeClose;
