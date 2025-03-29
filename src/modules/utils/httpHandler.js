@@ -2,100 +2,48 @@ import LocalStorage from "./localStorage";
 import HTTP from "./http";
 
 /**
- * HTTPHandler class
+ * HTTPHandler class - Wrapper for API calls with local storage token handling.
  */
 class HTTPHandler {
   /**
-   * Authentication request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} body Data to be created. Ie, {'client_id': '123'}
-   */
-  static async auth(url, body) {
-    const response = await HTTP.auth(url, body);
-    const { status } = response;
-
-    if (status < 400) {
-      const { data } = response;
-      return [data, status];
-    }
-
-    const { data } = response.response;
-    return [data, status];
-  }
-
-  /**
    * GET request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} params Parameters to send in request. Ie, {token: ''}
+   * @param {String} url - Request URL.
+   * @param {Object} [params=null] - Query parameters.
+   * @returns {Promise<Object>} - API response.
    */
-  static async get(url, params) {
+  static async get(url, params = null) {
     const token = LocalStorage.getItem("token");
-    const response = await HTTP.get(token, url, params);
-
+    const response = await HTTP.get(url, token, params);
     return this.handleResponse(response);
   }
 
   /**
    * POST request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} body Data to be created. Ie, {'client_id': '123'}
+   * @param {String} url - Request URL.
+   * @param {Object} body - Request payload.
+   * @returns {Promise<Object>} - API response.
    */
   static async post(url, body) {
     const token = LocalStorage.getItem("token");
-    const response = await HTTP.post(token, url, body);
-
+    const response = await HTTP.post(url, token, body);
     return this.handleResponse(response);
   }
 
   /**
-   * PUT request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} body Data to be updated. Ie, {'client_id': '123'}
-   */
-  static async put(url, body) {
-    const token = localStorage.getItem("token");
-    const response = await HTTP.put(token, url, body);
-
-    return this.handleResponse(response);
-  }
-
-  /**
-   * DELETE request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   */
-  static async delete(url) {
-    const token = localStorage.getItem("token");
-    const response = await HTTP.delete(token, url);
-
-    return this.handleResponse(response);
-  }
-
-  /**
-   * POST files request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   *@param {Object} formData Data to be created. Ie, {'client_id': '123'}
-   */
-  static async postFiles(url, formData) {
-    const token = localStorage.getItem("token");
-    const response = await HTTP.postFiles(token, url, formData);
-
-    return this.handleResponse(response);
-  }
-
-  /**
-   * Handle HTTP response
-   * @param {Object} response HTTP response. Ie, {data: {}, ...}
+   * Handles HTTP responses.
+   * @param {Object} response - HTTP response.
+   * @returns {Object} - { data, status, error }.
    */
   static handleResponse(response) {
-    const { status } = response;
-
-    if (status < 400) {
-      const { data } = response.data;
-      return [data, status];
+    if (response?.error) {
+      return {
+        data: null,
+        status: response.status || 500,
+        error: response.error,
+      };
     }
 
-    const { data } = response.response;
-    return [data, status];
+    return { data: response.data, status: response.status, error: null };
   }
 }
 
