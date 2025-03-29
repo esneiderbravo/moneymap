@@ -51,6 +51,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#2e3944",
+          color: "#748d92",
+        },
+      },
+    },
   },
 });
 

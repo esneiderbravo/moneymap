@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Alert from "@mui/material/Alert";
 import { useAppContext } from "../../providers/AppProvider";
+import { BoxContent } from "../../styles/notification/NotificationContent.styled";
 
 /**
  * Notification Content Component.
@@ -11,7 +12,7 @@ import { useAppContext } from "../../providers/AppProvider";
 const NotificationContent = () => {
   const [type, setType] = useState(null);
   const [info, setInfo] = useState(null);
-  const { notification } = useAppContext();
+  const { notification, setNotification } = useAppContext();
 
   useEffect(() => {
     if (notification?.type && notification?.info) {
@@ -21,11 +22,12 @@ const NotificationContent = () => {
       const timeoutId = setTimeout(() => {
         setType(null);
         setInfo(null);
-      }, 5000);
+        setNotification(null);
+      }, 2000);
 
       return () => clearTimeout(timeoutId); // Cleanup function to avoid memory leaks
     }
-  }, [notification]);
+  }, [notification, setNotification]);
 
   /**
    * Renders a notification based on the type.
@@ -34,9 +36,11 @@ const NotificationContent = () => {
    * @returns {React.JSX.Element} The Alert component.
    */
   const renderNotification = (severity) => (
-    <Alert severity={severity} sx={{ width: { sm: "90%", md: "20%" } }}>
-      {info}
-    </Alert>
+    <BoxContent>
+      <Alert severity={severity} variant="filled">
+        {info}
+      </Alert>
+    </BoxContent>
   );
 
   if (!type) return null; // Don't render anything if there's no active notification
