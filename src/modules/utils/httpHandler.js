@@ -38,12 +38,12 @@ class HTTPHandler {
     if (response?.error) {
       return {
         data: null,
-        status: response.status || 500,
+        success: response.success || false,
         error: response.error,
       };
     }
 
-    return { data: response.data, status: response.status, error: null };
+    return { data: response.data, success: response.success, error: null };
   }
 }
 

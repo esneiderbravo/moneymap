@@ -62,8 +62,8 @@ const GoogleSignInContainer = () => {
         sub,
       };
 
-      const [data, status] = await loginService(authData);
-      if (status !== 200) throw new Error("Login service failed");
+      const { data, success } = await loginService(authData);
+      if (!success) throw new Error("Login service failed");
 
       // Store authentication data and update global state
       LocalStorage.setItem("authData", JSON.stringify(data));

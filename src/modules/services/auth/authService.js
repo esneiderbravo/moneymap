@@ -11,14 +11,15 @@ import { AUTH_SERVICE_URL } from "../../utils/constants";
  *   @param {string} authData.email - User's email.
  *   @param {string} authData.password - User's password (optional if using OAuth).
  *
- * @returns {Promise<[Object, number] | [null, number]>} Resolves with:
+ * @returns {Promise<Object>} Resolves with:
  *   - `[data, status]` on success.
  *   - `[null, status]` on failure.
  */
 export const loginService = async (authData) => {
   try {
     const response = await HTTPHandler.post(AUTH_SERVICE_URL, authData);
-    return response; // Expected format: [data, status]
+    console.log(response);
+    return response;
   } catch (error) {
     console.error("LoginService Error:", error.message);
 
