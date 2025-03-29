@@ -1,133 +1,63 @@
 import axios from "axios";
 
-/**
- * HTTP helper
- */
 class HTTP {
   /**
-   * Authentication request
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} body Data to be created. Ie, {'client_id': '123'}
+   * Makes an HTTP request with error handling.
+   * @param {String} method - HTTP method (get, post, put, delete, etc.).
+   * @param {String} url - Request URL.
+   * @param {Object} [data=null] - Request body data (optional).
+   * @param {String} [token=null] - Authentication token (optional).
+   * @param {Object} [params=null] - Query parameters (optional).
+   * @returns {Promise<Object>} - API response or structured error.
    */
-  static async auth(url, body) {
+  static async request({
+    method,
+    url,
+    data = null,
+    token = null,
+    params = null,
+  }) {
     try {
-      return await axios({
-        method: "post",
-        url,
-        data: body,
-      });
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios({ method, url, data, params, headers });
+
+      return response.data; // Return only relevant data
     } catch (error) {
-      return error;
+      console.error("HTTP Error:", error.response?.data || error.message);
+      return { error: error.response?.data || "Network error" };
     }
   }
 
   /**
-   * GET request
-   * @param {String} token Session token. Ie, 'asdf.2341.qwert'
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} params Parameters to send in request. Ie, {token: ''}
+   * Authentication request (POST).
+   * @param {String} url - Authentication URL.
+   * @param {Object} body - Authentication data.
+   * @returns {Promise<Object>} - API response.
    */
-  static async get(token, url, params) {
-    try {
-      let request = {
-        method: "get",
-        url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      if (params) {
-        request["params"] = params;
-      }
-
-      return await axios(request);
-    } catch (error) {
-      return error;
-    }
+  static auth(url, body) {
+    return this.request({ method: "post", url, data: body });
   }
 
   /**
-   * POST request
-   * @param {String} token Session token. Ie, 'asdf.2341.qwert'
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} body Data to be created. Ie, {'client_id': '123'}
+   * GET request with an optional token.
+   * @param {String} url - Request URL.
+   * @param {String} [token=null] - Authentication token.
+   * @param {Object} [params=null] - Query parameters.
+   * @returns {Promise<Object>} - API response.
    */
-  static async post(token, url, body) {
-    try {
-      return await axios({
-        method: "post",
-        url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: body,
-      });
-    } catch (error) {
-      return error;
-    }
+  static get(url, token = null, params = null) {
+    return this.request({ method: "get", url, token, params });
   }
 
   /**
-   * POST with files request
-   * @param {String} token Session token. Ie, 'asdf.2341.qwert'
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} formData Data to be created. Ie, {'client_id': '123'}
+   * POST request with an optional token.
+   * @param {String} url - Request URL.
+   * @param {String} [token=null] - Authentication token.
+   * @param {Object} body - Request data.
+   * @returns {Promise<Object>} - API response.
    */
-  static async postFiles(token, url, formData) {
-    try {
-      return await axios({
-        method: "post",
-        url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-        data: formData,
-      });
-    } catch (error) {
-      return error;
-    }
-  }
-
-  /**
-   * PUT request
-   * @param {String} token Session token. Ie, 'asdf.2341.qwert'
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   * @param {Object} body Data to be updated. Ie, {'client_id': '123'}
-   */
-  static async put(token, url, body) {
-    try {
-      return await axios({
-        method: "put",
-        url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: body,
-      });
-    } catch (error) {
-      return error;
-    }
-  }
-
-  /**
-   * DELETE request
-   * @param {String} token Session token. Ie, 'asdf.2341.qwert'
-   * @param {String} url Url to make the request. Ie, 'http://...'
-   */
-  static async delete(token, url) {
-    try {
-      return await axios({
-        method: "delete",
-        url,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      return error;
-    }
+  static post(url, token = null, body) {
+    return this.request({ method: "post", url, token, data: body });
   }
 }
 

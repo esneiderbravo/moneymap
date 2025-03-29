@@ -5,15 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import LocalStorage from "../../utils/localStorage";
 import { setAuthData } from "../../actions/state";
+import { loginService } from "../../services/auth/authService";
+import {
+  LOGIN_ERROR_MESSAGE,
+  LOGIN_SUCCESS_MESSAGE,
+} from "../../utils/constants";
 
 /**
  * Google Sign-In Container Component
  *
- * This component handles Google OAuth authentication. When the user logs in with Google:
- * - The JWT credential is decoded.
- * - Authentication data is stored in local storage and the global state.
- * - The user is redirected to the dashboard.
- * - A success or error notification is displayed.
+ * Handles Google OAuth authentication:
+ * - Decodes the JWT credential.
+ * - Stores authentication details in local storage and the global state.
+ * - Creates the user in the local database if they do not exist.
+ * - Redirects the user to the dashboard.
+ * - Displays success or error notifications.
  *
  * @returns {React.JSX.Element} The Google sign-in component.
  */
@@ -24,15 +30,10 @@ const GoogleSignInContainer = () => {
   /**
    * Handles the authentication response from Google.
    *
-   * - Extracts and decodes the JWT credential.
-   * - Stores authentication details in local storage and global state.
-   * - Redirects the user to the dashboard upon successful login.
-   * - Displays appropriate notifications for success or failure.
-   *
-   * @param {Object} response - The response object from Google's authentication API.
+   * @param {Object} response - Response object from Google's authentication API.
    * @param {string} response.credential - The JWT token containing user details.
    */
-  const handleGoogleResponse = (response) => {
+  const handleGoogleResponse = async (response) => {
     try {
       const { credential } = response;
       if (!credential) throw new Error("No credential received");
@@ -43,32 +44,17 @@ const GoogleSignInContainer = () => {
 
       // Extract relevant authentication data
       const {
-        aud,
-        azp,
         email,
         email_verified,
-        exp,
-        iat,
-        iss,
-        jti,
-        nbf,
         name,
         family_name,
         given_name,
         picture,
         sub,
       } = userData;
-
       const authData = {
-        aud,
-        azp,
         email,
         email_verified,
-        exp,
-        iat,
-        iss,
-        jti,
-        nbf,
         name,
         family_name,
         given_name,
@@ -76,25 +62,26 @@ const GoogleSignInContainer = () => {
         sub,
       };
 
-      // Store authentication data
-      LocalStorage.setItem("authData", JSON.stringify(authData));
-      dispatch(setAuthData(authData));
+      const [data, status] = await loginService(authData);
+      if (status !== 200) throw new Error("Login service failed");
 
-      // Navigate to the dashboard
+      // Store authentication data and update global state
+      LocalStorage.setItem("authData", JSON.stringify(data));
+      dispatch(setAuthData(data));
+
+      // Redirect user to dashboard
       navigate("/dashboard");
 
-      // Display success notification
+      // Show success notification
       setNotification({
         type: "success",
-        info:
-          language?.notifications?.login ||
-          "You have been logged in successfully.",
+        info: language?.notifications?.login || LOGIN_SUCCESS_MESSAGE,
       });
     } catch (error) {
-      console.error("Google Sign-In Error:", error);
+      console.error("Google Sign-In Error:", error.message);
       setNotification({
         type: "error",
-        info: "Failed to authenticate with Google. Please try again.",
+        info: LOGIN_ERROR_MESSAGE,
       });
     }
   };

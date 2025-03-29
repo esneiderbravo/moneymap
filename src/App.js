@@ -10,6 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 
 const familyFont = ["Literata", "serif"].join(",");
 
+// Create a custom theme for the application
 const theme = createTheme({
   palette: {
     primary: {
@@ -89,6 +90,14 @@ const theme = createTheme({
   },
 });
 
+/**
+ * Main application component that initializes the application, theme, and context providers.
+ *
+ * This component is responsible for setting up the main structure of the application,
+ * including routing, theme provider, global styles, and context providers for state management.
+ *
+ * @returns {JSX.Element} The rendered application component.
+ */
 const App = () => {
   return (
     <BrowserRouter>
