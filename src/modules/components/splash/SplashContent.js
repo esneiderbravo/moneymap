@@ -11,6 +11,7 @@ import { useAppContext } from "../../providers/AppProvider";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import logo from "../../../resources/logo.webp";
+import { setCurrentPage, setMoreCurrentPage } from "../../actions/state";
 
 /**
  * SplashContent Component
@@ -22,7 +23,7 @@ import logo from "../../../resources/logo.webp";
  */
 const SplashContent = () => {
   const [showSplash, setShowSplash] = useState(true);
-  const { state, language } = useAppContext();
+  const { state, language, dispatch } = useAppContext();
   const { authData } = state;
   const { splash } = language || {};
   const buttonText = splash?.buttonText;
@@ -38,7 +39,9 @@ const SplashContent = () => {
       const timerId = setTimeout(() => setShowSplash(false), 5000);
       return () => clearTimeout(timerId); // Cleanup function to avoid memory leaks
     } else setShowSplash(false);
-  }, [authData]);
+    dispatch(setCurrentPage("dashboard"));
+    dispatch(setMoreCurrentPage("Manage"));
+  }, [authData, dispatch]);
 
   /**
    * Determines the UI after the splash screen.
@@ -58,7 +61,7 @@ const SplashContent = () => {
             navigate("/dashboard");
           }}
           variant="contained"
-          color="secondary"
+          color="accent"
         >
           {buttonText}
         </Button>
