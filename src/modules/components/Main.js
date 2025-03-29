@@ -4,6 +4,7 @@ import SplashContainer from "../containers/splash/SplashContainer";
 import WithAuth from "./hooks/withAuth";
 import DashboardContainer from "../containers/dashboard/DashboardContainer";
 import LogoutContainer from "../containers/auth/LogoutContainer";
+import MoreContainer from "../containers/more/MoreContainer";
 
 /**
  * AppRoutes Component
@@ -36,6 +37,16 @@ const AppRoutes = () => {
         element={
           <WithAuth>
             <LogoutContainer />
+          </WithAuth>
+        }
+      />
+
+      {/* Protected Route: Logout - Requires Authentication */}
+      <Route
+        path="/more"
+        element={
+          <WithAuth>
+            <MoreContainer />
           </WithAuth>
         }
       />

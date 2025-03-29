@@ -1,14 +1,22 @@
+import LocalStorage from "../utils/localStorage";
+
 const notification = {
   hidden: true,
   message: "",
   type: "",
 };
 
-const authData = JSON.parse(localStorage.getItem("authData")) || null;
+const authData = JSON.parse(LocalStorage.getItem("authData")) || null;
+
+const currentPage = LocalStorage.getItem("currentPage") || "dashboard";
+
+const moreCurrentPage = LocalStorage.getItem("moreCurrentPage") || "Manage";
 
 const initialState = {
   notification,
   authData,
+  currentPage,
+  moreCurrentPage,
 };
 
 /**
@@ -39,6 +47,18 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         authData: payload,
+      };
+
+    case "setCurrentPage":
+      return {
+        ...state,
+        currentPage: payload,
+      };
+
+    case "setMoreCurrentPage":
+      return {
+        ...state,
+        moreCurrentPage: payload,
       };
 
     default:

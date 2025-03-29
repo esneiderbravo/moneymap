@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PropTypes from "prop-types";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useAppContext } from "../../providers/AppProvider";
+import { setCurrentPage } from "../../actions/state";
+import { useNavigate } from "react-router-dom";
+import LocalStorage from "../../utils/localStorage";
 
 /**
  * Navigation Content Component (Fixed bottom navigation bar)
  * @returns {React.JSX.Element} Footer navigation bar with Home and Settings options
  */
-const NavigationContent = ({ initialValue = "home" }) => {
-  const [value, setValue] = useState(initialValue);
-  const { state } = useAppContext();
-  const { authData } = state;
+const NavigationContent = () => {
+  const { state, dispatch } = useAppContext();
+  const { authData, currentPage } = state;
+  const navigate = useNavigate();
+  const navigationElements = [
+    { label: "Dashboard", value: "dashboard", icon: <HomeIcon /> },
+    { label: "More", value: "more", icon: <MoreHorizIcon /> },
+  ];
 
+  /**
+   * Handles changes in the bottom navigation selection.
+   * @param {Event} _ - The event object (unused).
+   * @param {string} newValue - The new selected value.
+   */
   const handleChange = (_, newValue) => {
-    setValue(newValue);
+    dispatch(setCurrentPage(newValue));
+    LocalStorage.setItem("currentPage", newValue);
+    navigate("/" + newValue);
   };
 
   return authData ? (
@@ -23,13 +36,15 @@ const NavigationContent = ({ initialValue = "home" }) => {
       sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
       elevation={3}
     >
-      <BottomNavigation value={value} onChange={handleChange}>
-        <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
-        <BottomNavigationAction
-          label="Settings"
-          value="settings"
-          icon={<SettingsIcon />}
-        />
+      <BottomNavigation showLabels value={currentPage} onChange={handleChange}>
+        {navigationElements.map(({ label, value, icon }) => (
+          <BottomNavigationAction
+            key={value}
+            label={label}
+            value={value}
+            icon={icon}
+          />
+        ))}
       </BottomNavigation>
     </Paper>
   ) : null;
@@ -38,8 +53,6 @@ const NavigationContent = ({ initialValue = "home" }) => {
 /**
  * NavigationContent propTypes
  */
-NavigationContent.propTypes = {
-  initialValue: PropTypes.string, // Optional initial value for selected tab
-};
+NavigationContent.propTypes = {};
 
 export default NavigationContent;
