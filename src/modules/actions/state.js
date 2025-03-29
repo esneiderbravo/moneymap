@@ -1,3 +1,8 @@
+const setNotification = (notification) => ({
+  type: "setNotification",
+  payload: notification,
+});
+
 /**
  * Action creator for setting authentication data.
  * @param {Object} authData - Authentication details, including user information and tokens.
@@ -39,4 +44,10 @@ const setOpenSettings = (openSettings) => ({
   payload: openSettings,
 });
 
-export { setAuthData, setCurrentPage, setMoreCurrentPage, setOpenSettings };
+export {
+  setNotification,
+  setAuthData,
+  setCurrentPage,
+  setMoreCurrentPage,
+  setOpenSettings,
+};

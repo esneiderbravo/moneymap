@@ -11,15 +11,16 @@ import { setOpenSettings } from "../../actions/state";
  * @returns {React.JSX.Element} Header section with notifications
  */
 const HeaderContent = () => {
-  const { state, notification, dispatch } = useAppContext();
-  const { authData } = state;
+  const { state, dispatch } = useAppContext();
+  const { authData, notification } = state;
+  const { type, info } = notification;
   const location = useLocation();
   const isPrimaryRoute = location.pathname === "/";
   const isMoreRoute = location.pathname === "/more";
 
   return (
     <>
-      {notification ? <NotificationContent /> : null}
+      {type && info ? <NotificationContent /> : null}
       <Grid2 container spacing={2} mt={2} mb={4}>
         {authData && !isPrimaryRoute ? (
           <>

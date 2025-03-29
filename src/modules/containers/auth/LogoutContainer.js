@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { setAuthData } from "../../actions/state";
+import { setAuthData, setNotification } from "../../actions/state";
 import { useAppContext } from "../../providers/AppProvider";
 import LocalStorage from "../../utils/localStorage";
 
@@ -16,25 +16,27 @@ import LocalStorage from "../../utils/localStorage";
  * @returns {null} This component does not render any UI.
  */
 const LogoutContainer = () => {
-  const { language, setNotification, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear authentication data
-    LocalStorage.removeItem("authData");
-    dispatch(setAuthData(null));
-
+    // Clear local storage and reset global state
+    const resetStateData = () => {
+      LocalStorage.clear();
+      dispatch(setAuthData(null));
+    };
+    resetStateData();
     // Redirect to the homepage
     navigate("/");
 
     // Display logout success notification
-    setNotification({
-      type: "success",
-      info:
-        language?.notifications?.logout ||
-        "You have been logged out successfully.",
-    });
-  }, [dispatch, navigate, setNotification, language]);
+    dispatch(
+      setNotification({
+        type: "success",
+        info: "You have been logged out successfully.",
+      })
+    );
+  }, [dispatch, navigate]);
 
   return null;
 };
