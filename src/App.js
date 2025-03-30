@@ -34,6 +34,17 @@ const theme = createTheme({
       secondary: "#748d92",
       info: "#55686c",
       error: "#f44336",
+      highlight: "#d3d9d4",
+      success: "rgba(21,129,15,0.82)",
+    },
+    icon: {
+      white: "#ffffff",
+      blue: "#1d60bd",
+      pink: "#f093f8",
+      green: "#80c47d",
+      grey: "#a8aba8",
+      red: "#b64242",
+      secondary: "#748d92",
     },
   },
   typography: {

@@ -69,17 +69,17 @@ const SettingsContent = () => {
         anchor="right"
         disableAutoFocus
       >
-        <Box sx={{ width: "430px" }} role="presentation" padding={3}>
-          <Grid2 container alignItems="center" spacing={2}>
+        <Box sx={{ width: "auto" }} role="presentation" padding={3}>
+          <Grid2 container size={12} alignItems="center" spacing={2}>
             {/* Close Button */}
-            <Grid2 item size={4.5}>
+            <Grid2 item size={1}>
               <ArrowBackIosIcon
                 onClick={handleCloseSettings}
                 sx={{ cursor: "pointer" }}
                 aria-label="Close Settings"
               />
             </Grid2>
-            <Grid2 item>
+            <Grid2 item size={10} display="flex" justifyContent="center">
               <Typography color="text.secondary">Settings</Typography>
             </Grid2>
           </Grid2>
