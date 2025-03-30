@@ -1,11 +1,15 @@
 import React from "react";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import { BottomNavigationAction } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useAppContext } from "../../providers/AppProvider";
 import { setCurrentPage } from "../../actions/state";
 import { useLocation, useNavigate } from "react-router-dom";
 import LocalStorage from "../../utils/localStorage";
+import {
+  BottomNavigationContent,
+  PaperContainer,
+} from "../../styles/common/NavigationContent.styled";
 
 /**
  * Navigation Content Component (Fixed bottom navigation bar)
@@ -40,15 +44,11 @@ const NavigationContent = () => {
   };
 
   return authData ? (
-    <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0, height: "9%" }}
-      elevation={3}
-    >
-      <BottomNavigation
+    <PaperContainer elevation={3}>
+      <BottomNavigationContent
         showLabels
         value={currentPage}
         onChange={handleChange}
-        sx={{ height: "100%" }}
       >
         {navigationElements.map(({ label, value, icon }) => (
           <BottomNavigationAction
@@ -58,8 +58,8 @@ const NavigationContent = () => {
             icon={icon}
           />
         ))}
-      </BottomNavigation>
-    </Paper>
+      </BottomNavigationContent>
+    </PaperContainer>
   ) : null;
 };
 

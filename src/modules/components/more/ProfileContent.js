@@ -18,6 +18,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../providers/AppProvider";
 import useSwipeClose from "../hooks/swipe";
+import { OptionsContainer } from "../../styles/more/ProfileContent.styled";
 
 /**
  * ProfileContent Component
@@ -65,9 +66,15 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
 
   return (
     <Drawer open={openProfile} onClose={handleClose} anchor="right">
-      <Grid2 container sx={{ width: 430 }} role="presentation" padding={3}>
+      <Grid2
+        container
+        size={12}
+        sx={{ width: "auto" }}
+        role="presentation"
+        padding={3}
+      >
         {/* Close Button */}
-        <Grid2 item size={5}>
+        <Grid2 item size={1}>
           <ArrowBackIosIcon
             onClick={handleClose}
             sx={{ cursor: "pointer" }}
@@ -78,7 +85,7 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
         </Grid2>
 
         {/* Profile Title */}
-        <Grid2 item>
+        <Grid2 item size={10} display="flex" justifyContent="center">
           <Typography color="text.secondary">Profile</Typography>
         </Grid2>
       </Grid2>
@@ -103,16 +110,7 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
       </Grid2>
 
       {/* Profile Menu Options */}
-      <Grid2
-        item
-        sx={{
-          borderRadius: 8,
-          boxShadow: 5,
-          height: "100vh",
-          padding: 3,
-          marginTop: 10,
-        }}
-      >
+      <OptionsContainer item sx={{ backgroundColor: "primary.main" }}>
         <Box>
           <nav>
             <List>
@@ -132,7 +130,7 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
             </List>
           </nav>
         </Box>
-      </Grid2>
+      </OptionsContainer>
     </Drawer>
   );
 };
