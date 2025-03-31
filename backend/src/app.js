@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import UserRoutes from "./routes/user/UserRoutes.js";
+import AccountRoutes from "./routes/account/AccountRoutes.js";
+import TransactionRoutes from "./routes/transaction/TransactionRoutes.js";
+import HealthRoutes from "./routes/HealthRoutes.js";
 
 /**
  * Express application instance.
@@ -19,15 +22,26 @@ app.use(express.json());
 
 /**
  * API Routes:
- * - `/api/users` → Handles user-related operations.
+ *
+ * - `/api/health`       → Health check endpoint
+ * - `/api/users`        → Manages user-related operations
+ * - `/api/accounts`     → Handles user account management
+ * - `/api/transactions` → Manages financial transactions
+ *
+ * Notes:
+ * - All routes expect JSON request bodies where applicable.
+ * - Error handling is implemented for all endpoints.
  */
+app.use("/api/health", HealthRoutes);
 app.use("/api/users", UserRoutes);
+app.use("/api/accounts", AccountRoutes);
+app.use("/api/transaction", TransactionRoutes);
 
 /**
  * Global error handler.
  * Catches unhandled errors and sends a structured response.
  */
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error("❌ Error:", err.message);
   res.status(500).json({ success: false, message: "Internal Server Error" });
 });

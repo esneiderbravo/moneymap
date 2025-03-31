@@ -123,7 +123,15 @@ const AccountsContent = ({ balance, showBalances }) => {
               >
                 <ListItemText primary="Total" />
                 <ListItemText
-                  primary={formatCurrency(totalBalance)}
+                  primary={
+                    showBalances ? (
+                      `${formatCurrency(totalBalance)}`
+                    ) : (
+                      <span>
+                        <HorizontalRuleRoundedIcon />
+                      </span>
+                    )
+                  }
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 />
               </ListItemButton>
