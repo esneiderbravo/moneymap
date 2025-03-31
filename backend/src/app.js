@@ -41,7 +41,7 @@ app.use("/api/transaction", TransactionRoutes);
  * Global error handler.
  * Catches unhandled errors and sends a structured response.
  */
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.error("❌ Error:", err.message);
   res.status(500).json({ success: false, message: "Internal Server Error" });
 });
