@@ -9,15 +9,12 @@ const authData = JSON.parse(LocalStorage.getItem("authData")) || null;
 
 const currentPage = LocalStorage.getItem("currentPage") || "dashboard";
 
-const moreCurrentPage = LocalStorage.getItem("moreCurrentPage") || "Manage";
-
 const openSettings = false;
 
 const initialState = {
   notification,
   authData,
   currentPage,
-  moreCurrentPage,
   openSettings,
 };
 
@@ -49,12 +46,6 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         currentPage: payload,
-      };
-
-    case "setMoreCurrentPage":
-      return {
-        ...state,
-        moreCurrentPage: payload,
       };
 
     case "setOpenSettings":

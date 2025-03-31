@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../providers/AppProvider";
 import useSwipeClose from "../hooks/swipe";
-import { OptionsContainer } from "../../styles/more/ProfileContent.styled";
+import { ProfileOptionsContainer } from "../../styles/more/ProfileContent.styled";
 
 /**
  * ProfileContent Component
@@ -110,7 +110,7 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
       </Grid2>
 
       {/* Profile Menu Options */}
-      <OptionsContainer item sx={{ backgroundColor: "primary.main" }}>
+      <ProfileOptionsContainer item sx={{ backgroundColor: "primary.main" }}>
         <Box>
           <nav>
             <List>
@@ -130,7 +130,7 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
             </List>
           </nav>
         </Box>
-      </OptionsContainer>
+      </ProfileOptionsContainer>
     </Drawer>
   );
 };

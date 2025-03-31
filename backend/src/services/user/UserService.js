@@ -10,7 +10,10 @@ const prisma = new PrismaClient();
  */
 export const findUserByEmail = async (email) => {
   try {
-    return await prisma.user.findUnique({ where: { email } });
+    return await prisma.user.findUnique({
+      where: { email },
+      include: { accounts: true },
+    });
   } catch (error) {
     console.error("Error finding user by email:", error);
     throw new Error("Database query error");

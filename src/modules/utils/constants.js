@@ -3,8 +3,10 @@ export const GOOGLE_AUTH_CLIENT_ID =
   process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID || "";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
-// Authentication Endpoints
+// Endpoints
 export const AUTH_SERVICE_URL = `${API_URL}/users/auth`;
+export const ACCOUNT_SERVICE_URL = `${API_URL}/accounts`;
+export const TRANSACTION_SERVICE_URL = `${API_URL}/transaction`;
 
 // UI Timings (in milliseconds)
 export const SPLASH_TIMEOUT = 3000; // Time before transitioning from splash screen
@@ -19,4 +21,6 @@ export default Object.freeze({
   SPLASH_TIMEOUT,
   FADE_IN_DURATION,
   LOADER_FADE_IN,
+  ACCOUNT_SERVICE_URL,
+  TRANSACTION_SERVICE_URL,
 });

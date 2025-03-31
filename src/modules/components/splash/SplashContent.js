@@ -9,7 +9,7 @@ import GoogleSignInContainer from "../../containers/auth/GoogleSignInContainer";
 import { useAppContext } from "../../providers/AppProvider";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../resources/logo.webp";
-import { setCurrentPage, setMoreCurrentPage } from "../../actions/state";
+import { setCurrentPage } from "../../actions/state";
 import {
   FADE_IN_DURATION,
   LOADER_FADE_IN,
@@ -36,7 +36,6 @@ const SplashContent = () => {
 
       // Dispatch state updates only if necessary
       dispatch(setCurrentPage("dashboard"));
-      dispatch(setMoreCurrentPage("Manage"));
 
       if (authData) {
         navigate("/dashboard");
