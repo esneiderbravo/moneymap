@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Grid2, Typography, IconButton } from "@mui/material";
-import { formatCurrency } from "../../utils/currency";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import HorizontalRuleRoundedIcon from "@mui/icons-material/HorizontalRuleRounded";
+import { formatCurrency } from "../../utils/common/currency";
 import { BalanceSection } from "../../styles/dashboard/DashboardContent.styled";
-import AccountsContent from "../../containers/dashboard/AccountsContent";
+import DashboardAccountsContent from "./DashboardAccountsContent";
+import PropTypes from "prop-types";
+import { getIconComponent } from "../../utils/common/icon";
 
 /**
  * DashboardContent Component
@@ -15,34 +14,13 @@ import AccountsContent from "../../containers/dashboard/AccountsContent";
  *
  * @returns {React.JSX.Element} - The DashboardContent component.
  */
-const DashboardContent = () => {
+const DashboardContent = ({ balance }) => {
   const [showBalances, setShowBalances] = useState(true);
-  const [balance, setBalance] = useState({
-    accounts: [],
-    totalBalance: 0,
-  });
 
-  useEffect(() => {
-    // Simulating fetching account balances from an API
-    setBalance({
-      accounts: [
-        {
-          balance: 10000000,
-          name: "Account 1",
-          icon: "AccountBalance",
-          color: "white",
-        },
-        {
-          balance: 10000000,
-          name: "Account 2",
-          icon: "AttachMoney",
-          color: "green",
-        },
-        { balance: 5000000, name: "Savings", icon: "Savings", color: "pink" },
-      ],
-      totalBalance: 20000000,
-    });
-  }, []);
+  // Dynamically get the icons
+  const RemoveRedEyeIcon = getIconComponent("RemoveRedEye");
+  const VisibilityOffIcon = getIconComponent("VisibilityOff");
+  const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
 
   /**
    * Toggles the visibility of account balances.
@@ -61,11 +39,11 @@ const DashboardContent = () => {
 
         <Grid2 item size={12} display="flex" justifyContent="center">
           <Typography variant="h4" color="text.highlight">
-            {showBalances ? (
-              formatCurrency(balance.totalBalance)
-            ) : (
-              <HorizontalRuleRoundedIcon fontSize="large" />
-            )}
+            {showBalances
+              ? formatCurrency(balance.totalBalance)
+              : HorizontalRuleRoundedIcon && (
+                  <HorizontalRuleRoundedIcon fontSize="large" />
+                )}
           </Typography>
         </Grid2>
 
@@ -76,15 +54,21 @@ const DashboardContent = () => {
             aria-label={showBalances ? "Hide balances" : "Show balances"}
             color="highlight"
           >
-            {showBalances ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+            {showBalances
+              ? RemoveRedEyeIcon && <RemoveRedEyeIcon />
+              : VisibilityOffIcon && <VisibilityOffIcon />}
           </IconButton>
         </Grid2>
       </BalanceSection>
 
       {/* Accounts list */}
-      <AccountsContent balance={balance} showBalances={showBalances} />
+      <DashboardAccountsContent balance={balance} showBalances={showBalances} />
     </Grid2>
   );
+};
+
+DashboardContent.propTypes = {
+  balance: PropTypes.object.isRequired,
 };
 
 export default DashboardContent;

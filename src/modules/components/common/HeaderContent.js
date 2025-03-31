@@ -3,8 +3,8 @@ import { Avatar, Grid2 } from "@mui/material";
 import NotificationContent from "../notification/NotificationContent";
 import { useAppContext } from "../../providers/AppProvider";
 import { useLocation } from "react-router-dom";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { setOpenSettings } from "../../actions/state";
+import { getIconComponent } from "../../utils/common/icon";
 
 /**
  * Header Content Component
@@ -17,6 +17,9 @@ const HeaderContent = () => {
   const location = useLocation();
   const isPrimaryRoute = location.pathname === "/";
   const isMoreRoute = location.pathname === "/more";
+
+  // Dynamically get the icons
+  const SettingsIcon = getIconComponent("Settings");
 
   return (
     <>
@@ -35,11 +38,13 @@ const HeaderContent = () => {
             </Grid2>
             {isMoreRoute ? (
               <Grid2 item size={1} display={"flex"} alignItems={"center"}>
-                <SettingsIcon
-                  onClick={() => {
-                    dispatch(setOpenSettings(true));
-                  }}
-                />
+                {SettingsIcon && (
+                  <SettingsIcon
+                    onClick={() => {
+                      dispatch(setOpenSettings(true));
+                    }}
+                  />
+                )}
               </Grid2>
             ) : null}
           </>

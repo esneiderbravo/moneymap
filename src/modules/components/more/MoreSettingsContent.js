@@ -13,10 +13,9 @@ import {
 } from "@mui/material";
 import { useAppContext } from "../../providers/AppProvider";
 import { setOpenSettings } from "../../actions/state";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ProfileContent from "./ProfileContent";
+import MoreProfileContent from "./MoreProfileContent";
 import useSwipeClose from "../hooks/swipe";
+import { getIconComponent } from "../../utils/common/icon";
 
 /**
  * SettingsContent Component
@@ -27,11 +26,15 @@ import useSwipeClose from "../hooks/swipe";
  *
  * @returns {React.JSX.Element} Full-screen settings menu
  */
-const SettingsContent = () => {
+const MoreSettingsContent = () => {
   const { state, dispatch } = useAppContext();
   const { openSettings, authData } = state;
   const [selectedPage, setSelectedPage] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
+
+  // Dynamically get the icons
+  const ArrowBackIosIcon = getIconComponent("ArrowBackIos");
+  const AccountCircleIcon = getIconComponent("AccountCircle");
 
   useSwipeClose({
     isOpen: openSettings,
@@ -73,11 +76,13 @@ const SettingsContent = () => {
           <Grid2 container size={12} alignItems="center" spacing={2}>
             {/* Close Button */}
             <Grid2 item size={1}>
-              <ArrowBackIosIcon
-                onClick={handleCloseSettings}
-                sx={{ cursor: "pointer" }}
-                aria-label="Close Settings"
-              />
+              {ArrowBackIosIcon && (
+                <ArrowBackIosIcon
+                  onClick={handleCloseSettings}
+                  sx={{ cursor: "pointer" }}
+                  aria-label="Close Settings"
+                />
+              )}
             </Grid2>
             <Grid2 item size={10} display="flex" justifyContent="center">
               <Typography color="text.secondary">Settings</Typography>
@@ -112,10 +117,12 @@ const SettingsContent = () => {
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <AccountCircleIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary" }}
-                    />
+                    {AccountCircleIcon && (
+                      <AccountCircleIcon
+                        fontSize="large"
+                        sx={{ color: "text.secondary" }}
+                      />
+                    )}
                   </ListItemIcon>
                   <ListItemText
                     primary="Preferences"
@@ -139,7 +146,7 @@ const SettingsContent = () => {
       </Drawer>
 
       {/* Profile Drawer */}
-      <ProfileContent
+      <MoreProfileContent
         openProfile={openProfile}
         setOpenProfile={setOpenProfile}
         setSelectedPage={setSelectedPage}
@@ -148,4 +155,4 @@ const SettingsContent = () => {
   );
 };
 
-export default SettingsContent;
+export default MoreSettingsContent;

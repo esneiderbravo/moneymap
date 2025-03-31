@@ -1,5 +1,6 @@
 import React from "react";
 import DashboardContent from "../../components/dashboard/DashboardContent";
+import PropTypes from "prop-types";
 
 /**
  * Dashboard Component
@@ -9,8 +10,12 @@ import DashboardContent from "../../components/dashboard/DashboardContent";
  *
  * @returns {React.JSX.Element} The rendered dashboard content component.
  */
-const Dashboard = () => {
-  return <DashboardContent />;
+const Dashboard = ({ balance }) => {
+  return <DashboardContent balance={balance} />;
+};
+
+Dashboard.propTypes = {
+  balance: PropTypes.object.isRequired,
 };
 
 export default Dashboard;

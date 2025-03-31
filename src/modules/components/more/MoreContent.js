@@ -4,8 +4,8 @@ import {
   ChipComponent,
   PaperComponent,
 } from "../../styles/more/MoreContent.styled";
-import SettingsContent from "./SettingsContent";
-import ManageContent from "./ManageContent";
+import MoreSettingsContent from "./MoreSettingsContent";
+import MoreManageContent from "./MoreManageContent";
 
 /**
  * MoreContent Component
@@ -35,10 +35,10 @@ const MoreContent = () => {
       </PaperComponent>
 
       {/* SettingsContent */}
-      {moreCurrentPage === "Manage" ? <ManageContent /> : null}
+      {moreCurrentPage === "Manage" ? <MoreManageContent /> : null}
 
       {/* SettingsContent */}
-      <SettingsContent />
+      <MoreSettingsContent />
     </>
   );
 };

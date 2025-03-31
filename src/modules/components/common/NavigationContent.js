@@ -1,7 +1,5 @@
 import React from "react";
 import { BottomNavigationAction } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useAppContext } from "../../providers/AppProvider";
 import { setCurrentPage } from "../../actions/state";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,6 +8,7 @@ import {
   BottomNavigationContent,
   PaperContainer,
 } from "../../styles/common/NavigationContent.styled";
+import { getIconComponent } from "../../utils/common/icon";
 
 /**
  * Navigation Content Component (Fixed bottom navigation bar)
@@ -20,13 +19,22 @@ const NavigationContent = () => {
   const { authData, currentPage } = state;
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Dynamically get the icons
+  const HomeIcon = getIconComponent("Home");
+  const MoreHorizIcon = getIconComponent("MoreHoriz");
+
   const navigationElements = [
     {
       label: "Dashboard",
       value: "dashboard",
-      icon: <HomeIcon fontSize="large" />,
+      icon: HomeIcon && <HomeIcon fontSize="large" />,
     },
-    { label: "More", value: "more", icon: <MoreHorizIcon fontSize="large" /> },
+    {
+      label: "More",
+      value: "more",
+      icon: MoreHorizIcon && <MoreHorizIcon fontSize="large" />,
+    },
   ];
 
   // Don't render if the current location is "/"

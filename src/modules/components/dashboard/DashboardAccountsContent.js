@@ -10,10 +10,9 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { formatCurrency } from "../../utils/currency";
-import { AccountSection } from "../../styles/dashboard/AccountsContent.styled";
-import HorizontalRuleRoundedIcon from "@mui/icons-material/HorizontalRuleRounded";
+import { formatCurrency } from "../../utils/common/currency";
+import { AccountSection } from "../../styles/dashboard/DashboardAccountsContent.styled";
+import { getIconComponent } from "../../utils/common/icon";
 
 /**
  * AccountsContent Component
@@ -26,27 +25,12 @@ import HorizontalRuleRoundedIcon from "@mui/icons-material/HorizontalRuleRounded
  * @param {Object} props.balance - Balance data containing accounts and total balance
  * @returns {React.JSX.Element} The rendered AccountsContent component.
  */
-const AccountsContent = ({ balance, showBalances }) => {
+const DashboardAccountsContent = ({ balance, showBalances }) => {
   const { accounts = [], totalBalance = 0 } = balance;
 
-  /**
-   * Dynamically imports MUI icons based on the provided name.
-   * @param {string} iconName - Name of the MUI icon.
-   * @returns {React.Component|null} The corresponding MUI icon component or null if not found.
-   */
-  const getIconComponent = (iconName) => {
-    try {
-      const Icons = {
-        AccountBalance: require("@mui/icons-material/AccountBalance").default,
-        AttachMoney: require("@mui/icons-material/AttachMoney").default,
-        Savings: require("@mui/icons-material/Savings").default,
-      };
-      return Icons[iconName] || null;
-    } catch (error) {
-      console.error(`Error loading icon: ${iconName}`, error);
-      return null;
-    }
-  };
+  // Dynamically get the icons
+  const AddIcon = getIconComponent("Add");
+  const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
 
   /**
    * Handles the click event for the "Add" icon.
@@ -100,17 +84,21 @@ const AccountsContent = ({ balance, showBalances }) => {
                             `${formatCurrency(account.balance)}`
                           ) : (
                             <span>
-                              <HorizontalRuleRoundedIcon />
+                              {HorizontalRuleRoundedIcon && (
+                                <HorizontalRuleRoundedIcon />
+                              )}
                             </span>
                           )}
                         </Typography>
                       }
                     />
 
-                    <AddIcon
-                      onClick={handleAddClick}
-                      sx={{ color: "icon.white", cursor: "pointer" }}
-                    />
+                    {AddIcon && (
+                      <AddIcon
+                        onClick={handleAddClick}
+                        sx={{ color: "icon.white", cursor: "pointer" }}
+                      />
+                    )}
                   </ListItemButton>
                 </ListItem>
               );
@@ -146,9 +134,9 @@ const AccountsContent = ({ balance, showBalances }) => {
 /**
  * PropTypes for AccountsContent
  */
-AccountsContent.propTypes = {
+DashboardAccountsContent.propTypes = {
   balance: PropTypes.object.isRequired,
   showBalances: PropTypes.bool.isRequired,
 };
 
-export default AccountsContent;
+export default DashboardAccountsContent;

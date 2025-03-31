@@ -44,10 +44,16 @@ const setOpenSettings = (openSettings) => ({
   payload: openSettings,
 });
 
+const setBalance = (balance) => ({
+  type: "setBalance",
+  payload: balance,
+});
+
 export {
   setNotification,
   setAuthData,
   setCurrentPage,
   setMoreCurrentPage,
   setOpenSettings,
+  setBalance,
 };
