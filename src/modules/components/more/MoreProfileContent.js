@@ -12,13 +12,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import LogoutIcon from "@mui/icons-material/Logout";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../providers/AppProvider";
 import useSwipeClose from "../hooks/swipe";
-import { ProfileOptionsContainer } from "../../styles/more/ProfileContent.styled";
+import { ProfileOptionsContainer } from "../../styles/more/MoreProfileContent.styled";
+import { getIconComponent } from "../../utils/common/icon";
 
 /**
  * ProfileContent Component
@@ -30,10 +29,18 @@ import { ProfileOptionsContainer } from "../../styles/more/ProfileContent.styled
  * @param {Function} props.setSelectedPage - Function to reset the selected page when closing.
  * @returns {React.JSX.Element} The rendered ProfileContent component.
  */
-const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
+const MoreProfileContent = ({
+  openProfile,
+  setOpenProfile,
+  setSelectedPage,
+}) => {
   const navigate = useNavigate();
   const { state } = useAppContext();
   const { authData } = state;
+
+  // Dynamically get the icons
+  const ArrowBackIosIcon = getIconComponent("ArrowBackIos");
+  const LogoutIcon = getIconComponent("Logout");
 
   /**
    * Handles closing the profile drawer.
@@ -75,13 +82,15 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
       >
         {/* Close Button */}
         <Grid2 item size={1}>
-          <ArrowBackIosIcon
-            onClick={handleClose}
-            sx={{ cursor: "pointer" }}
-            aria-label="Close Profile"
-            role="button"
-            tabIndex={0}
-          />
+          {ArrowBackIosIcon && (
+            <ArrowBackIosIcon
+              onClick={handleClose}
+              sx={{ cursor: "pointer" }}
+              aria-label="Close Profile"
+              role="button"
+              tabIndex={0}
+            />
+          )}
         </Grid2>
 
         {/* Profile Title */}
@@ -118,10 +127,12 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
               <ListItem disablePadding sx={{ mb: 2 }}>
                 <ListItemButton onClick={handleLogout} aria-label="Logout">
                   <ListItemIcon>
-                    <LogoutIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary" }}
-                    />
+                    {LogoutIcon && (
+                      <LogoutIcon
+                        fontSize="large"
+                        sx={{ color: "text.secondary" }}
+                      />
+                    )}
                   </ListItemIcon>
                   <ListItemText primary="Logout" />
                 </ListItemButton>
@@ -138,10 +149,10 @@ const ProfileContent = ({ openProfile, setOpenProfile, setSelectedPage }) => {
 /**
  * ProfileContent component propTypes
  */
-ProfileContent.propTypes = {
+MoreProfileContent.propTypes = {
   openProfile: PropTypes.bool.isRequired,
   setOpenProfile: PropTypes.func.isRequired,
   setSelectedPage: PropTypes.func.isRequired,
 };
 
-export default ProfileContent;
+export default MoreProfileContent;

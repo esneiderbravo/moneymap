@@ -11,11 +11,17 @@ const currentPage = LocalStorage.getItem("currentPage") || "dashboard";
 
 const openSettings = false;
 
+const balance = JSON.parse(LocalStorage.getItem("balance")) || {
+  accounts: [],
+  totalBalance: 0,
+};
+
 const initialState = {
   notification,
   authData,
   currentPage,
   openSettings,
+  balance,
 };
 
 /**
@@ -52,6 +58,12 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         openSettings: payload,
+      };
+
+    case "setBalance":
+      return {
+        ...state,
+        balance: payload,
       };
 
     default:
