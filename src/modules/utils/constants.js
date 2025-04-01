@@ -5,7 +5,7 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 // Endpoints
 export const AUTH_SERVICE_URL = `${API_URL}/users/auth`;
-export const ACCOUNT_SERVICE_URL = `${API_URL}/accounts`;
+export const ACCOUNT_SERVICE_URL = `${API_URL}/account`;
 export const TRANSACTION_SERVICE_URL = `${API_URL}/transaction`;
 export const USER_BALANCE_SERVICE_URL = `${API_URL}/users/balances`;
 

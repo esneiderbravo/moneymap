@@ -80,8 +80,8 @@ export const getUserAccounts = async (userId) => {
       where: { userId },
       select: {
         balance: true,
-        name: true,
-        icon: true,
+        description: true,
+        type: true,
         color: true,
       },
     });

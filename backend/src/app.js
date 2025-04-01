@@ -34,7 +34,7 @@ app.use(express.json());
  */
 app.use("/api/health", HealthRoutes);
 app.use("/api/users", UserRoutes);
-app.use("/api/accounts", AccountRoutes);
+app.use("/api/account", AccountRoutes);
 app.use("/api/transaction", TransactionRoutes);
 
 /**

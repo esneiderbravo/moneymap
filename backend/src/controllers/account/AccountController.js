@@ -6,7 +6,7 @@ import * as AccountService from "../../services/account/AccountService.js";
 export const createNewAccount = async (req, res) => {
   try {
     const account = await AccountService.registerAccount(req.body);
-    res.status(201).json(account);
+    res.status(201).json({ success: true, data: account });
   } catch (error) {
     res.status(500).json({ error: "Account registration failed" });
   }
