@@ -28,14 +28,14 @@ model User {
 }
 
 model Account {
-  id        String        @id @default(uuid())
-  userId    String        @unique
-  user      User          @relation(fields: [userId], references: [id])
-  balance   Float        @default(0.0)
-  name      String?
-  icon      String?
-  color      String?
-  createdAt DateTime      @default(now())
+  id           String        @id @default(uuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id])
+  balance      Float        @default(0.0)
+  description  String?
+  type         String?
+  color        String?
+  createdAt    DateTime      @default(now())
 
   transactions Transaction[] // One-to-Many relationship with Transactions
 }

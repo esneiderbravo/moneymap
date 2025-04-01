@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Grid2, Typography, IconButton } from "@mui/material";
 import { formatCurrency } from "../../utils/common/currency";
 import { BalanceSection } from "../../styles/dashboard/DashboardContent.styled";
-import DashboardAccountsContent from "./DashboardAccountsContent";
+import AccountsContent from "./account/AccountsContent";
 import PropTypes from "prop-types";
 import { getIconComponent } from "../../utils/common/icon";
 
@@ -62,7 +62,7 @@ const DashboardContent = ({ balance }) => {
       </BalanceSection>
 
       {/* Accounts list */}
-      <DashboardAccountsContent balance={balance} showBalances={showBalances} />
+      <AccountsContent balance={balance} showBalances={showBalances} />
     </Grid2>
   );
 };

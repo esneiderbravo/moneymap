@@ -10,9 +10,9 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { formatCurrency } from "../../utils/common/currency";
-import { AccountSection } from "../../styles/dashboard/DashboardAccountsContent.styled";
-import { getIconComponent } from "../../utils/common/icon";
+import { formatCurrency } from "../../../utils/common/currency";
+import { AccountSection } from "../../../styles/dashboard/DashboardAccountsContent.styled";
+import { getIconComponent } from "../../../utils/common/icon";
 
 /**
  * AccountsContent Component
@@ -25,7 +25,7 @@ import { getIconComponent } from "../../utils/common/icon";
  * @param {Object} props.balance - Balance data containing accounts and total balance
  * @returns {React.JSX.Element} The rendered AccountsContent component.
  */
-const DashboardAccountsContent = ({ balance, showBalances }) => {
+const AccountsContent = ({ balance, showBalances }) => {
   const { accounts = [], totalBalance = 0 } = balance;
 
   // Dynamically get the icons
@@ -56,7 +56,7 @@ const DashboardAccountsContent = ({ balance, showBalances }) => {
         item
         size={12}
         padding={1}
-        sx={{ backgroundColor: "primary.main" }}
+        sx={{ backgroundColor: "secondary.main" }}
       >
         <Box component="nav">
           <List>
@@ -74,7 +74,7 @@ const DashboardAccountsContent = ({ balance, showBalances }) => {
                       )}
                     </ListItemIcon>
                     <ListItemText
-                      primary={account.name}
+                      primary={account.description}
                       secondary={
                         <Typography
                           color="text.success"
@@ -134,9 +134,9 @@ const DashboardAccountsContent = ({ balance, showBalances }) => {
 /**
  * PropTypes for AccountsContent
  */
-DashboardAccountsContent.propTypes = {
+AccountsContent.propTypes = {
   balance: PropTypes.object.isRequired,
   showBalances: PropTypes.bool.isRequired,
 };
 
-export default DashboardAccountsContent;
+export default AccountsContent;

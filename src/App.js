@@ -14,10 +14,11 @@ const familyFont = ["Literata", "serif"].join(",");
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#2e3944",
+      main: "#212a31",
     },
     secondary: {
-      main: "#124e66",
+      main: "#2e3844",
+      accent: "rgba(255,255,255,0.1)",
     },
     accent: {
       main: "#748d92",
