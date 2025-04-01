@@ -12,7 +12,6 @@ export const findUserByEmail = async (email) => {
   try {
     return await prisma.user.findUnique({
       where: { email },
-      include: { accounts: true },
     });
   } catch (error) {
     console.error("Error finding user by email:", error);
@@ -64,5 +63,34 @@ export const updateUserIfNeeded = async (existingUser, newUserData) => {
   } catch (error) {
     console.error("❌ Error updating user:", error);
     throw new Error("Database update error");
+  }
+};
+
+/**
+ * Get all accounts for a specific user.
+ *
+ * @param {string} userId - The user's ID.
+ * @returns {Promise<Object>} - The user's accounts and total balance.
+ */
+export const getUserAccounts = async (userId) => {
+  try {
+    console.log(`📌 Fetching accounts for user: ${userId}`);
+
+    const accounts = await prisma.account.findMany({
+      where: { userId },
+      select: {
+        balance: true,
+        name: true,
+        icon: true,
+        color: true,
+      },
+    });
+
+    const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+
+    return { accounts, totalBalance };
+  } catch (error) {
+    console.error("❌ Error fetching user accounts:", error);
+    throw new Error("Database error while retrieving user accounts");
   }
 };
