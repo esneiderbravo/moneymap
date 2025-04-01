@@ -9,8 +9,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { AccountBalance } from "@mui/icons-material";
-import ManageAccountsContent from "./ManageAccountsContent";
 import { ManageOptionsContainer } from "../../../styles/more/manage/ManageContent.styled";
+import AccountsContent from "./account/AccountsContent";
 
 /**
  * MoreManageContent Component
@@ -40,7 +40,7 @@ const ManageContent = () => {
     <>
       {/* Options Container */}
 
-      <ManageOptionsContainer item sx={{ backgroundColor: "primary.main" }}>
+      <ManageOptionsContainer item sx={{ backgroundColor: "secondary.main" }}>
         <Box>
           <nav>
             <List>
@@ -67,7 +67,7 @@ const ManageContent = () => {
 
       {/* Selected Option Rendering */}
       {selectedOption === "accounts" ? (
-        <ManageAccountsContent
+        <AccountsContent
           isOpen={selectedOption === "accounts"}
           setSelectedOption={setSelectedOption}
         />

@@ -14,11 +14,11 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../../../providers/AppProvider";
-import { getIconComponent } from "../../../utils/common/icon";
-import CommonHeaderContent from "../../common/CommonHeaderContent";
-import { setOpenSettings } from "../../../actions/state";
-import { SettingsProfileOptionsContainer } from "../../../styles/more/settings/SettingsProfileContent.styled";
+import { useAppContext } from "../../../../providers/AppProvider";
+import { getIconComponent } from "../../../../utils/common/icon";
+import CommonHeaderContent from "../../../common/CommonHeaderContent";
+import { setOpenSettings } from "../../../../actions/state";
+import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/ProfileContent.styled";
 
 /**
  * ProfileContent Component
@@ -28,7 +28,7 @@ import { SettingsProfileOptionsContainer } from "../../../styles/more/settings/S
  * @param {Function} props.setSelectedPage - Function to reset the selected page when closing.
  * @returns {React.JSX.Element} The rendered ProfileContent component.
  */
-const SettingsProfileContent = ({ setSelectedPage }) => {
+const ProfileContent = ({ setSelectedPage }) => {
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
   const { authData } = state;
@@ -90,10 +90,7 @@ const SettingsProfileContent = ({ setSelectedPage }) => {
       </Grid2>
 
       {/* Profile Menu Options */}
-      <SettingsProfileOptionsContainer
-        item
-        sx={{ backgroundColor: "primary.main" }}
-      >
+      <ProfileOptionsContainer item sx={{ backgroundColor: "secondary.main" }}>
         <Box component="nav">
           <List>
             {/* Logout Option */}
@@ -113,7 +110,7 @@ const SettingsProfileContent = ({ setSelectedPage }) => {
             <Divider />
           </List>
         </Box>
-      </SettingsProfileOptionsContainer>
+      </ProfileOptionsContainer>
     </Drawer>
   );
 };
@@ -121,8 +118,8 @@ const SettingsProfileContent = ({ setSelectedPage }) => {
 /**
  * ProfileContent component propTypes
  */
-SettingsProfileContent.propTypes = {
+ProfileContent.propTypes = {
   setSelectedPage: PropTypes.func.isRequired,
 };
 
-export default SettingsProfileContent;
+export default ProfileContent;

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useAppContext } from "../../../providers/AppProvider";
 import { setOpenSettings } from "../../../actions/state";
-import SettingsProfileContent from "./SettingsProfileContent";
+import ProfileContent from "./profile/ProfileContent";
 import { getIconComponent } from "../../../utils/common/icon";
 import CommonHeaderContent from "../../common/CommonHeaderContent";
 
@@ -109,7 +109,7 @@ const SettingsContent = () => {
 
       {/* Profile Drawer */}
       {selectedPage === "profile" ? (
-        <SettingsProfileContent setSelectedPage={setSelectedPage} />
+        <ProfileContent setSelectedPage={setSelectedPage} />
       ) : null}
     </>
   );

@@ -20,7 +20,7 @@ const MoreContent = () => {
   return (
     <>
       {/* ChipContent */}
-      <PaperComponent>
+      <PaperComponent sx={{ backgroundColor: "secondary.main" }}>
         <Box display="flex" justifyContent="space-between" gap={1}>
           {chipElements.map((option) => (
             <ChipComponent
