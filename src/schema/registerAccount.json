@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "properties": {
+    "balance": {
+      "type": "number",
+      "minimum": 0,
+      "multipleOf": 0.01,
+      "errorMessage": {
+        "type": "Balance must be a number.",
+        "minimum": "Balance cannot be negative.",
+        "multipleOf": "Balance must have up to two decimal places."
+      }
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Description cannot be empty."
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": ["checking", "savings"],
+      "errorMessage": {
+        "enum": "Type must be either 'checking' or 'savings'."
+      }
+    },
+    "color": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Color cannot be empty."
+      }
+    }
+  },
+  "required": ["balance", "description", "type", "color"],
+  "errorMessage": {
+    "required": {
+      "balance": "Balance is required.",
+      "description": "Description is required.",
+      "type": "Type is required.",
+      "color": "Color is required."
+    }
+  }
+}

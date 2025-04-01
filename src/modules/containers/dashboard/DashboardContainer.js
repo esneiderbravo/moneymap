@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
 import { useAppContext } from "../../providers/AppProvider";
 import { setBalance } from "../../actions/state";
@@ -19,26 +19,24 @@ const DashboardContainer = () => {
   const { balance, authData } = state;
   const { id: userId } = authData || {}; // Fallback to prevent crashes
 
-  const fetchBalances = useCallback(async () => {
-    if (!userId) return; // Avoid fetching if user is not authenticated
-
-    try {
-      const [currentBalances, status] = await getUserBalances(userId);
-
-      if (status === 200 && currentBalances) {
-        dispatch(setBalance(currentBalances));
-        LocalStorage.setItem("balance", JSON.stringify(currentBalances));
-      } else {
-        console.warn(`⚠️ Failed to fetch balances. Status: ${status}`);
-      }
-    } catch (error) {
-      console.error("❌ Error fetching balances:", error);
-    }
-  }, [userId, dispatch]);
-
   useEffect(() => {
+    const fetchBalances = async () => {
+      if (!userId) return; // Avoid fetching if user is not authenticated
+
+      try {
+        const { data, success } = await getUserBalances(userId);
+        if (success && data) {
+          dispatch(setBalance(data));
+          LocalStorage.setItem("balance", JSON.stringify(data));
+        } else {
+          console.warn(`⚠️ Failed to fetch balances. Status: ${status}`);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching balances:", error);
+      }
+    };
     fetchBalances();
-  }, [fetchBalances]);
+  }, [dispatch, userId]);
 
   return <Dashboard balance={balance} />;
 };

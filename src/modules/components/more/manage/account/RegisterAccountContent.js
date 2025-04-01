@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Drawer, FormControl, InputAdornment, MenuItem } from "@mui/material";
+import {
+  CircularProgress,
+  Drawer,
+  FormControl,
+  InputAdornment,
+  MenuItem,
+  FormHelperText,
+} from "@mui/material";
 import CommonHeaderContent from "../../../common/CommonHeaderContent";
 import PropTypes from "prop-types";
 import { getIconComponent } from "../../../../utils/common/icon";
@@ -11,6 +18,12 @@ import {
   SubmitButton,
 } from "../../../../styles/more/manage/account/RegisterAccount.styled";
 import ColorSelector from "../../../common/ColorSelectorContent";
+import { getJsonSchema } from "../../../../utils/jsonschema";
+import Ajv from "ajv";
+import addErrors from "ajv-errors";
+import { registerAccount } from "../../../../services/account/accountService";
+import { setBalance, setNotification } from "../../../../actions/state";
+import { useAppContext } from "../../../../providers/AppProvider";
 
 /**
  * RegisterAccountContent Component
@@ -26,12 +39,16 @@ import ColorSelector from "../../../common/ColorSelectorContent";
  * @returns {React.JSX.Element} The rendered RegisterAccountContent component.
  */
 const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
+  const { dispatch, state } = useAppContext();
+  const { balance, authData } = state;
   const [formData, setFormData] = useState({
     balance: "",
     description: "",
     type: "checking",
     color: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
 
   // Define icons
   const MicIcon = getIconComponent("Mic");
@@ -55,7 +72,83 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
    */
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === "balance" ? parseFloat(value) || 0 : value,
+    }));
+  };
+
+  /**
+   * Validates form data against the defined JSON schema.
+   * @returns {boolean} True if valid, otherwise false and sets errors.
+   */
+  const validateFormData = () => {
+    const ajv = new Ajv({ allErrors: true });
+    addErrors(ajv);
+    const formSchema = getJsonSchema("registerAccount");
+    const validate = ajv.compile(formSchema);
+
+    const valid = validate(formData);
+
+    if (!valid) {
+      const errorMessages = {};
+
+      validate.errors.forEach((err) => {
+        const field = err.instancePath.replace(/^\//, "");
+        errorMessages[field] = err.message || "Invalid input";
+      });
+
+      setErrors(errorMessages);
+      console.error(errorMessages);
+      return false;
+    }
+
+    setErrors({});
+    return true;
+  };
+
+  /**
+   * Handles form submission by validating data and registering a new account.
+   *
+   * @async
+   * @param {React.FormEvent} event - The form submission event.
+   */
+  const handleSubmitForm = async (event) => {
+    event.preventDefault();
+
+    if (!validateFormData()) return;
+
+    setSubmitting(true);
+    let formDataUpdated = { userId: authData.id, ...formData };
+    try {
+      const { data, success } = await registerAccount(formDataUpdated);
+
+      if (!success) {
+        throw new Error("Account registration failed.");
+      }
+      dispatch(
+        setNotification({
+          type: "success",
+          info: "New account created successfully!",
+        })
+      );
+      let newBalance = { ...balance };
+      newBalance.accounts.push(data);
+      dispatch(setBalance(newBalance));
+    } catch (error) {
+      console.error("Account Registration Error:", error.message);
+
+      dispatch(
+        setNotification({
+          type: "error",
+          info: error.message || "Something went wrong. Please try again.",
+        })
+      );
+    } finally {
+      setSubmitting(false);
+      setRegisterAccount(false);
+    }
   };
 
   return (
@@ -67,10 +160,18 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
     >
       <CommonHeaderContent handleClose={handleClose} title="New Account" />
 
-      <RegisterBox component="form" onSubmit={() => {}}>
-        <RegisterAccountContainer sx={{ backgroundColor: "secondary.main" }}>
+      <RegisterBox component="form" onSubmit={handleSubmitForm}>
+        <RegisterAccountContainer
+          size={12}
+          sx={{ backgroundColor: "secondary.main", height: "90vh" }}
+        >
           {/* Balance Input */}
-          <FormControl variant="standard" fullWidth sx={{ mb: 6 }}>
+          <FormControl
+            variant="standard"
+            fullWidth
+            sx={{ mb: 6 }}
+            error={!!errors.balance}
+          >
             <InputRegister
               id="balance"
               name="balance"
@@ -87,10 +188,20 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
               }}
               fullWidth
             />
+            {errors.balance && (
+              <FormHelperText sx={{ color: "error.main", fontWeight: "bold" }}>
+                {errors.balance}
+              </FormHelperText>
+            )}
           </FormControl>
 
           {/* Description Input */}
-          <FormControl variant="standard" fullWidth sx={{ mb: 6 }}>
+          <FormControl
+            variant="standard"
+            fullWidth
+            sx={{ mb: 6 }}
+            error={!!errors.description}
+          >
             <InputRegister
               id="description"
               name="description"
@@ -113,10 +224,20 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
               }
               fullWidth
             />
+            {errors.description && (
+              <FormHelperText sx={{ color: "error.main", fontWeight: "bold" }}>
+                {errors.description}
+              </FormHelperText>
+            )}
           </FormControl>
 
           {/* Type Selector */}
-          <FormControl variant="standard" fullWidth sx={{ mb: 6 }}>
+          <FormControl
+            variant="standard"
+            fullWidth
+            sx={{ mb: 6 }}
+            error={!!errors.type}
+          >
             <SelectRegister
               id="type"
               name="type"
@@ -133,37 +254,62 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
             >
               <MenuItem
                 value="checking"
-                sx={{ display: "flex", alignItems: "center" }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "icon.white",
+                }}
               >
                 {AssuredWorkloadIcon && (
                   <AssuredWorkloadIcon sx={{ marginRight: 1 }} />
-                )}
+                )}{" "}
                 Checking
               </MenuItem>
               <MenuItem
                 value="savings"
-                sx={{ display: "flex", alignItems: "center" }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "icon.white",
+                }}
               >
                 {SavingsIcon && <SavingsIcon sx={{ marginRight: 1 }} />} Savings
               </MenuItem>
             </SelectRegister>
+            {errors.type && (
+              <FormHelperText sx={{ color: "error.main", fontWeight: "bold" }}>
+                {errors.type}
+              </FormHelperText>
+            )}
           </FormControl>
 
           {/* Color Selector */}
-          <ColorSelector onColorChange={setFormData} formData={formData} />
+          <FormControl
+            variant="standard"
+            fullWidth
+            sx={{ mb: 6 }}
+            error={!!errors.color}
+          >
+            <ColorSelector onColorChange={setFormData} formData={formData} />
+            {errors.color && (
+              <FormHelperText sx={{ color: "error.main", fontWeight: "bold" }}>
+                {errors.color}
+              </FormHelperText>
+            )}
+          </FormControl>
 
           {/* Submit Button */}
           <SubmitButton
             variant="contained"
             fullWidth
-            sx={{
-              backgroundColor: "secondary.main",
-              "&:hover": {
-                backgroundColor: "primary.dark",
-              },
-            }}
+            sx={{ backgroundColor: "secondary.accent" }}
+            onClick={handleSubmitForm}
           >
-            Register Account
+            {submitting ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Save Account"
+            )}
           </SubmitButton>
         </RegisterAccountContainer>
       </RegisterBox>
@@ -172,8 +318,8 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
 };
 
 RegisterAccountContent.propTypes = {
-  isOpen: PropTypes.bool.isRequired, // Controls visibility of the drawer
-  setRegisterAccount: PropTypes.func.isRequired, // Callback to close the drawer
+  isOpen: PropTypes.bool.isRequired,
+  setRegisterAccount: PropTypes.func.isRequired,
 };
 
 export default RegisterAccountContent;

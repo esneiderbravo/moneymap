@@ -47,6 +47,11 @@ const theme = createTheme({
       red: "#b64242",
       secondary: "#748d92",
     },
+    error: {
+      main: "#f44336",
+      light: "#f44336",
+      dark: "#e53935",
+    },
   },
   typography: {
     fontFamily: familyFont,

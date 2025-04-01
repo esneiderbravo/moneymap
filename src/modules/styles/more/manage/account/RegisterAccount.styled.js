@@ -4,7 +4,6 @@ import { Box, Button, Input } from "@mui/material";
 import Select from "@mui/material/Select";
 
 export const RegisterAccountContainer = styled(OptionsContainer)`
-  height: 100vh;
   padding: 40px;
   margin: 0 5px 0 -1px;
 `;

@@ -45,6 +45,10 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
   // Dynamically get the icons
   const PaidIcon = getIconComponent("Paid");
   const PriceChangeIcon = getIconComponent("PriceChange");
+  const accountIconsMapper = {
+    checking: "AssuredWorkloadSharp",
+    savings: "Savings",
+  };
 
   /**
    * Handles closing the drawer when triggered by user interaction.
@@ -72,7 +76,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
           {/* Accounts */}
           <AccountsOptionsContainer
             size={12}
-            sx={{ backgroundColor: "secondary.main" }}
+            sx={{ backgroundColor: "secondary.main", height: "100vh" }}
             mt={5}
           >
             <Box component="nav">
@@ -154,7 +158,9 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
             <Box component="nav">
               <List>
                 {accounts.map((account, index) => {
-                  const IconComponent = getIconComponent(account.icon);
+                  const IconComponent = getIconComponent(
+                    accountIconsMapper[account.type]
+                  );
                   return (
                     <ListItem key={index} disablePadding sx={{ mb: 1 }}>
                       <ListItemButton
@@ -163,9 +169,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
                       >
                         <ListItemIcon>
                           {IconComponent && (
-                            <IconComponent
-                              sx={{ color: `icon.${account.color}` }}
-                            />
+                            <IconComponent sx={{ color: `${account.color}` }} />
                           )}
                         </ListItemIcon>
                         <ListItemText

@@ -14,7 +14,7 @@ export const handleUserBalances = async (req, res) => {
     }
 
     const userBalances = await getUserAccounts(userId);
-    res.json(userBalances);
+    res.status(200).json({ data: userBalances, success: true });
   } catch (error) {
     console.error("❌ Error in handleBalances:", error);
     res.status(500).json({ error: "Internal server error" });

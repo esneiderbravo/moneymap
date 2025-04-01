@@ -31,6 +31,10 @@ const AccountsContent = ({ balance, showBalances }) => {
   // Dynamically get the icons
   const AddIcon = getIconComponent("Add");
   const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
+  const accountIconsMapper = {
+    checking: "AssuredWorkloadSharp",
+    savings: "Savings",
+  };
 
   /**
    * Handles the click event for the "Add" icon.
@@ -61,16 +65,16 @@ const AccountsContent = ({ balance, showBalances }) => {
         <Box component="nav">
           <List>
             {accounts.map((account, index) => {
-              const IconComponent = getIconComponent(account.icon);
+              const IconComponent = getIconComponent(
+                accountIconsMapper[account.type]
+              );
 
               return (
                 <ListItem key={index} disablePadding sx={{ mb: 1 }}>
                   <ListItemButton sx={{ borderRadius: 2 }} onClick={() => {}}>
                     <ListItemIcon>
                       {IconComponent && (
-                        <IconComponent
-                          sx={{ color: `icon.${account.color}` }}
-                        />
+                        <IconComponent sx={{ color: `${account.color}` }} />
                       )}
                     </ListItemIcon>
                     <ListItemText
