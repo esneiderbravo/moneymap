@@ -1,5 +1,6 @@
 import express from "express";
-import { handleGoogleAuth } from "../../controllers/user/UserController.js";
+import { handleGoogleAuth } from "../../controllers/user/AuthController.js";
+import { handleUserBalances } from "../../controllers/user/UserBalanceController.js";
 
 const router = express.Router();
 
@@ -9,5 +10,6 @@ const router = express.Router();
  * @access  Public
  */
 router.post("/auth", handleGoogleAuth);
+router.get("/balances", handleUserBalances);
 
 export default router;

@@ -44,10 +44,18 @@ const setOpenSettings = (openSettings) => ({
   payload: openSettings,
 });
 
-const setBalance = (balance) => ({
-  type: "setBalance",
-  payload: balance,
-});
+/**
+ * Creates an action to update the user's balances.
+ *
+ * @param {Object} balance - The new balance data to be set.
+ * @returns {Object} The action object containing the type and payload.
+ */
+const setBalance = (balance) => {
+  return {
+    type: "setBalance",
+    payload: balance,
+  };
+};
 
 export {
   setNotification,

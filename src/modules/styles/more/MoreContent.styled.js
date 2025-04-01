@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Chip, Paper } from "@mui/material";
-import { OptionsContainer } from "../common/CommonContainers.styled";
 
 export const PaperComponent = styled(Paper)`
   padding: 1px;
@@ -22,9 +21,4 @@ export const ChipComponent = styled(Chip)`
   padding: 10px;
   height: 46px !important;
   font-size: 16px !important;
-`;
-
-export const MoreOptionsContainer = styled(OptionsContainer)`
-  border-radius: 28px 28px 28px 28px;
-  margin: 0 5px 0 5px !important;
 `;

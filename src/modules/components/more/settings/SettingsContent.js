@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
   Drawer,
-  Grid2,
   List,
   ListItem,
   ListItemButton,
@@ -11,53 +10,25 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useAppContext } from "../../providers/AppProvider";
-import { setOpenSettings } from "../../actions/state";
-import MoreProfileContent from "./MoreProfileContent";
-import useSwipeClose from "../hooks/swipe";
-import { getIconComponent } from "../../utils/common/icon";
+import { useAppContext } from "../../../providers/AppProvider";
+import { setOpenSettings } from "../../../actions/state";
+import SettingsProfileContent from "./SettingsProfileContent";
+import { getIconComponent } from "../../../utils/common/icon";
+import CommonHeaderContent from "../../common/CommonHeaderContent";
 
-/**
- * SettingsContent Component
- *
- * Renders a settings drawer that provides user configuration options.
- * Includes options such as "Profile" and "Preferences".
- * Also manages the opening of the ProfileContent drawer.
- *
- * @returns {React.JSX.Element} Full-screen settings menu
- */
-const MoreSettingsContent = () => {
+const SettingsContent = () => {
   const { state, dispatch } = useAppContext();
   const { openSettings, authData } = state;
   const [selectedPage, setSelectedPage] = useState(null);
-  const [openProfile, setOpenProfile] = useState(false);
 
   // Dynamically get the icons
-  const ArrowBackIosIcon = getIconComponent("ArrowBackIos");
   const AccountCircleIcon = getIconComponent("AccountCircle");
-
-  useSwipeClose({
-    isOpen: openSettings,
-    onClose: () => {
-      document.activeElement?.blur();
-      dispatch(setOpenSettings(false));
-    },
-  });
-
-  /**
-   * Opens the profile drawer when "Profile" is selected.
-   */
-  useEffect(() => {
-    if (selectedPage === "profile") {
-      setOpenProfile(true);
-    }
-  }, [selectedPage]);
 
   /**
    * Handles closing the settings drawer.
    * @param {React.MouseEvent} event - The click event.
    */
-  const handleCloseSettings = (event) => {
+  const handleClose = (event) => {
     event.stopPropagation();
     document.activeElement?.blur();
     dispatch(setOpenSettings(false));
@@ -66,35 +37,26 @@ const MoreSettingsContent = () => {
   return (
     <>
       {/* Settings Drawer */}
-      <Drawer
-        open={openSettings}
-        onClose={handleCloseSettings}
-        anchor="right"
-        disableAutoFocus
-      >
-        <Box sx={{ width: "auto" }} role="presentation" padding={3}>
-          <Grid2 container size={12} alignItems="center" spacing={2}>
-            {/* Close Button */}
-            <Grid2 item size={1}>
-              {ArrowBackIosIcon && (
-                <ArrowBackIosIcon
-                  onClick={handleCloseSettings}
-                  sx={{ cursor: "pointer" }}
-                  aria-label="Close Settings"
-                />
-              )}
-            </Grid2>
-            <Grid2 item size={10} display="flex" justifyContent="center">
-              <Typography color="text.secondary">Settings</Typography>
-            </Grid2>
-          </Grid2>
-
-          {/* Settings Navigation */}
-          <nav>
+      {!selectedPage ? (
+        <Drawer
+          open={openSettings}
+          onClose={handleClose}
+          anchor="right"
+          disableAutoFocus
+        >
+          {/* Common Header */}
+          <CommonHeaderContent handleClose={handleClose} title={"Settings"} />
+          <Box component="nav" sx={{ width: "auto" }} padding={3}>
+            {/* Settings Navigation */}
             <List>
               {/* Profile Option */}
               <ListItem disablePadding>
-                <ListItemButton onClick={() => setSelectedPage("profile")}>
+                <ListItemButton
+                  onClick={() => {
+                    dispatch(setOpenSettings(false));
+                    setSelectedPage("profile");
+                  }}
+                >
                   <ListItemIcon>
                     <Avatar alt={authData?.name} src={authData?.picture} />
                   </ListItemIcon>
@@ -141,18 +103,16 @@ const MoreSettingsContent = () => {
                 </ListItemButton>
               </ListItem>
             </List>
-          </nav>
-        </Box>
-      </Drawer>
+          </Box>
+        </Drawer>
+      ) : null}
 
       {/* Profile Drawer */}
-      <MoreProfileContent
-        openProfile={openProfile}
-        setOpenProfile={setOpenProfile}
-        setSelectedPage={setSelectedPage}
-      />
+      {selectedPage === "profile" ? (
+        <SettingsProfileContent setSelectedPage={setSelectedPage} />
+      ) : null}
     </>
   );
 };
 
-export default MoreSettingsContent;
+export default SettingsContent;

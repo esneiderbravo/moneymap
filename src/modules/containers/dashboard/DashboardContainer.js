@@ -1,43 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
 import { useAppContext } from "../../providers/AppProvider";
 import { setBalance } from "../../actions/state";
 import LocalStorage from "../../utils/localStorage";
+import { getUserBalances } from "../../services/user/userBalanceService";
 
 /**
  * DashboardContainer Component
  *
  * This container component serves as a wrapper for `Dashboard`.
  * It manages high-level state and logic before rendering the dashboard UI.
+ * The component fetches account balances and updates the global state when it mounts.
  *
- * @returns {React.JSX.Element} The rendered dashboard content component.
+ * @returns {React.JSX.Element} The rendered dashboard component.
  */
 const DashboardContainer = () => {
   const { state, dispatch } = useAppContext();
-  const { balance } = state;
+  const { balance, authData } = state;
+  const { id: userId } = authData || {}; // Fallback to prevent crashes
+
+  const fetchBalances = useCallback(async () => {
+    if (!userId) return; // Avoid fetching if user is not authenticated
+
+    try {
+      const [currentBalances, status] = await getUserBalances(userId);
+
+      if (status === 200 && currentBalances) {
+        dispatch(setBalance(currentBalances));
+        LocalStorage.setItem("balance", JSON.stringify(currentBalances));
+      } else {
+        console.warn(`⚠️ Failed to fetch balances. Status: ${status}`);
+      }
+    } catch (error) {
+      console.error("❌ Error fetching balances:", error);
+    }
+  }, [userId, dispatch]);
+
   useEffect(() => {
-    // Simulating fetching account balances from an API
-    let currentBalances = {
-      accounts: [
-        {
-          balance: 10000000,
-          name: "Account 1",
-          icon: "AccountBalance",
-          color: "white",
-        },
-        {
-          balance: 10000000,
-          name: "Account 2",
-          icon: "AttachMoney",
-          color: "green",
-        },
-        { balance: 5000000, name: "Savings", icon: "Savings", color: "pink" },
-      ],
-      totalBalance: 20000000,
-    };
-    dispatch(setBalance(currentBalances));
-    LocalStorage.setItem("balance", JSON.stringify(currentBalances));
-  }, [dispatch]);
+    fetchBalances();
+  }, [fetchBalances]);
+
   return <Dashboard balance={balance} />;
 };
 
