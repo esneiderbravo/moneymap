@@ -86,11 +86,41 @@ export const getUserAccounts = async (userId) => {
       },
     });
 
-    const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+    const totalBalanceAmount = accounts.reduce(
+      (sum, acc) => sum + acc.balance,
+      0
+    );
 
-    return { accounts, totalBalance };
+    const alerts = await fetchUserAlerts();
+
+    return { accounts, alerts, totalBalanceAmount };
   } catch (error) {
     console.error("❌ Error fetching user accounts:", error);
     throw new Error("Database error while retrieving user accounts");
   }
+};
+
+/**
+ * Fetches user alert data related to outstanding expenses, income, and reminders.
+ *
+ * This function retrieves and returns an object containing financial alerts.
+ * @returns {Promise<Object>} A promise that resolves to an object containing user alerts.
+ */
+export const fetchUserAlerts = async () => {
+  return {
+    outstandingExpenses: {
+      itemCount: 0,
+      totalAmount: 0,
+    },
+    income: {
+      itemCount: 0,
+      totalAmount: 0,
+    },
+    expenseReminders: {
+      itemCount: 0,
+    },
+    incomeReminders: {
+      itemCount: 0,
+    },
+  };
 };

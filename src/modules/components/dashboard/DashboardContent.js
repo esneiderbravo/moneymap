@@ -5,6 +5,7 @@ import { BalanceSection } from "../../styles/dashboard/DashboardContent.styled";
 import AccountsContent from "./account/AccountsContent";
 import PropTypes from "prop-types";
 import { getIconComponent } from "../../utils/common/icon";
+import AlertsContent from "./alerts/AlertsContent";
 
 /**
  * DashboardContent Component
@@ -40,7 +41,7 @@ const DashboardContent = ({ balance }) => {
         <Grid2 item size={12} display="flex" justifyContent="center">
           <Typography variant="h4" color="text.highlight">
             {showBalances
-              ? formatCurrency(balance.totalBalance)
+              ? formatCurrency(balance.totalBalanceAmount)
               : HorizontalRuleRoundedIcon && (
                   <HorizontalRuleRoundedIcon fontSize="large" />
                 )}
@@ -60,6 +61,9 @@ const DashboardContent = ({ balance }) => {
           </IconButton>
         </Grid2>
       </BalanceSection>
+
+      {/* Alerts */}
+      <AlertsContent />
 
       {/* Accounts list */}
       <AccountsContent balance={balance} showBalances={showBalances} />
