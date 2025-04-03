@@ -107,7 +107,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
                           color: "text.success",
                         }}
                       >
-                        {formatCurrency(balance.totalBalance)}
+                        {formatCurrency(balance.totalBalanceAmount)}
                       </Typography>
                     }
                   />
@@ -144,7 +144,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
                           color: "text.success",
                         }}
                       >
-                        {formatCurrency(balance.totalBalance)}
+                        {formatCurrency(balance.totalBalanceAmount)}
                       </Typography>
                     }
                   />

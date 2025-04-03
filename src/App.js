@@ -130,6 +130,7 @@ const App = () => {
                   backgroundColor: "#212a31",
                   color: "white",
                   fontFamily: familyFont,
+                  minHeight: "calc(100vh + 110px)",
                 },
               }}
             />

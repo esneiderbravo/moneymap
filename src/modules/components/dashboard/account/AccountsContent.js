@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { formatCurrency } from "../../../utils/common/currency";
-import { AccountSection } from "../../../styles/dashboard/DashboardAccountsContent.styled";
+import { AccountSection } from "../../../styles/dashboard/account/AccountsContent.styled";
 import { getIconComponent } from "../../../utils/common/icon";
 
 /**

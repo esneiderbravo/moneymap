@@ -13,7 +13,23 @@ const openSettings = false;
 
 const balance = JSON.parse(LocalStorage.getItem("balance")) || {
   accounts: [],
-  totalBalance: 0,
+  alerts: {
+    outstandingExpenses: {
+      itemCount: 0,
+      totalAmount: 0,
+    },
+    income: {
+      itemCount: 0,
+      totalAmount: 0,
+    },
+    expenseReminders: {
+      itemCount: 0,
+    },
+    incomeReminders: {
+      itemCount: 0,
+    },
+  },
+  totalBalanceAmount: 0,
 };
 
 const initialState = {
