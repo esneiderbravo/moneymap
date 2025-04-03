@@ -25,14 +25,14 @@ import { ProfileOptionsContainer } from "../../../../styles/more/settings/profil
  * Displays the user's profile menu, allowing navigation and logout.
  *
  * @param {Object} props - Component properties.
+ * @param {Boolean} props.openProfile - Boolean indicating that the component is open.
  * @param {Function} props.setSelectedPage - Function to reset the selected page when closing.
  * @returns {React.JSX.Element} The rendered ProfileContent component.
  */
-const ProfileContent = ({ setSelectedPage }) => {
+const ProfileContent = ({ openProfile, setSelectedPage }) => {
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
   const { authData } = state;
-  const openProfile = true;
 
   // Dynamically get the icons
   const LogoutIcon = getIconComponent("Logout");
@@ -64,7 +64,7 @@ const ProfileContent = ({ setSelectedPage }) => {
     <Drawer
       open={openProfile}
       onClose={handleClose}
-      anchor="right"
+      anchor="bottom"
       disableAutoFocus
     >
       {/* Common Header */}
@@ -119,6 +119,7 @@ const ProfileContent = ({ setSelectedPage }) => {
  * ProfileContent component propTypes
  */
 ProfileContent.propTypes = {
+  openProfile: PropTypes.bool.isRequired,
   setSelectedPage: PropTypes.func.isRequired,
 };
 
