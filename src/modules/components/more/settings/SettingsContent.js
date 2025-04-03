@@ -37,80 +37,80 @@ const SettingsContent = () => {
   return (
     <>
       {/* Settings Drawer */}
-      {!selectedPage ? (
-        <Drawer
-          open={openSettings}
-          onClose={handleClose}
-          anchor="right"
-          disableAutoFocus
-        >
-          {/* Common Header */}
-          <CommonHeaderContent handleClose={handleClose} title={"Settings"} />
-          <Box component="nav" sx={{ width: "auto" }} padding={3}>
-            {/* Settings Navigation */}
-            <List>
-              {/* Profile Option */}
-              <ListItem disablePadding>
-                <ListItemButton
-                  onClick={() => {
-                    dispatch(setOpenSettings(false));
-                    setSelectedPage("profile");
-                  }}
-                >
-                  <ListItemIcon>
-                    <Avatar alt={authData?.name} src={authData?.picture} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Profile"
-                    secondary={
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{ color: "text.info", display: "inline" }}
-                      >
-                        {"Complete your registration..."}
-                      </Typography>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
 
-              {/* Preferences Option */}
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {AccountCircleIcon && (
-                      <AccountCircleIcon
-                        fontSize="large"
-                        sx={{ color: "text.secondary" }}
-                      />
-                    )}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Preferences"
-                    secondary={
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        sx={{ color: "text.info", display: "inline" }}
-                      >
-                        {
-                          "Currency, Appearance, Show calculator, Show Expanded..."
-                        }
-                      </Typography>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </Box>
-        </Drawer>
-      ) : null}
+      <Drawer
+        open={openSettings}
+        onClose={handleClose}
+        anchor="right"
+        disableAutoFocus
+      >
+        {/* Common Header */}
+        <CommonHeaderContent handleClose={handleClose} title={"Settings"} />
+        <Box component="nav" sx={{ width: "auto" }} padding={3}>
+          {/* Settings Navigation */}
+          <List>
+            {/* Profile Option */}
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  dispatch(setOpenSettings(false));
+                  setSelectedPage("profile");
+                }}
+              >
+                <ListItemIcon>
+                  <Avatar alt={authData?.name} src={authData?.picture} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Profile"
+                  secondary={
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      sx={{ color: "text.info", display: "inline" }}
+                    >
+                      {"Complete your registration..."}
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+            </ListItem>
+
+            {/* Preferences Option */}
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {AccountCircleIcon && (
+                    <AccountCircleIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary" }}
+                    />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary="Preferences"
+                  secondary={
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      sx={{ color: "text.info", display: "inline" }}
+                    >
+                      {
+                        "Currency, Appearance, Show calculator, Show Expanded..."
+                      }
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
 
       {/* Profile Drawer */}
-      {selectedPage === "profile" ? (
-        <ProfileContent setSelectedPage={setSelectedPage} />
-      ) : null}
+      <ProfileContent
+        openProfile={selectedPage === "profile"}
+        setSelectedPage={setSelectedPage}
+      />
     </>
   );
 };

@@ -63,155 +63,152 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
   return (
     <>
       {/* Accounts List */}
-      {!registerAccount ? (
-        <Drawer
-          open={isOpen}
-          onClose={handleClose}
-          anchor="right"
-          disableAutoFocus
+
+      <Drawer
+        key="ListAccounts"
+        open={isOpen}
+        onClose={handleClose}
+        anchor="right"
+        disableAutoFocus
+      >
+        {/* Common Header */}
+        <CommonHeaderContent handleClose={handleClose} title={"Accounts"} />
+
+        {/* Accounts */}
+        <AccountsOptionsContainer
+          size={12}
+          sx={{ backgroundColor: "secondary.main", height: "100vh" }}
+          mt={5}
         >
-          {/* Common Header */}
-          <CommonHeaderContent handleClose={handleClose} title={"Accounts"} />
-
-          {/* Accounts */}
-          <AccountsOptionsContainer
-            size={12}
-            sx={{ backgroundColor: "secondary.main", height: "100vh" }}
-            mt={5}
-          >
-            <Box component="nav">
-              {/* Current Balance */}
-              <List sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-                <ListItem disablePadding>
-                  <ListItemButtonCurrentBalance>
-                    <ListItemIcon sx={{ minWidth: "auto" }}>
-                      {PaidIcon && <PaidIcon sx={{ color: "icon.white" }} />}
-                    </ListItemIcon>
-                    <ListItemText
-                      sx={{ textAlign: "left" }}
-                      primary={
-                        <Typography
-                          component="span"
-                          variant="caption"
-                          sx={{ color: "text.secondary", display: "block" }}
-                        >
-                          Current balance
-                        </Typography>
-                      }
-                      secondary={
-                        <Typography
-                          component="span"
-                          variant="subtitle2"
-                          sx={{
-                            color: "text.success",
-                          }}
-                        >
-                          {formatCurrency(balance.totalBalance)}
-                        </Typography>
-                      }
-                    />
-                  </ListItemButtonCurrentBalance>
-                </ListItem>
-
-                {/* Divider */}
-                <Divider orientation="vertical" flexItem variant="middle" />
-
-                {/* Total Until */}
-                <ListItem disablePadding>
-                  <ListItemButtonTotalUntil>
-                    <ListItemIcon sx={{ minWidth: "auto" }}>
-                      {PriceChangeIcon && (
-                        <PriceChangeIcon sx={{ color: "icon.white" }} />
-                      )}
-                    </ListItemIcon>
-                    <ListItemText
-                      sx={{ textAlign: "left" }}
-                      primary={
-                        <Typography
-                          component="span"
-                          variant="caption"
-                          sx={{ color: "text.secondary", display: "block" }}
-                        >
-                          Total until {getLastDayOfMonth()}
-                        </Typography>
-                      }
-                      secondary={
-                        <Typography
-                          component="span"
-                          variant="subtitle2"
-                          sx={{
-                            color: "text.success",
-                          }}
-                        >
-                          {formatCurrency(balance.totalBalance)}
-                        </Typography>
-                      }
-                    />
-                  </ListItemButtonTotalUntil>
-                </ListItem>
-              </List>
+          <Box component="nav">
+            {/* Current Balance */}
+            <List sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+              <ListItem disablePadding>
+                <ListItemButtonCurrentBalance>
+                  <ListItemIcon sx={{ minWidth: "auto" }}>
+                    {PaidIcon && <PaidIcon sx={{ color: "icon.white" }} />}
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{ textAlign: "left" }}
+                    primary={
+                      <Typography
+                        component="span"
+                        variant="caption"
+                        sx={{ color: "text.secondary", display: "block" }}
+                      >
+                        Current balance
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography
+                        component="span"
+                        variant="subtitle2"
+                        sx={{
+                          color: "text.success",
+                        }}
+                      >
+                        {formatCurrency(balance.totalBalance)}
+                      </Typography>
+                    }
+                  />
+                </ListItemButtonCurrentBalance>
+              </ListItem>
 
               {/* Divider */}
-              <Divider flexItem variant="middle" />
-            </Box>
+              <Divider orientation="vertical" flexItem variant="middle" />
 
-            <Box component="nav">
-              <List>
-                {accounts.map((account, index) => {
-                  const IconComponent = getIconComponent(
-                    accountIconsMapper[account.type]
-                  );
-                  return (
-                    <ListItem key={index} disablePadding sx={{ mb: 1 }}>
-                      <ListItemButton
-                        sx={{ borderRadius: 2 }}
-                        onClick={() => {}}
+              {/* Total Until */}
+              <ListItem disablePadding>
+                <ListItemButtonTotalUntil>
+                  <ListItemIcon sx={{ minWidth: "auto" }}>
+                    {PriceChangeIcon && (
+                      <PriceChangeIcon sx={{ color: "icon.white" }} />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{ textAlign: "left" }}
+                    primary={
+                      <Typography
+                        component="span"
+                        variant="caption"
+                        sx={{ color: "text.secondary", display: "block" }}
                       >
-                        <ListItemIcon>
-                          {IconComponent && (
-                            <IconComponent sx={{ color: `${account.color}` }} />
-                          )}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={account.description}
-                          secondary={
-                            <Typography
-                              color="text.success"
-                              sx={{ display: "flex", alignItems: "center" }}
-                            >
-                              {formatCurrency(account.balance)}
-                            </Typography>
-                          }
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </Box>
+                        Total until {getLastDayOfMonth()}
+                      </Typography>
+                    }
+                    secondary={
+                      <Typography
+                        component="span"
+                        variant="subtitle2"
+                        sx={{
+                          color: "text.success",
+                        }}
+                      >
+                        {formatCurrency(balance.totalBalance)}
+                      </Typography>
+                    }
+                  />
+                </ListItemButtonTotalUntil>
+              </ListItem>
+            </List>
 
-            {/* Register Account Button */}
-            <Grid2 item display="flex" justifyContent="center">
-              <Typography
-                color="text.highlight"
-                onClick={() => {
-                  setRegisterAccount(true);
-                }}
-              >
-                Register Account
-              </Typography>
-            </Grid2>
-          </AccountsOptionsContainer>
-        </Drawer>
-      ) : null}
+            {/* Divider */}
+            <Divider flexItem variant="middle" />
+          </Box>
+
+          <Box component="nav">
+            <List>
+              {accounts.map((account, index) => {
+                const IconComponent = getIconComponent(
+                  accountIconsMapper[account.type]
+                );
+                return (
+                  <ListItem key={index} disablePadding sx={{ mb: 1 }}>
+                    <ListItemButton sx={{ borderRadius: 2 }} onClick={() => {}}>
+                      <ListItemIcon>
+                        {IconComponent && (
+                          <IconComponent sx={{ color: `${account.color}` }} />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={account.description}
+                        secondary={
+                          <Typography
+                            color="text.success"
+                            sx={{ display: "flex", alignItems: "center" }}
+                          >
+                            {formatCurrency(account.balance)}
+                          </Typography>
+                        }
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Box>
+
+          {/* Register Account Button */}
+          <Grid2 item display="flex" justifyContent="center">
+            <Typography
+              color="text.highlight"
+              onClick={() => {
+                setRegisterAccount(true);
+              }}
+            >
+              Register Account
+            </Typography>
+          </Grid2>
+        </AccountsOptionsContainer>
+      </Drawer>
 
       {/* Register Account */}
-      {registerAccount ? (
-        <RegisterAccountContent
-          isOpen={registerAccount}
-          setRegisterAccount={setRegisterAccount}
-        />
-      ) : null}
+
+      <RegisterAccountContent
+        key="CreateAccount"
+        isOpen={registerAccount}
+        setRegisterAccount={setRegisterAccount}
+      />
     </>
   );
 };

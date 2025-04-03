@@ -12,33 +12,30 @@ import { AccountBalance } from "@mui/icons-material";
 import { ManageOptionsContainer } from "../../../styles/more/manage/ManageContent.styled";
 import AccountsContent from "./account/AccountsContent";
 
-/**
- * MoreManageContent Component
- *
- * This component provides navigation for account management options.
- * Users can select an option from the list, and the corresponding content
- * will be displayed dynamically.
- *
- * @returns {React.JSX.Element} The rendered MoreManageContent component.
- */
 const ManageContent = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 
-  /**
-   * Menu options with their respective icons and click handlers.
-   */
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+  };
+
   const optionElements = [
     {
       name: "Accounts",
       icon: <AccountBalance />,
       color: "icon.white",
-      onClick: () => setSelectedOption("accounts"),
+      onClick: () => handleOptionClick("accounts"),
     },
   ];
 
   return (
     <>
-      {/* Options Container */}
+      {/* Always keep AccountsContent mounted, just toggle isOpen */}
+      <AccountsContent
+        key="ManageAccounts"
+        isOpen={selectedOption === "accounts"}
+        setSelectedOption={setSelectedOption}
+      />
 
       <ManageOptionsContainer item sx={{ backgroundColor: "secondary.main" }}>
         <Box>
@@ -64,14 +61,6 @@ const ManageContent = () => {
           </nav>
         </Box>
       </ManageOptionsContainer>
-
-      {/* Selected Option Rendering */}
-      {selectedOption === "accounts" ? (
-        <AccountsContent
-          isOpen={selectedOption === "accounts"}
-          setSelectedOption={setSelectedOption}
-        />
-      ) : null}
     </>
   );
 };
