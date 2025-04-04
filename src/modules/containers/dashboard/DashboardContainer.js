@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
 import { useAppContext } from "../../providers/AppProvider";
-import { setBalance } from "../../actions/state";
+import { setBalance, setNotification } from "../../actions/state";
 import LocalStorage from "../../utils/localStorage";
 import { getUserBalances } from "../../services/user/userBalanceService";
 
@@ -33,6 +33,12 @@ const DashboardContainer = () => {
         }
       } catch (error) {
         console.error("❌ Error fetching balances:", error);
+        dispatch(
+          setNotification({
+            type: "error",
+            info: "❌ Error fetching balances:",
+          })
+        );
       }
     };
     fetchBalances();
