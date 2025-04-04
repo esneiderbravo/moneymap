@@ -70,6 +70,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
         onClose={handleClose}
         anchor="right"
         disableAutoFocus
+        ModalProps={{ keepMounted: true }}
       >
         {/* Common Header */}
         <CommonHeaderContent handleClose={handleClose} title={"Accounts"} />

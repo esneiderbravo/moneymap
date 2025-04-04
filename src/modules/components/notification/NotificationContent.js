@@ -37,9 +37,7 @@ const NotificationContent = () => {
    */
   const renderNotification = (severity) => (
     <BoxContent>
-      <Alert severity={severity} variant="filled">
-        {info}
-      </Alert>
+      <Alert severity={severity}>{info}</Alert>
     </BoxContent>
   );
 

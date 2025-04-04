@@ -6,6 +6,7 @@ import {
 } from "../../styles/more/MoreContent.styled";
 import SettingsContent from "./settings/SettingsContent";
 import ManageContent from "./manage/ManageContent";
+import CommonHeaderContent from "../common/CommonHeaderContent";
 
 /**
  * MoreContent Component
@@ -19,6 +20,13 @@ const MoreContent = () => {
 
   return (
     <>
+      {/* Common Header */}
+      <CommonHeaderContent
+        handleClose={() => {}}
+        title={"More Options"}
+        showSettings={true}
+      />
+
       {/* ChipContent */}
       <PaperComponent sx={{ backgroundColor: "secondary.main" }}>
         <Box display="flex" justifyContent="space-between" gap={1}>

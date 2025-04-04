@@ -1,32 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, Grid2 } from "@mui/material";
 import NotificationContent from "../notification/NotificationContent";
 import { useAppContext } from "../../providers/AppProvider";
 import { useLocation } from "react-router-dom";
-import { setOpenSettings } from "../../actions/state";
-import { getIconComponent } from "../../utils/common/icon";
+import ProfileContent from "../more/settings/profile/ProfileContent";
 
 /**
  * Header Content Component
  * @returns {React.JSX.Element} Header section with notifications
  */
 const HeaderContent = () => {
-  const { state, dispatch } = useAppContext();
+  const { state } = useAppContext();
   const { authData, notification } = state;
   const { type, info } = notification;
   const location = useLocation();
-  const isPrimaryRoute = location.pathname === "/";
-  const isMoreRoute = location.pathname === "/more";
+  const isDashboardRoute = location.pathname === "/dashboard";
+  const [openProfile, setOpenProfile] = useState(false);
 
-  // Dynamically get the icons
-  const SettingsIcon = getIconComponent("Settings");
+  /**
+   * Handles closing the profile drawer.
+   * @param {React.MouseEvent} event - The click event.
+   */
+  const handleCloseProfile = (event) => {
+    event.stopPropagation();
+    document.activeElement?.blur();
+    setOpenProfile(false);
+  };
 
   return (
     <>
       {type && info ? <NotificationContent /> : null}
-      <Grid2 container spacing={2} mt={2} mb={4}>
-        {authData && !isPrimaryRoute ? (
-          <>
+      {authData && isDashboardRoute ? (
+        <>
+          <Grid2 container spacing={2} mt={2} mb={4}>
             <Grid2
               item
               size={9.5}
@@ -34,22 +40,19 @@ const HeaderContent = () => {
               alignItems={"center"}
               ml={3}
             >
-              <Avatar alt={authData?.name} src={authData?.picture} />
+              <Avatar
+                alt={authData?.name}
+                src={authData?.picture}
+                onClick={() => setOpenProfile(true)}
+              />
             </Grid2>
-            {isMoreRoute ? (
-              <Grid2 item size={1} display={"flex"} alignItems={"center"}>
-                {SettingsIcon && (
-                  <SettingsIcon
-                    onClick={() => {
-                      dispatch(setOpenSettings(true));
-                    }}
-                  />
-                )}
-              </Grid2>
-            ) : null}
-          </>
-        ) : null}
-      </Grid2>
+          </Grid2>
+          <ProfileContent
+            openProfile={openProfile}
+            handleClose={handleCloseProfile}
+          />
+        </>
+      ) : null}
     </>
   );
 };
