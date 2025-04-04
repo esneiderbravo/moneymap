@@ -29,14 +29,20 @@ const DashboardContainer = () => {
           dispatch(setBalance(data));
           LocalStorage.setItem("balance", JSON.stringify(data));
         } else {
-          console.warn(`⚠️ Failed to fetch balances. Status: ${status}`);
+          console.warn(`⚠️ Failed to fetch balances.`);
+          dispatch(
+            setNotification({
+              type: "error",
+              info: "Failed to fetch balances.",
+            })
+          );
         }
       } catch (error) {
         console.error("❌ Error fetching balances:", error);
         dispatch(
           setNotification({
             type: "error",
-            info: "❌ Error fetching balances:",
+            info: "Error fetching balances.",
           })
         );
       }

@@ -34,6 +34,17 @@ const SettingsContent = () => {
     dispatch(setOpenSettings(false));
   };
 
+  /**
+   * Handles closing the settings drawer.
+   * @param {React.MouseEvent} event - The click event.
+   */
+  const handleCloseSelectedPage = (event) => {
+    event.stopPropagation();
+    document.activeElement?.blur();
+    dispatch(setOpenSettings(true));
+    setSelectedPage(null);
+  };
+
   return (
     <>
       {/* Settings Drawer */}
@@ -43,6 +54,7 @@ const SettingsContent = () => {
         onClose={handleClose}
         anchor="right"
         disableAutoFocus
+        ModalProps={{ keepMounted: true }}
       >
         {/* Common Header */}
         <CommonHeaderContent handleClose={handleClose} title={"Settings"} />
@@ -109,7 +121,7 @@ const SettingsContent = () => {
       {/* Profile Drawer */}
       <ProfileContent
         openProfile={selectedPage === "profile"}
-        setSelectedPage={setSelectedPage}
+        handleClose={handleCloseSelectedPage}
       />
     </>
   );

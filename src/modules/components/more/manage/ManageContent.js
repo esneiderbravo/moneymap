@@ -30,13 +30,6 @@ const ManageContent = () => {
 
   return (
     <>
-      {/* Always keep AccountsContent mounted, just toggle isOpen */}
-      <AccountsContent
-        key="ManageAccounts"
-        isOpen={selectedOption === "accounts"}
-        setSelectedOption={setSelectedOption}
-      />
-
       <ManageOptionsContainer item sx={{ backgroundColor: "secondary.main" }}>
         <Box>
           <nav>
@@ -61,6 +54,13 @@ const ManageContent = () => {
           </nav>
         </Box>
       </ManageOptionsContainer>
+
+      {/* Always keep AccountsContent mounted, just toggle isOpen */}
+      <AccountsContent
+        key="ManageAccounts"
+        isOpen={selectedOption === "accounts"}
+        setSelectedOption={setSelectedOption}
+      />
     </>
   );
 };

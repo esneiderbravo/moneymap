@@ -157,6 +157,7 @@ const RegisterAccountContent = ({ isOpen, setRegisterAccount }) => {
       onClose={handleClose}
       anchor="bottom"
       disableAutoFocus
+      ModalProps={{ keepMounted: true }}
     >
       <CommonHeaderContent handleClose={handleClose} title="New Account" />
 

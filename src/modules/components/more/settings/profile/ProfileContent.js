@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../../../providers/AppProvider";
 import { getIconComponent } from "../../../../utils/common/icon";
 import CommonHeaderContent from "../../../common/CommonHeaderContent";
-import { setOpenSettings } from "../../../../actions/state";
 import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/ProfileContent.styled";
 
 /**
@@ -26,29 +25,16 @@ import { ProfileOptionsContainer } from "../../../../styles/more/settings/profil
  *
  * @param {Object} props - Component properties.
  * @param {Boolean} props.openProfile - Boolean indicating that the component is open.
- * @param {Function} props.setSelectedPage - Function to reset the selected page when closing.
+ * @param {Function} props.handleClose - Function to reset the selected page when closing.
  * @returns {React.JSX.Element} The rendered ProfileContent component.
  */
-const ProfileContent = ({ openProfile, setSelectedPage }) => {
+const ProfileContent = ({ openProfile, handleClose }) => {
   const navigate = useNavigate();
-  const { state, dispatch } = useAppContext();
+  const { state } = useAppContext();
   const { authData } = state;
 
   // Dynamically get the icons
   const LogoutIcon = getIconComponent("Logout");
-
-  /**
-   * Handles closing the profile drawer.
-   * Removes focus before closing to avoid accessibility issues.
-   *
-   * @param {React.SyntheticEvent} event - The triggering event.
-   */
-  const handleClose = (event) => {
-    event.stopPropagation();
-    document.activeElement?.blur();
-    setSelectedPage(null);
-    dispatch(setOpenSettings(true));
-  };
 
   /**
    * Handles user logout and redirects to the logout page.
@@ -66,6 +52,7 @@ const ProfileContent = ({ openProfile, setSelectedPage }) => {
       onClose={handleClose}
       anchor="bottom"
       disableAutoFocus
+      ModalProps={{ keepMounted: true }}
     >
       {/* Common Header */}
       <CommonHeaderContent handleClose={handleClose} title={"Profile"} />
@@ -120,7 +107,7 @@ const ProfileContent = ({ openProfile, setSelectedPage }) => {
  */
 ProfileContent.propTypes = {
   openProfile: PropTypes.bool.isRequired,
-  setSelectedPage: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
 export default ProfileContent;
