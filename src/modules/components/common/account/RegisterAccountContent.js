@@ -72,10 +72,18 @@ const RegisterAccountContent = ({
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "balance" ? parseFloat(value) || 0 : value,
-    }));
+    if (name === "balance") {
+      const sanitized = value.replace(/\D/g, "");
+      setFormData((prev) => ({
+        ...prev,
+        [name]: parseFloat(sanitized),
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   /**
