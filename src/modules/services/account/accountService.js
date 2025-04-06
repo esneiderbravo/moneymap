@@ -12,11 +12,11 @@ import { ACCOUNT_SERVICE_URL } from "../../utils/constants";
  * @param {string} formData.color - The selected color for the account.
  * @returns {Promise} Resolves with response data or null and the HTTP success.
  */
-export const registerAccount = async (formData) => {
+export const upsertAccount = async (formData) => {
   try {
     return await HTTPHandler.post(ACCOUNT_SERVICE_URL, formData);
   } catch (error) {
-    console.error("registerAccount Error:", error.message);
+    console.error("upsertAccount Error:", error.message);
 
     // Extract meaningful error information
     const statusCode = error?.response?.status || 500;

@@ -21,8 +21,9 @@ import {
   ListItemButtonCurrentBalance,
   ListItemButtonTotalUntil,
 } from "../../../../styles/more/manage/account/AccountsContent.styled";
-import RegisterAccountContent from "./RegisterAccountContent";
+import RegisterAccountContent from "../../../common/account/RegisterAccountContent";
 import { getLastDayOfMonth } from "../../../../utils/common/date";
+import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";
 
 /**
  * MoreAccountsContent Component
@@ -41,14 +42,11 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
   const { balance } = state;
   const { accounts = [] } = balance;
   const [registerAccount, setRegisterAccount] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState(null);
 
   // Dynamically get the icons
   const PaidIcon = getIconComponent("Paid");
   const PriceChangeIcon = getIconComponent("PriceChange");
-  const accountIconsMapper = {
-    checking: "AssuredWorkloadSharp",
-    savings: "Savings",
-  };
 
   /**
    * Handles closing the drawer when triggered by user interaction.
@@ -161,11 +159,17 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
             <List>
               {accounts.map((account, index) => {
                 const IconComponent = getIconComponent(
-                  accountIconsMapper[account.type]
+                  ACCOUNTS_ICON_MAPPER[account.type]
                 );
                 return (
                   <ListItem key={index} disablePadding sx={{ mb: 1 }}>
-                    <ListItemButton sx={{ borderRadius: 2 }} onClick={() => {}}>
+                    <ListItemButton
+                      sx={{ borderRadius: 2 }}
+                      onClick={() => {
+                        setCurrentAccount(account);
+                        setRegisterAccount(true);
+                      }}
+                    >
                       <ListItemIcon>
                         {IconComponent && (
                           <IconComponent sx={{ color: `${account.color}` }} />
@@ -208,7 +212,13 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
       <RegisterAccountContent
         key="CreateAccount"
         isOpen={registerAccount}
-        setRegisterAccount={setRegisterAccount}
+        handleClose={(event) => {
+          event.stopPropagation();
+          document.activeElement?.blur();
+          setRegisterAccount(false);
+        }}
+        currentAccount={currentAccount}
+        setCurrentAccount={setCurrentAccount}
       />
     </>
   );

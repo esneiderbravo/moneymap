@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -13,6 +13,8 @@ import {
 import { formatCurrency } from "../../../utils/common/currency";
 import { AccountSection } from "../../../styles/dashboard/account/AccountsContent.styled";
 import { getIconComponent } from "../../../utils/common/icon";
+import AccountInfoContent from "../../common/account/AccountInfoContent";
+import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
 
 /**
  * AccountsContent Component
@@ -26,15 +28,12 @@ import { getIconComponent } from "../../../utils/common/icon";
  * @returns {React.JSX.Element} The rendered AccountsContent component.
  */
 const AccountsContent = ({ balance, showBalances }) => {
+  const [currentAccount, setCurrentAccount] = useState(null);
   const { accounts = [], totalBalance = 0 } = balance;
 
   // Dynamically get the icons
   const AddIcon = getIconComponent("Add");
   const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
-  const accountIconsMapper = {
-    checking: "AssuredWorkloadSharp",
-    savings: "Savings",
-  };
 
   /**
    * Handles the click event for the "Add" icon.
@@ -44,6 +43,11 @@ const AccountsContent = ({ balance, showBalances }) => {
   const handleAddClick = (event) => {
     event.stopPropagation();
     alert("Add Icon Clicked!");
+  };
+
+  const handleCloseAccount = (event) => {
+    event.stopPropagation();
+    setCurrentAccount(null);
   };
 
   return (
@@ -66,12 +70,15 @@ const AccountsContent = ({ balance, showBalances }) => {
           <List>
             {accounts.map((account, index) => {
               const IconComponent = getIconComponent(
-                accountIconsMapper[account.type]
+                ACCOUNTS_ICON_MAPPER[account.type]
               );
 
               return (
                 <ListItem key={index} disablePadding sx={{ mb: 1 }}>
-                  <ListItemButton sx={{ borderRadius: 2 }} onClick={() => {}}>
+                  <ListItemButton
+                    sx={{ borderRadius: 2 }}
+                    onClick={() => setCurrentAccount(account)}
+                  >
                     <ListItemIcon>
                       {IconComponent && (
                         <IconComponent sx={{ color: `${account.color}` }} />
@@ -131,6 +138,14 @@ const AccountsContent = ({ balance, showBalances }) => {
           </List>
         </Box>
       </AccountSection>
+
+      {/* Add new account button */}
+      <AccountInfoContent
+        isOpen={!!currentAccount}
+        handleClose={handleCloseAccount}
+        currentAccount={currentAccount}
+        setCurrentAccount={setCurrentAccount}
+      />
     </>
   );
 };

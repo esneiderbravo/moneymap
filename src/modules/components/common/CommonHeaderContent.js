@@ -24,10 +24,17 @@ const CommonHeaderContent = ({ handleClose, title, showSettings = false }) => {
   const SettingsIcon = getIconComponent("Settings");
 
   return (
-    <Grid2 container size={12} sx={{ width: "auto" }} role="presentation">
+    <Grid2
+      container
+      size={12}
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      px={3}
+    >
       {/* Close Button */}
-      {!showSettings && (
-        <Grid2 item padding={3} size={1}>
+      {!showSettings ? (
+        <Grid2 item size={1}>
           {ArrowBackIosIcon && (
             <ArrowBackIosIcon
               onClick={handleClose}
@@ -38,21 +45,17 @@ const CommonHeaderContent = ({ handleClose, title, showSettings = false }) => {
             />
           )}
         </Grid2>
+      ) : (
+        <Grid2 item size={1}></Grid2>
       )}
 
       {/* Title */}
-      <Grid2
-        item
-        padding={3}
-        size={!showSettings ? 10 : 11}
-        display="flex"
-        justifyContent="center"
-      >
+      <Grid2 item padding={3} size={10} display="flex" justifyContent="center">
         <Typography color="text.secondary">{title}</Typography>
       </Grid2>
 
       {/* Settings Icon */}
-      {showSettings && SettingsIcon && (
+      {showSettings && SettingsIcon ? (
         <Grid2 item size={1} display={"flex"} alignItems={"center"}>
           <SettingsIcon
             onClick={() => {
@@ -60,6 +63,8 @@ const CommonHeaderContent = ({ handleClose, title, showSettings = false }) => {
             }}
           />
         </Grid2>
+      ) : (
+        <Grid2 item size={1}></Grid2>
       )}
     </Grid2>
   );
