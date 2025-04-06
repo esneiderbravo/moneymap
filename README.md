@@ -52,7 +52,7 @@ Welcome to **Money Map**, the ultimate financial visualization tool designed to 
 
 🚀 Check out how Money Map works in action!
 
-![Money Map Splash Screen](https://your-image-link-here.com/screenshot.png)
+![Money Map Splash Screen](./assets/preview.png)
 
 ---
 
@@ -86,15 +86,14 @@ We welcome contributions! If you'd like to improve Money Map, feel free to:
 
 ## 📜 License
 
-MIT License © 2025 [Your Name](https://github.com/yourusername)
+MIT License © 2025 [Esneider Bravo](https://github.com/esneiderbravo)
 
 ---
 
 ## 🤝 Connect with Me
 
-👨‍💻 **Follow me on GitHub:** [github.com/yourusername](https://github.com/yourusername)  
-🐦 **Twitter:** [@yourhandle](https://twitter.com/yourhandle)  
-🔗 **LinkedIn:** [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)  
+👨‍💻 **Follow me on GitHub:** [github.com/esneiderbravo](https://github.com/esneiderbravo)  
+🔗 **LinkedIn:** [linkedin.com/in/esneider-bravo](https://linkedin.com/in/esneider-bravo)  
 
 🚀 **Keep building, keep innovating!** 🔥
 
