@@ -19,32 +19,44 @@ import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
 /**
  * AccountsContent Component
  *
- * Displays a list of accounts with their respective balances and an option
- * to add new items. Also shows the total balance.
+ * Renders a list of user accounts with descriptions, balances, and icons.
+ * Allows interaction such as viewing account details and optionally hiding balances.
  *
  * @component
- * @param {Object} props - React props
- * @param {Object} props.balance - Balance data containing accounts and total balance
- * @returns {React.JSX.Element} The rendered AccountsContent component.
+ * @param {Object} props - Component props
+ * @param {Object} props.balance - Object containing accounts and total balance
+ * @param {boolean} props.showBalances - Whether or not to show balance amounts
+ * @returns {React.JSX.Element}
  */
 const AccountsContent = ({ balance, showBalances }) => {
+  /**
+   * Local state to track the currently selected account
+   * @type {[Object|null, Function]}
+   */
   const [currentAccount, setCurrentAccount] = useState(null);
+
   const { accounts = [], totalBalance = 0 } = balance;
 
-  // Dynamically get the icons
+  // Icon components retrieved dynamically
   const AddIcon = getIconComponent("Add");
   const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
 
   /**
-   * Handles the click event for the "Add" icon.
-   * Prevents event bubbling to the parent button.
-   * @param {Event} event - The click event.
+   * Handle click event for the Add icon inside a ListItem.
+   * Prevents event bubbling to the parent ListItemButton.
+   *
+   * @param {React.MouseEvent} event - The click event object
    */
   const handleAddClick = (event) => {
     event.stopPropagation();
     alert("Add Icon Clicked!");
   };
 
+  /**
+   * Closes the current account drawer/modal
+   *
+   * @param {React.MouseEvent} event - The click event object
+   */
   const handleCloseAccount = (event) => {
     event.stopPropagation();
     setCurrentAccount(null);
@@ -59,7 +71,7 @@ const AccountsContent = ({ balance, showBalances }) => {
         </Typography>
       </Grid2>
 
-      {/* Account list */}
+      {/* Account list section */}
       <AccountSection
         item
         size={12}
@@ -68,6 +80,7 @@ const AccountsContent = ({ balance, showBalances }) => {
       >
         <Box component="nav">
           <List>
+            {/* Individual account rows */}
             {accounts.map((account, index) => {
               const IconComponent = getIconComponent(
                 ACCOUNTS_ICON_MAPPER[account.type]
@@ -139,7 +152,7 @@ const AccountsContent = ({ balance, showBalances }) => {
         </Box>
       </AccountSection>
 
-      {/* Add new account button */}
+      {/* Drawer/modal content for selected account */}
       <AccountInfoContent
         isOpen={!!currentAccount}
         handleClose={handleCloseAccount}
@@ -151,7 +164,7 @@ const AccountsContent = ({ balance, showBalances }) => {
 };
 
 /**
- * PropTypes for AccountsContent
+ * Prop types for AccountsContent component
  */
 AccountsContent.propTypes = {
   balance: PropTypes.object.isRequired,
