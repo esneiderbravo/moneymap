@@ -24,6 +24,7 @@ import {
 import RegisterAccountContent from "../../../common/account/RegisterAccountContent";
 import { getLastDayOfMonth } from "../../../../utils/common/date";
 import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";
+import AccountInfoContent from "../../../common/account/AccountInfoContent";
 
 /**
  * MoreAccountsContent Component
@@ -56,6 +57,16 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
     event.stopPropagation();
     document.activeElement?.blur();
     setSelectedOption(null);
+  };
+
+  /**
+   * Closes the current account drawer/modal
+   *
+   * @param {React.MouseEvent} event - The click event object
+   */
+  const handleCloseAccount = (event) => {
+    event.stopPropagation();
+    setCurrentAccount(null);
   };
 
   return (
@@ -165,10 +176,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
                   <ListItem key={index} disablePadding sx={{ mb: 1 }}>
                     <ListItemButton
                       sx={{ borderRadius: 2 }}
-                      onClick={() => {
-                        setCurrentAccount(account);
-                        setRegisterAccount(true);
-                      }}
+                      onClick={() => setCurrentAccount(account)}
                     >
                       <ListItemIcon>
                         {IconComponent && (
@@ -209,6 +217,14 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
 
       {/* Register Account */}
 
+      {/* Account Details */}
+      <AccountInfoContent
+        isOpen={!!currentAccount}
+        handleClose={handleCloseAccount}
+        currentAccount={currentAccount}
+        setCurrentAccount={setCurrentAccount}
+      />
+
       <RegisterAccountContent
         key="CreateAccount"
         isOpen={registerAccount}
@@ -217,8 +233,6 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
           document.activeElement?.blur();
           setRegisterAccount(false);
         }}
-        currentAccount={currentAccount}
-        setCurrentAccount={setCurrentAccount}
       />
     </>
   );
