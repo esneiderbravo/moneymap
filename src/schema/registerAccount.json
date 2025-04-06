@@ -20,7 +20,7 @@
     },
     "type": {
       "type": "string",
-      "enum": ["checking", "savings"],
+      "enum": ["checking", "savings", "wallet"],
       "errorMessage": {
         "enum": "Type must be either 'checking' or 'savings'."
       }

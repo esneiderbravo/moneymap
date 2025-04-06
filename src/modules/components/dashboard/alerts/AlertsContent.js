@@ -4,6 +4,7 @@ import { StyledAlertBox } from "../../../styles/dashboard/alerts/AlertsContent.s
 import { getIconComponent } from "../../../utils/common/icon";
 import { useAppContext } from "../../../providers/AppProvider";
 import AlertCard from "./AlertCardContent";
+import PropTypes from "prop-types";
 
 /**
  * AlertsContent component
@@ -18,7 +19,7 @@ import AlertCard from "./AlertCardContent";
  *
  * @returns {JSX.Element} A list of interactive alert cards displayed inside a scrollable container.
  */
-const AlertsContent = () => {
+const AlertsContent = ({ showBalances }) => {
   const { state } = useAppContext();
   const { balance } = state;
   const { alerts } = balance;
@@ -92,11 +93,15 @@ const AlertsContent = () => {
       {/* Render alert cards in a scrollable container */}
       <StyledAlertBox>
         {alertItems.map((item, idx) => (
-          <AlertCard key={idx} {...item} />
+          <AlertCard key={idx} {...item} showBalances={showBalances} />
         ))}
       </StyledAlertBox>
     </>
   );
+};
+
+AlertsContent.propTypes = {
+  showBalances: PropTypes.bool.isRequired,
 };
 
 export default AlertsContent;

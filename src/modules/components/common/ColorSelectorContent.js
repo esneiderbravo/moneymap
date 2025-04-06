@@ -9,6 +9,7 @@ import {
   Title,
   TooltipBox,
 } from "../../styles/common/ColorSelectorContent.styled";
+import getIconColor from "../../utils/common/color";
 
 /**
  * ColorSelector Component
@@ -26,35 +27,35 @@ const ColorSelector = ({ formData, onColorChange }) => {
 
   // Quick selection colors
   const [quickColors, setQuickColors] = useState([
-    "#FF6B6B", // Coral Red
-    "#6BFF95", // Mint Green
-    "#4A90E2", // Soft Blue
-    "#FFC94A", // Warm Gold
-    "#A288E3",
+    "#EF476F", // Vibrant Pink
+    "#06D6A0", // Bright Mint
+    "#FFD166", // Soft Gold
+    "#F15BB5", // Bubblegum Pink
+    "#FF006E", // Magenta Red
   ]);
 
   // Full color palette
   const fullPalette = [
-    "#FF6B6B",
-    "#6BFF95",
-    "#4A90E2",
-    "#FFC94A",
-    "#A288E3",
-    "#FF8E8E",
-    "#56CCF2",
-    "#FFAA4C",
-    "#43D7B7",
-    "#7B61FF",
-    "#FFCC29",
-    "#FF5A5F",
-    "#9C6ADE",
-    "#00C2FF",
-    "#E57373",
-    "#6D9886",
-    "#C7A8F1",
-    "#B1E6D1",
-    "#FF4081",
-    "#1ABC9C",
+    "#EF476F", // Vibrant Pink
+    "#FFD166", // Soft Gold
+    "#06D6A0", // Bright Mint
+    "#F15BB5", // Bubblegum Pink
+    "#FF006E", // Magenta Red
+    "#FFBE0B", // Honey Yellow
+    "#FB8500", // Orange Punch
+    "#E76F51", // Terracotta
+    "#F4A261", // Light Orange
+    "#9B5DE5", // Soft Purple
+    "#8338EC", // Vivid Purple
+    "#3A86FF", // Sky Blue
+    "#F72585", // Flamingo Pink
+    "#FFB5A7", // Pastel Coral
+    "#B5179E", // Deep Magenta
+    "#AACC00", // Lime Green
+    "#80FF72", // Neon Mint
+    "#72EFDD", // Bright Aqua
+    "#FF8FAB", // Soft Rose
+    "#D00000", // Pure Red
   ];
 
   const CheckIcon = getIconComponent("Check");
@@ -71,25 +72,6 @@ const ColorSelector = ({ formData, onColorChange }) => {
    * Closes the color palette popover.
    */
   const handleClosePalette = () => setAnchorEl(null);
-
-  /**
-   * Determines the best checkmark color for contrast.
-   * @param {string} color - The selected color in hex format.
-   * @returns {string} - "black" or "white" for optimal contrast.
-   */
-  const getCheckIconColor = (color) => {
-    // Remove the hash and split the hex color into RGB components
-    const [r, g, b] = color
-      .replace(/^#/, "")
-      .match(/.{2}/g)
-      .map((hex) => parseInt(hex, 16));
-
-    // Calculate luminance
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-
-    // Return black or white based on the luminance
-    return luminance > 0.5 ? "black" : "white";
-  };
 
   /**
    * Handles color selection, updating form data and quick selection list.
@@ -118,7 +100,7 @@ const ColorSelector = ({ formData, onColorChange }) => {
       >
         {selectedColor === color && (
           <CheckIcon
-            sx={{ color: getCheckIconColor(color), fontSize: size * 0.6 }}
+            sx={{ color: getIconColor(color), fontSize: size * 0.6 }}
           />
         )}
       </TooltipBox>

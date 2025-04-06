@@ -27,21 +27,3 @@ export const processTransaction = async (
     throw new Error("Database error while handling transaction");
   }
 };
-
-/**
- * Retrieve transaction history for an account.
- *
- * @param {string} accountId - The ID of the account.
- * @returns {Promise<Array>} - List of transactions.
- */
-export const getTransactionHistory = async (accountId) => {
-  try {
-    console.log(`📌 Retrieving transactions for account: ${accountId}`);
-    return await prisma.transaction.findMany({
-      where: { accountId },
-    });
-  } catch (error) {
-    console.error("❌ Error retrieving transactions:", error);
-    throw new Error("Database error while fetching transactions");
-  }
-};

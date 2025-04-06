@@ -4,6 +4,5 @@ import * as TransactionController from "../../controllers/transaction/Transactio
 const router = express.Router();
 
 router.post("/", TransactionController.initiateTransaction);
-router.get("/:accountId", TransactionController.fetchTransactions);
 
 export default router;

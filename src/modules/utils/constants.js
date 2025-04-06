@@ -14,14 +14,9 @@ export const SPLASH_TIMEOUT = 3000; // Time before transitioning from splash scr
 export const FADE_IN_DURATION = 3; // Title fade-in duration (seconds)
 export const LOADER_FADE_IN = 1.5; // Loader fade-in duration (seconds)
 
-// Freeze constants to prevent accidental modification
-export default Object.freeze({
-  GOOGLE_AUTH_CLIENT_ID,
-  API_URL,
-  AUTH_SERVICE_URL,
-  SPLASH_TIMEOUT,
-  FADE_IN_DURATION,
-  LOADER_FADE_IN,
-  ACCOUNT_SERVICE_URL,
-  TRANSACTION_SERVICE_URL,
-});
+// Use variables
+export const ACCOUNTS_ICON_MAPPER = {
+  checking: "AssuredWorkloadSharp",
+  savings: "Savings",
+  wallet: "Wallet",
+};

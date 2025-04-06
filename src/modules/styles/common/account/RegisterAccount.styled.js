@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { OptionsContainer } from "../../../common/CommonContainers.styled";
+import { OptionsContainer } from "../CommonContainers.styled";
 import { Box, Button, Input } from "@mui/material";
 import Select from "@mui/material/Select";
 

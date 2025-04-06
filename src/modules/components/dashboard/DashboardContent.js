@@ -29,7 +29,7 @@ const DashboardContent = ({ balance }) => {
   const toggleBalances = () => setShowBalances((prev) => !prev);
 
   return (
-    <Grid2 container justifyContent="center">
+    <Grid2 container>
       {/* Section for displaying total balance */}
       <BalanceSection item size={12}>
         <Grid2 item size={12} display="flex" justifyContent="center">
@@ -63,7 +63,7 @@ const DashboardContent = ({ balance }) => {
       </BalanceSection>
 
       {/* Alerts */}
-      <AlertsContent />
+      <AlertsContent showBalances={showBalances} />
 
       {/* Accounts list */}
       <AccountsContent balance={balance} showBalances={showBalances} />

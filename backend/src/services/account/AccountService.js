@@ -3,20 +3,30 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 /**
- * Register a new account for a user.
+ * Register a new account for a user or update an existing one.
  *
  * @param {Object} accountData - The account details.
- * @returns {Promise<Object>} - The created account.
+ * @returns {Promise<Object>} - The created or updated account.
  */
-export const registerAccount = async (accountData) => {
+export const upsertAccount = async (accountData) => {
   try {
+    const { id, ...data } = accountData;
+
+    if (id) {
+      console.log("📌 Updating existing account...");
+      return await prisma.account.update({
+        where: { id },
+        data,
+      });
+    }
+
     console.log("📌 Registering new account...");
     return await prisma.account.create({
       data: accountData,
     });
   } catch (error) {
-    console.error("❌ Failed to register account:", error);
-    throw new Error("Database error during account creation");
+    console.error("❌ Failed to create or update account:", error);
+    throw new Error("Database error during account creation or update");
   }
 };
 
