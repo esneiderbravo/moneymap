@@ -1,10 +1,11 @@
 import { Grid2, Typography } from "@mui/material";
 import React from "react";
-import { StyledAlertBox } from "../../../styles/dashboard/alerts/AlertsContent.styled";
+import { StyledAlertBox } from "../../../styles/dashboard/alerts/Alerts.styled";
 import { getIconComponent } from "../../../utils/common/icon";
 import { useAppContext } from "../../../providers/AppProvider";
 import AlertCard from "./AlertCard";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 /**
  * AlertsContent component
@@ -20,6 +21,7 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} A list of interactive alert cards displayed inside a scrollable container.
  */
 const Alerts = ({ showBalances }) => {
+  const { t } = useTranslation("alerts");
   const { state } = useAppContext();
   const { balance } = state;
   const { alerts } = balance;
@@ -52,7 +54,7 @@ const Alerts = ({ showBalances }) => {
     {
       icon: KeyboardDoubleArrowDownIcon,
       count: outstandingExpenses?.itemCount,
-      title: "Outstanding expenses",
+      title: t("outstanding_expenses"),
       amount: outstandingExpenses?.totalAmount,
       color: "error",
       onClick: () => handleAlertClick("Outstanding expenses"),
@@ -60,7 +62,7 @@ const Alerts = ({ showBalances }) => {
     {
       icon: KeyboardDoubleArrowUpOutlinedIcon,
       count: income?.itemCount,
-      title: "Incomes",
+      title: t("incomes"),
       amount: income?.totalAmount,
       color: "success",
       onClick: () => handleAlertClick("Incomes"),
@@ -68,14 +70,14 @@ const Alerts = ({ showBalances }) => {
     {
       icon: NotificationsNoneOutlinedIcon,
       count: expenseReminders?.itemCount,
-      title: "Expenses reminder",
+      title: t("expense_reminders"),
       color: "error",
       onClick: () => handleAlertClick("Expenses reminder"),
     },
     {
       icon: NotificationsNoneOutlinedIcon,
       count: incomeReminders?.itemCount,
-      title: "Incomes reminder",
+      title: t("income_reminders"),
       color: "success",
       onClick: () => handleAlertClick("Incomes reminder"),
     },
@@ -86,7 +88,7 @@ const Alerts = ({ showBalances }) => {
       {/* Section title */}
       <Grid2 item xs={12} display="flex" justifyContent="left" padding={2}>
         <Typography variant="subtitle1" color="text.secondary">
-          Outstanding and alerts
+          {t("title")}
         </Typography>
       </Grid2>
 

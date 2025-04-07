@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Grid2, Typography, IconButton } from "@mui/material";
 import { formatCurrency } from "../../utils/common/currency";
-import { BalanceSection } from "../../styles/dashboard/DashboardContent.styled";
-import Accounts from "./account/Accounts";
+import { BalanceSection } from "../../styles/dashboard/Dashboard.styled";
+import Accounts from "./accounts/Accounts";
 import PropTypes from "prop-types";
 import { getIconComponent } from "../../utils/common/icon";
 import Alerts from "./alerts/Alerts";

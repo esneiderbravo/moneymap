@@ -8,7 +8,7 @@ import {
   QuickColorBox,
   Title,
   TooltipBox,
-} from "../../styles/common/ColorSelectorContent.styled";
+} from "../../styles/common/ColorSelector.styled";
 import getIconColor from "../../utils/common/color";
 
 /**

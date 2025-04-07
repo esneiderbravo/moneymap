@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Alert from "@mui/material/Alert";
 import { useAppContext } from "../../providers/AppProvider";
-import { BoxContent } from "../../styles/notification/NotificationContent.styled";
+import { BoxContent } from "../../styles/notification/Notification.styled";
 import { setNotification } from "../../actions/state";
 
 /**
