@@ -1,19 +1,76 @@
-import React from "react";
-import DashboardContent from "../../components/dashboard/DashboardContent";
+import React, { useState } from "react";
+import { Grid2, Typography, IconButton } from "@mui/material";
+import { formatCurrency } from "../../utils/common/currency";
+import { BalanceSection } from "../../styles/dashboard/DashboardContent.styled";
+import Accounts from "./account/Accounts";
 import PropTypes from "prop-types";
+import { getIconComponent } from "../../utils/common/icon";
+import Alerts from "./alerts/Alerts";
+import { useTranslation } from "react-i18next";
 
 /**
- * Dashboard Component
+ * DashboardContent Component
  *
- * This component serves as a wrapper for `DashboardContent`.
- * It manages high-level state and logic before rendering the dashboard UI.
+ * Displays the total account balance with an option to toggle visibility,
+ * along with individual account balances.
  *
- * @param {Object} props - Component properties.
- * @param {Object} props.balance - The user's financial balance data.
- * @returns {React.JSX.Element} The rendered dashboard content component.
+ * @returns {React.JSX.Element} - The DashboardContent component.
  */
 const Dashboard = ({ balance }) => {
-  return <DashboardContent balance={balance} />;
+  const { t } = useTranslation("dashboard");
+  const [showBalances, setShowBalances] = useState(true);
+
+  // Dynamically get the icons
+  const RemoveRedEyeIcon = getIconComponent("RemoveRedEye");
+  const VisibilityOffIcon = getIconComponent("VisibilityOff");
+  const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
+
+  /**
+   * Toggles the visibility of account balances.
+   */
+  const toggleBalances = () => setShowBalances((prev) => !prev);
+
+  return (
+    <Grid2 container>
+      {/* Section for displaying total balance */}
+      <BalanceSection item size={12}>
+        <Grid2 item size={12} display="flex" justifyContent="center">
+          <Typography variant="subtitle2" color="text.secondary">
+            {t("title")}
+          </Typography>
+        </Grid2>
+
+        <Grid2 item size={12} display="flex" justifyContent="center">
+          <Typography variant="h4" color="text.highlight">
+            {showBalances
+              ? formatCurrency(balance.totalBalanceAmount)
+              : HorizontalRuleRoundedIcon && (
+                  <HorizontalRuleRoundedIcon fontSize="large" />
+                )}
+          </Typography>
+        </Grid2>
+
+        {/* Toggle visibility button */}
+        <Grid2 item size={12} display="flex" justifyContent="center" mt={2}>
+          <IconButton
+            onClick={toggleBalances}
+            aria-label={showBalances ? "Hide balances" : "Show balances"}
+            color="highlight"
+          >
+            {showBalances
+              ? RemoveRedEyeIcon && <RemoveRedEyeIcon />
+              : VisibilityOffIcon && <VisibilityOffIcon />}
+          </IconButton>
+        </Grid2>
+      </BalanceSection>
+
+      {/* Alerts */}
+      <Alerts showBalances={showBalances} />
+
+      {/* Accounts list */}
+      <Accounts balance={balance} showBalances={showBalances} />
+    </Grid2>
+  );
 };
 
 Dashboard.propTypes = {

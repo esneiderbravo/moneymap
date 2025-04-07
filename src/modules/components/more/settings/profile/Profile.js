@@ -16,8 +16,9 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../../../providers/AppProvider";
 import { getIconComponent } from "../../../../utils/common/icon";
-import CommonHeaderContent from "../../../common/CommonHeaderContent";
+import CommonHeader from "../../../common/CommonHeader";
 import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/ProfileContent.styled";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 /**
  * ProfileContent Component
@@ -28,7 +29,7 @@ import { ProfileOptionsContainer } from "../../../../styles/more/settings/profil
  * @param {Function} props.handleClose - Function to reset the selected page when closing.
  * @returns {React.JSX.Element} The rendered ProfileContent component.
  */
-const ProfileContent = ({ openProfile, handleClose }) => {
+const Profile = ({ openProfile, handleClose }) => {
   const navigate = useNavigate();
   const { state } = useAppContext();
   const { authData } = state;
@@ -55,7 +56,7 @@ const ProfileContent = ({ openProfile, handleClose }) => {
       ModalProps={{ keepMounted: true }}
     >
       {/* Common Header */}
-      <CommonHeaderContent handleClose={handleClose} title={"Profile"} />
+      <CommonHeader handleClose={handleClose} title={"Profile"} />
 
       <Grid2 container>
         <Grid2
@@ -96,6 +97,13 @@ const ProfileContent = ({ openProfile, handleClose }) => {
             </ListItem>
             <Divider />
           </List>
+          <List>
+            {/* Change Language */}
+            <ListItem disablePadding sx={{ mb: 2 }}>
+              <LanguageSwitcher />
+            </ListItem>
+            <Divider />
+          </List>
         </Box>
       </ProfileOptionsContainer>
     </Drawer>
@@ -105,9 +113,9 @@ const ProfileContent = ({ openProfile, handleClose }) => {
 /**
  * ProfileContent component propTypes
  */
-ProfileContent.propTypes = {
+Profile.propTypes = {
   openProfile: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default ProfileContent;
+export default Profile;

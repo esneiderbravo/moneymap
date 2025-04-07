@@ -4,8 +4,8 @@ import Main from "./modules/components/Main";
 import { AppProvider } from "./modules/providers/AppProvider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GOOGLE_AUTH_CLIENT_ID } from "./modules/utils/constants";
-import HeaderContent from "./modules/components/common/HeaderContent";
-import NavigationContent from "./modules/components/common/NavigationContent";
+import Header from "./modules/components/common/Header";
+import Navigation from "./modules/components/common/Navigation";
 import { BrowserRouter } from "react-router-dom";
 
 const familyFont = ["Literata", "serif"].join(",");
@@ -134,9 +134,9 @@ const App = () => {
                 },
               }}
             />
-            <HeaderContent />
+            <Header />
             <Main />
-            <NavigationContent />
+            <Navigation />
           </ThemeProvider>
         </AppProvider>
       </GoogleOAuthProvider>

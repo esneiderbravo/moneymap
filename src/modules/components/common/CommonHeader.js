@@ -17,7 +17,7 @@ import { useAppContext } from "../../providers/AppProvider";
  * @param {boolean} props.showSettings - Flag indicating whether the icon should be displayed.
  * @returns {React.JSX.Element} The rendered CommonHeaderContent component.
  */
-const CommonHeaderContent = ({ handleClose, title, showSettings = false }) => {
+const CommonHeader = ({ handleClose, title, showSettings = false }) => {
   const { dispatch } = useAppContext();
   // Dynamically get the back icon
   const ArrowBackIosIcon = getIconComponent("ArrowBackIos");
@@ -73,10 +73,10 @@ const CommonHeaderContent = ({ handleClose, title, showSettings = false }) => {
 /**
  * PropTypes for CommonHeaderContent
  */
-CommonHeaderContent.propTypes = {
+CommonHeader.propTypes = {
   handleClose: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   showSettings: PropTypes.bool,
 };
 
-export default CommonHeaderContent;
+export default CommonHeader;

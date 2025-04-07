@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Avatar, Grid2 } from "@mui/material";
-import NotificationContent from "../notification/NotificationContent";
+import Notification from "../notification/Notification";
 import { useAppContext } from "../../providers/AppProvider";
 import { useLocation } from "react-router-dom";
-import ProfileContent from "../more/settings/profile/ProfileContent";
+import Profile from "../more/settings/profile/Profile";
 
 /**
  * Header Content Component
  * @returns {React.JSX.Element} Header section with notifications
  */
-const HeaderContent = () => {
+const Header = () => {
   const { state } = useAppContext();
   const { authData, notification } = state;
   const { type, info } = notification;
@@ -29,7 +29,7 @@ const HeaderContent = () => {
 
   return (
     <>
-      {type && info ? <NotificationContent /> : null}
+      {type && info ? <Notification /> : null}
       {authData && isDashboardRoute ? (
         <>
           <Grid2 container spacing={2} mt={2} mb={4}>
@@ -47,10 +47,7 @@ const HeaderContent = () => {
               />
             </Grid2>
           </Grid2>
-          <ProfileContent
-            openProfile={openProfile}
-            handleClose={handleCloseProfile}
-          />
+          <Profile openProfile={openProfile} handleClose={handleCloseProfile} />
         </>
       ) : null}
     </>
@@ -60,6 +57,6 @@ const HeaderContent = () => {
 /**
  * Header Content propTypes
  */
-HeaderContent.propTypes = {};
+Header.propTypes = {};
 
-export default HeaderContent;
+export default Header;

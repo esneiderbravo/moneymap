@@ -10,7 +10,7 @@ import { setNotification } from "../../actions/state";
  *
  * @returns {React.JSX.Element|null} The rendered notification component or null if no notification is set.
  */
-const NotificationContent = () => {
+const Notification = () => {
   const { dispatch, state } = useAppContext();
   const { notification } = state;
   const { type, info } = notification;
@@ -46,4 +46,4 @@ const NotificationContent = () => {
   return renderNotification(type);
 };
 
-export default NotificationContent;
+export default Notification;

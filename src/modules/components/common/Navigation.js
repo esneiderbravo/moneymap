@@ -14,7 +14,7 @@ import { getIconComponent } from "../../utils/common/icon";
  * Navigation Content Component (Fixed bottom navigation bar)
  * @returns {React.JSX.Element} Footer navigation bar with Home and Settings options
  */
-const NavigationContent = () => {
+const Navigation = () => {
   const { state, dispatch } = useAppContext();
   const { authData, currentPage } = state;
   const navigate = useNavigate();
@@ -74,6 +74,6 @@ const NavigationContent = () => {
 /**
  * NavigationContent propTypes
  */
-NavigationContent.propTypes = {};
+Navigation.propTypes = {};
 
-export default NavigationContent;
+export default Navigation;
