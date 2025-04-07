@@ -15,16 +15,16 @@ import PropTypes from "prop-types";
 import { formatCurrency } from "../../../../utils/common/currency";
 import { getIconComponent } from "../../../../utils/common/icon";
 import { useAppContext } from "../../../../providers/AppProvider";
-import CommonHeaderContent from "../../../common/CommonHeaderContent";
+import CommonHeader from "../../../common/CommonHeader";
 import {
   AccountsOptionsContainer,
   ListItemButtonCurrentBalance,
   ListItemButtonTotalUntil,
 } from "../../../../styles/more/manage/account/AccountsContent.styled";
-import RegisterAccountContent from "../../../common/account/RegisterAccountContent";
+import RegisterAccount from "../../../common/account/RegisterAccount";
 import { getLastDayOfMonth } from "../../../../utils/common/date";
 import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";
-import AccountInfoContent from "../../../common/account/AccountInfoContent";
+import AccountInfo from "../../../common/account/AccountInfo";
 
 /**
  * MoreAccountsContent Component
@@ -38,7 +38,7 @@ import AccountInfoContent from "../../../common/account/AccountInfoContent";
  *
  * @returns {React.JSX.Element} The rendered MoreAccountsContent component.
  */
-const AccountsContent = ({ isOpen, setSelectedOption }) => {
+const Accounts = ({ isOpen, setSelectedOption }) => {
   const { state } = useAppContext();
   const { balance } = state;
   const { accounts = [] } = balance;
@@ -82,7 +82,7 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
         ModalProps={{ keepMounted: true }}
       >
         {/* Common Header */}
-        <CommonHeaderContent handleClose={handleClose} title={"Accounts"} />
+        <CommonHeader handleClose={handleClose} title={"Accounts"} />
 
         {/* Accounts */}
         <AccountsOptionsContainer
@@ -218,14 +218,14 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
       {/* Register Account */}
 
       {/* Account Details */}
-      <AccountInfoContent
+      <AccountInfo
         isOpen={!!currentAccount}
         handleClose={handleCloseAccount}
         currentAccount={currentAccount}
         setCurrentAccount={setCurrentAccount}
       />
 
-      <RegisterAccountContent
+      <RegisterAccount
         key="CreateAccount"
         isOpen={registerAccount}
         handleClose={(event) => {
@@ -242,9 +242,9 @@ const AccountsContent = ({ isOpen, setSelectedOption }) => {
  * Function to update the selected option.
  * Called when the drawer is closed.
  */
-AccountsContent.propTypes = {
+Accounts.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   setSelectedOption: PropTypes.func.isRequired,
 };
 
-export default AccountsContent;
+export default Accounts;

@@ -3,7 +3,7 @@ import React from "react";
 import { StyledAlertBox } from "../../../styles/dashboard/alerts/AlertsContent.styled";
 import { getIconComponent } from "../../../utils/common/icon";
 import { useAppContext } from "../../../providers/AppProvider";
-import AlertCard from "./AlertCardContent";
+import AlertCard from "./AlertCard";
 import PropTypes from "prop-types";
 
 /**
@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
  *
  * @returns {JSX.Element} A list of interactive alert cards displayed inside a scrollable container.
  */
-const AlertsContent = ({ showBalances }) => {
+const Alerts = ({ showBalances }) => {
   const { state } = useAppContext();
   const { balance } = state;
   const { alerts } = balance;
@@ -100,8 +100,8 @@ const AlertsContent = ({ showBalances }) => {
   );
 };
 
-AlertsContent.propTypes = {
+Alerts.propTypes = {
   showBalances: PropTypes.bool.isRequired,
 };
 
-export default AlertsContent;
+export default Alerts;

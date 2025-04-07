@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import { useAppContext } from "../../../providers/AppProvider";
 import { setOpenSettings } from "../../../actions/state";
-import ProfileContent from "./profile/ProfileContent";
+import Profile from "./profile/Profile";
 import { getIconComponent } from "../../../utils/common/icon";
-import CommonHeaderContent from "../../common/CommonHeaderContent";
+import CommonHeader from "../../common/CommonHeader";
 
-const SettingsContent = () => {
+const Settings = () => {
   const { state, dispatch } = useAppContext();
   const { openSettings, authData } = state;
   const [selectedPage, setSelectedPage] = useState(null);
@@ -57,7 +57,7 @@ const SettingsContent = () => {
         ModalProps={{ keepMounted: true }}
       >
         {/* Common Header */}
-        <CommonHeaderContent handleClose={handleClose} title={"Settings"} />
+        <CommonHeader handleClose={handleClose} title={"Settings"} />
         <Box component="nav" sx={{ width: "auto" }} padding={3}>
           {/* Settings Navigation */}
           <List>
@@ -119,7 +119,7 @@ const SettingsContent = () => {
       </Drawer>
 
       {/* Profile Drawer */}
-      <ProfileContent
+      <Profile
         openProfile={selectedPage === "profile"}
         handleClose={handleCloseSelectedPage}
       />
@@ -127,4 +127,4 @@ const SettingsContent = () => {
   );
 };
 
-export default SettingsContent;
+export default Settings;

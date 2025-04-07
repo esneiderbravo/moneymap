@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppContext } from "../../providers/AppProvider";
-import GoogleSignInContent from "../../components/auth/GoogleSignInContent";
+import GoogleSignIn from "../../components/auth/GoogleSignIn";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import LocalStorage from "../../utils/localStorage";
@@ -92,7 +92,7 @@ const GoogleSignInContainer = () => {
     }
   };
 
-  return <GoogleSignInContent handleGoogleResponse={handleGoogleResponse} />;
+  return <GoogleSignIn handleGoogleResponse={handleGoogleResponse} />;
 };
 
 export default GoogleSignInContainer;

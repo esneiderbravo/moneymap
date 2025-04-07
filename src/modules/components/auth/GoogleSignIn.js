@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
  * GoogleSignIn Content Component
  * @return React.JSX.Element
  * */
-const GoogleSignInContent = ({ handleGoogleResponse }) => {
+const GoogleSignIn = ({ handleGoogleResponse }) => {
   return (
     <GoogleLogin
       onSuccess={handleGoogleResponse}
@@ -19,8 +19,8 @@ const GoogleSignInContent = ({ handleGoogleResponse }) => {
 /**
  * GoogleSignIn Content propTypes
  * */
-GoogleSignInContent.propTypes = {
+GoogleSignIn.propTypes = {
   handleGoogleResponse: PropTypes.func.isRequired,
 };
 
-export default GoogleSignInContent;
+export default GoogleSignIn;

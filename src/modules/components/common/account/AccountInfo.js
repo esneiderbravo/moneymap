@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import CommonHeaderContent from "../CommonHeaderContent";
+import CommonHeader from "../CommonHeader";
 import {
   AccountInfoContainer,
   AdjustBalanceButton,
@@ -21,7 +21,7 @@ import { formatCurrency } from "../../../utils/common/currency";
 import { getIconComponent } from "../../../utils/common/icon";
 import getIconColor from "../../../utils/common/color";
 import { capitalize } from "../../../utils/string";
-import RegisterAccountContent from "./RegisterAccountContent";
+import RegisterAccount from "./RegisterAccount";
 
 /**
  * AccountInfoContent component renders detailed information about a selected account,
@@ -35,7 +35,7 @@ import RegisterAccountContent from "./RegisterAccountContent";
  * @param {Object} props.currentAccount - The currently selected account object
  * @param {Function} props.setCurrentAccount - Setter function to update the account state
  */
-const AccountInfoContent = ({
+const AccountInfo = ({
   isOpen,
   handleClose,
   currentAccount,
@@ -70,7 +70,7 @@ const AccountInfoContent = ({
         disableAutoFocus
         ModalProps={{ keepMounted: true }}
       >
-        <CommonHeaderContent
+        <CommonHeader
           handleClose={handleClose}
           title={currentAccount?.description}
         />
@@ -302,7 +302,7 @@ const AccountInfoContent = ({
       </Drawer>
 
       {/* Edit account form modal */}
-      <RegisterAccountContent
+      <RegisterAccount
         key="CreateAccount"
         isOpen={editAccount}
         handleClose={(event) => {
@@ -317,7 +317,7 @@ const AccountInfoContent = ({
   );
 };
 
-AccountInfoContent.propTypes = {
+AccountInfo.propTypes = {
   /** Whether the drawer is open */
   isOpen: PropTypes.bool.isRequired,
   /** Function to handle drawer closing */
@@ -328,4 +328,4 @@ AccountInfoContent.propTypes = {
   setCurrentAccount: PropTypes.func.isRequired,
 };
 
-export default AccountInfoContent;
+export default AccountInfo;

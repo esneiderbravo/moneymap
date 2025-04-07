@@ -13,7 +13,7 @@ import {
 import { formatCurrency } from "../../../utils/common/currency";
 import { AccountSection } from "../../../styles/dashboard/account/AccountsContent.styled";
 import { getIconComponent } from "../../../utils/common/icon";
-import AccountInfoContent from "../../common/account/AccountInfoContent";
+import AccountInfo from "../../common/account/AccountInfo";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
 
 /**
@@ -28,7 +28,7 @@ import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
  * @param {boolean} props.showBalances - Whether or not to show balance amounts
  * @returns {React.JSX.Element}
  */
-const AccountsContent = ({ balance, showBalances }) => {
+const Accounts = ({ balance, showBalances }) => {
   /**
    * Local state to track the currently selected account
    * @type {[Object|null, Function]}
@@ -153,7 +153,7 @@ const AccountsContent = ({ balance, showBalances }) => {
       </AccountSection>
 
       {/* Drawer/modal content for selected account */}
-      <AccountInfoContent
+      <AccountInfo
         isOpen={!!currentAccount}
         handleClose={handleCloseAccount}
         currentAccount={currentAccount}
@@ -166,9 +166,9 @@ const AccountsContent = ({ balance, showBalances }) => {
 /**
  * Prop types for AccountsContent component
  */
-AccountsContent.propTypes = {
+Accounts.propTypes = {
   balance: PropTypes.object.isRequired,
   showBalances: PropTypes.bool.isRequired,
 };
 
-export default AccountsContent;
+export default Accounts;

@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { AccountBalance } from "@mui/icons-material";
 import { ManageOptionsContainer } from "../../../styles/more/manage/ManageContent.styled";
-import AccountsContent from "./account/AccountsContent";
+import Accounts from "./account/Accounts";
 
-const ManageContent = () => {
+const Manage = () => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionClick = (option) => {
@@ -56,7 +56,7 @@ const ManageContent = () => {
       </ManageOptionsContainer>
 
       {/* Always keep AccountsContent mounted, just toggle isOpen */}
-      <AccountsContent
+      <Accounts
         key="ManageAccounts"
         isOpen={selectedOption === "accounts"}
         setSelectedOption={setSelectedOption}
@@ -65,4 +65,4 @@ const ManageContent = () => {
   );
 };
 
-export default ManageContent;
+export default Manage;
