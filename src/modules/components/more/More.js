@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import {
   ChipComponent,
   PaperComponent,
-} from "../../styles/more/MoreContent.styled";
+} from "../../styles/more/More.styled";
 import Settings from "./settings/Settings";
 import Manage from "./manage/Manage";
 import CommonHeader from "../common/CommonHeader";

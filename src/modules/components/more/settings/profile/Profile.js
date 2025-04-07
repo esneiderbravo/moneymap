@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../../../../providers/AppProvider";
 import { getIconComponent } from "../../../../utils/common/icon";
 import CommonHeader from "../../../common/CommonHeader";
-import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/ProfileContent.styled";
+import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/Profile.styled";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 /**

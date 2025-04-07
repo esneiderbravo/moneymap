@@ -16,7 +16,7 @@ import {
   AdjustBalanceButton,
   EditAccountContainer,
   ListItemButtonAccountInfo,
-} from "../../../styles/common/account/AccountInfoContent.styled";
+} from "../../../styles/common/account/AccountInfo.styled";
 import { formatCurrency } from "../../../utils/common/currency";
 import { getIconComponent } from "../../../utils/common/icon";
 import getIconColor from "../../../utils/common/color";

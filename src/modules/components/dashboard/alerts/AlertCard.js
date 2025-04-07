@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {
   AlertContainer,
   AlertSection,
-} from "../../../styles/dashboard/alerts/AlertsContent.styled";
+} from "../../../styles/dashboard/alerts/Alerts.styled";
 import { Chip, Grid2, Typography } from "@mui/material";
 import { formatCurrency } from "../../../utils/common/currency";
 import { getIconComponent } from "../../../utils/common/icon";

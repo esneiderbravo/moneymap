@@ -20,7 +20,7 @@ import {
   AccountsOptionsContainer,
   ListItemButtonCurrentBalance,
   ListItemButtonTotalUntil,
-} from "../../../../styles/more/manage/account/AccountsContent.styled";
+} from "../../../../styles/more/manage/accounts/Accounts.styled";
 import RegisterAccount from "../../../common/account/RegisterAccount";
 import { getLastDayOfMonth } from "../../../../utils/common/date";
 import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";

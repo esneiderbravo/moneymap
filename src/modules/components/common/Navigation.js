@@ -7,7 +7,7 @@ import LocalStorage from "../../utils/localStorage";
 import {
   BottomNavigationContent,
   PaperContainer,
-} from "../../styles/common/NavigationContent.styled";
+} from "../../styles/common/Navigation.styled";
 import { getIconComponent } from "../../utils/common/icon";
 
 /**

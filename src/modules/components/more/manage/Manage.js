@@ -9,8 +9,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { AccountBalance } from "@mui/icons-material";
-import { ManageOptionsContainer } from "../../../styles/more/manage/ManageContent.styled";
-import Accounts from "./account/Accounts";
+import { ManageOptionsContainer } from "../../../styles/more/manage/Manage.styled";
+import Accounts from "./accounts/Accounts";
 
 const Manage = () => {
   const [selectedOption, setSelectedOption] = useState(null);
