@@ -28,6 +28,7 @@ import { upsertAccount } from "../../../services/account/accountService";
 import { setBalance, setNotification } from "../../../actions/state";
 import { useAppContext } from "../../../providers/AppProvider";
 import NumericKeyboard from "../NumericKeyboard";
+import { useTranslation } from "react-i18next";
 
 /**
  * RegisterAccountContent
@@ -48,6 +49,7 @@ const RegisterAccount = ({
   currentAccount = null,
   setCurrentAccount = null,
 }) => {
+  const { t } = useTranslation("register_account");
   const { dispatch, state } = useAppContext();
   const { balance, authData } = state;
 
@@ -214,7 +216,7 @@ const RegisterAccount = ({
       >
         <CommonHeader
           handleClose={handleCloseLocal}
-          title={currentAccount ? "Edit account" : "New Account"}
+          title={currentAccount ? t("edit") : t("create")}
         />
 
         <RegisterBox component="form" onSubmit={handleSubmitForm}>
@@ -235,7 +237,7 @@ const RegisterAccount = ({
                 value={formData.balance}
                 onFocus={() => setActiveField("balance")}
                 onChange={() => {}} // ignore native keyboard input
-                placeholder="Current account balance..."
+                placeholder={t("balance_description")}
                 fullWidth
                 inputProps={{ readOnly: true }} // prevent native keyboard
                 sx={{
@@ -262,7 +264,7 @@ const RegisterAccount = ({
               <InputRegister
                 id="description"
                 name="description"
-                placeholder="Description..."
+                placeholder={t("description")}
                 value={formData.description}
                 onChange={handleInputChange}
                 startAdornment={
@@ -312,13 +314,13 @@ const RegisterAccount = ({
                   {AssuredWorkloadIcon && (
                     <AssuredWorkloadIcon sx={{ mr: 1 }} />
                   )}{" "}
-                  Checking
+                  {t("checking")}
                 </MenuItem>
                 <MenuItem value="savings" sx={{ color: "icon.white" }}>
-                  {SavingsIcon && <SavingsIcon sx={{ mr: 1 }} />} Savings
+                  {SavingsIcon && <SavingsIcon sx={{ mr: 1 }} />} {t("savings")}
                 </MenuItem>
                 <MenuItem value="wallet" sx={{ color: "icon.white" }}>
-                  {WalletIcon && <WalletIcon sx={{ mr: 1 }} />} Wallet
+                  {WalletIcon && <WalletIcon sx={{ mr: 1 }} />} {t("wallet")}
                 </MenuItem>
               </SelectRegister>
               {errors.type && (
@@ -357,7 +359,7 @@ const RegisterAccount = ({
               {submitting ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                "Save Account"
+                t("save")
               )}
             </SubmitButton>
           </RegisterAccountContainer>

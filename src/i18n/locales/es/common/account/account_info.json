@@ -1,0 +1,14 @@
+{
+  "current_balance": "Saldo actual",
+  "adjust": "Ajustar",
+  "account_type": "Tipo de cuenta",
+  "initial_balance": "Saldo inicial",
+  "expenses_quantity": "Cantidad de gastos",
+  "incomes_quantity": "Cantidad de ingresos",
+  "transfer_quantity": "Cantidad de transferencias",
+  "transfers": "Transferencias",
+  "checking": "Corriente",
+  "savings": "Ahorros",
+  "wallet": "Billetera",
+  "account": "cuenta"
+}

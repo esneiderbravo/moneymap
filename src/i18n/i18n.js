@@ -10,6 +10,10 @@ import more_en from "./locales/en/more/more.json";
 import settings_en from "./locales/en/more/settings/settings.json";
 import profile_en from "./locales/en/more/settings/profile/profile.json";
 import language_switcher_en from "./locales/en/more/settings/profile/language_switcher.json";
+import manage_en from "./locales/en/more/manage/manage.json";
+import manage_accounts_en from "./locales/en/more/manage/accounts/accounts.json";
+import register_en from "./locales/en/common/account/register.json";
+import account_info_en from "./locales/en/common/account/account_info.json";
 
 // Spanish
 import dashboard_es from "./locales/es/dashboard/dashboard.json";
@@ -20,6 +24,10 @@ import more_es from "./locales/es/more/more.json";
 import settings_es from "./locales/es/more/settings/settings.json";
 import profile_es from "./locales/es/more/settings/profile/profile.json";
 import language_switcher_es from "./locales/es/more/settings/profile/language_switcher.json";
+import manage_es from "./locales/es/more/manage/manage.json";
+import manage_accounts_es from "./locales/es/more/manage/accounts/accounts.json";
+import register_es from "./locales/es/common/account/register.json";
+import account_info_es from "./locales/es/common/account/account_info.json";
 
 i18n
   .use(LanguageDetector)
@@ -42,6 +50,10 @@ i18n
         settings: settings_en,
         profile: profile_en,
         language_switcher: language_switcher_en,
+        manage: manage_en,
+        manage_accounts: manage_accounts_en,
+        register_account: register_en,
+        account_info: account_info_en,
       },
       es: {
         dashboard: dashboard_es,
@@ -52,6 +64,10 @@ i18n
         settings: settings_es,
         profile: profile_es,
         language_switcher: language_switcher_es,
+        manage: manage_es,
+        manage_accounts: manage_accounts_es,
+        register_account: register_es,
+        account_info: account_info_es,
       },
     },
   });

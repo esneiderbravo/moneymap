@@ -1,0 +1,14 @@
+{
+  "current_balance": "Current Balance",
+  "adjust": "Adjust",
+  "account_type": "Account type",
+  "initial_balance": "Initial balance",
+  "expenses_quantity": "Expenses quantity",
+  "incomes_quantity": "Incomes quantity",
+  "transfer_quantity": "Transfers quantity",
+  "transfers": "Transfers",
+  "checking": "Checking",
+  "savings": "Savings",
+  "wallet": "Wallet",
+  "account": "account"
+}

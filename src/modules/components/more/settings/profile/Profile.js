@@ -112,7 +112,7 @@ const Profile = ({ openProfile, handleClose }) => {
               </ListItem>
               <Divider />
               {/* Logout Option */}
-              <ListItem disablePadding sx={{ mb: 2 }}>
+              <ListItem disablePadding sx={{ mb: 2, mt: 2 }}>
                 <ListItemButton onClick={handleLogout} aria-label="Logout">
                   <ListItemIcon>
                     {LogoutIcon && (

@@ -20,8 +20,8 @@ import {
 import { formatCurrency } from "../../../utils/common/currency";
 import { getIconComponent } from "../../../utils/common/icon";
 import getIconColor from "../../../utils/common/color";
-import { capitalize } from "../../../utils/string";
 import RegisterAccount from "./RegisterAccount";
+import { useTranslation } from "react-i18next";
 
 /**
  * AccountInfoContent component renders detailed information about a selected account,
@@ -41,6 +41,7 @@ const AccountInfo = ({
   currentAccount,
   setCurrentAccount,
 }) => {
+  const { t } = useTranslation("account_info");
   const [editAccount, setEditAccount] = useState(false);
 
   const accountIconsMapper = {
@@ -82,7 +83,7 @@ const AccountInfo = ({
           {/* Header balance section */}
           <Grid2 container mb={5}>
             <Grid2 item size={12} display="flex" justifyContent="center">
-              <Typography variant="caption">Current balance</Typography>
+              <Typography variant="caption">{t("current_balance")}</Typography>
             </Grid2>
             <Grid2 item size={12} display="flex" justifyContent="center" mb={5}>
               <Typography variant="h5" color="text.white">
@@ -104,7 +105,7 @@ const AccountInfo = ({
                   size="medium"
                   custom_color={currentAccount?.color}
                 >
-                  Adjust
+                  {t("adjust")}
                 </AdjustBalanceButton>
               </Grid2>
               <Grid2 item size={4} display="flex" justifyContent="flex-end">
@@ -145,7 +146,7 @@ const AccountInfo = ({
                           variant="caption"
                           sx={{ color: "text.secondary", display: "block" }}
                         >
-                          Account type
+                          {t("account_type")}
                         </Typography>
                       }
                       secondary={
@@ -154,7 +155,7 @@ const AccountInfo = ({
                           variant="subtitle2"
                           sx={{ color: "text.white" }}
                         >
-                          {`${capitalize(currentAccount?.type)} account`}
+                          {`${t(currentAccount?.type) + " " + t("account")}`}
                         </Typography>
                       }
                     />
@@ -179,7 +180,7 @@ const AccountInfo = ({
                           variant="caption"
                           sx={{ color: "text.secondary", display: "block" }}
                         >
-                          Initial balance
+                          {t("initial_balance")}
                         </Typography>
                       }
                       secondary={
@@ -215,7 +216,7 @@ const AccountInfo = ({
                           variant="caption"
                           sx={{ color: "text.secondary", display: "block" }}
                         >
-                          Expenses quantity
+                          {t("expenses_quantity")}
                         </Typography>
                       }
                       secondary={
@@ -246,7 +247,7 @@ const AccountInfo = ({
                           variant="caption"
                           sx={{ color: "text.secondary", display: "block" }}
                         >
-                          Incomes quantity
+                          {t("incomes_quantity")}
                         </Typography>
                       }
                       secondary={
@@ -280,7 +281,7 @@ const AccountInfo = ({
                           variant="caption"
                           sx={{ color: "text.white", display: "block" }}
                         >
-                          Transfer quantity
+                          {t("transfer_quantity")}
                         </Typography>
                       }
                       secondary={
@@ -289,7 +290,7 @@ const AccountInfo = ({
                           variant="subtitle2"
                           sx={{ color: "text.white" }}
                         >
-                          0 Transfers
+                          0 {t("transfers")}
                         </Typography>
                       }
                     />
