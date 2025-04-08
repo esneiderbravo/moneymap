@@ -1,0 +1,10 @@
+{
+  "create": "New account",
+  "balance_description": "Current account balance...",
+  "description": "Description...",
+  "checking": "Checking",
+  "savings": "Savings",
+  "wallet": "Wallet",
+  "save": "Save account",
+  "edit": "Edit account"
+}

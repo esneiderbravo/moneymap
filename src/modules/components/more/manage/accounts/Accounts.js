@@ -25,6 +25,7 @@ import RegisterAccount from "../../../common/account/RegisterAccount";
 import { getLastDayOfMonth } from "../../../../utils/common/date";
 import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";
 import AccountInfo from "../../../common/account/AccountInfo";
+import { useTranslation } from "react-i18next";
 
 /**
  * MoreAccountsContent Component
@@ -39,6 +40,7 @@ import AccountInfo from "../../../common/account/AccountInfo";
  * @returns {React.JSX.Element} The rendered MoreAccountsContent component.
  */
 const Accounts = ({ isOpen, setSelectedOption }) => {
+  const { t } = useTranslation("manage_accounts");
   const { state } = useAppContext();
   const { balance } = state;
   const { accounts = [] } = balance;
@@ -82,7 +84,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
         ModalProps={{ keepMounted: true }}
       >
         {/* Common Header */}
-        <CommonHeader handleClose={handleClose} title={"Accounts"} />
+        <CommonHeader handleClose={handleClose} title={t("title")} />
 
         {/* Accounts */}
         <AccountsOptionsContainer
@@ -106,7 +108,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
                         variant="caption"
                         sx={{ color: "text.secondary", display: "block" }}
                       >
-                        Current balance
+                        {t("current_balance")}
                       </Typography>
                     }
                     secondary={
@@ -143,7 +145,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
                         variant="caption"
                         sx={{ color: "text.secondary", display: "block" }}
                       >
-                        Total until {getLastDayOfMonth()}
+                        {t("total")} {getLastDayOfMonth()}
                       </Typography>
                     }
                     secondary={
@@ -209,7 +211,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
                 setRegisterAccount(true);
               }}
             >
-              Register Account
+              {t("register_account")}
             </Typography>
           </Grid2>
         </AccountsOptionsContainer>

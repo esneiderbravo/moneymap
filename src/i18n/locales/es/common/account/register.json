@@ -1,0 +1,10 @@
+{
+  "create": "Nueva cuenta",
+  "balance_description": "Saldo actual de la cuenta...",
+  "description": "Descripción...",
+  "checking": "Corriente",
+  "savings": "Ahorros",
+  "wallet": "Billetera",
+  "save": "Guardar cuenta",
+  "edit": "Editar cuenta"
+}

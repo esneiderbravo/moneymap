@@ -11,8 +11,10 @@ import {
 import { AccountBalance } from "@mui/icons-material";
 import { ManageOptionsContainer } from "../../../styles/more/manage/Manage.styled";
 import Accounts from "./accounts/Accounts";
+import { useTranslation } from "react-i18next";
 
 const Manage = () => {
+  const { t } = useTranslation("manage");
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionClick = (option) => {
@@ -21,7 +23,7 @@ const Manage = () => {
 
   const optionElements = [
     {
-      name: "Accounts",
+      name: t("accounts"),
       icon: <AccountBalance />,
       color: "icon.white",
       onClick: () => handleOptionClick("accounts"),
