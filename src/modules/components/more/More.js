@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import {
-  ChipComponent,
-  PaperComponent,
-} from "../../styles/more/More.styled";
+import { ChipComponent, PaperComponent } from "../../styles/more/More.styled";
 import Settings from "./settings/Settings";
 import Manage from "./manage/Manage";
 import CommonHeader from "../common/CommonHeader";
+import { useTranslation } from "react-i18next";
 
 /**
  * MoreContent Component
@@ -15,15 +13,16 @@ import CommonHeader from "../common/CommonHeader";
  * @returns {React.JSX.Element} A section with selectable options and a logout button.
  */
 const More = () => {
-  const [moreCurrentPage, setMoreCurrentPage] = useState("Manage");
-  const chipElements = ["Manage", "Follow", "About"];
+  const { t } = useTranslation("more");
+  const [moreCurrentPage, setMoreCurrentPage] = useState("manage");
+  const chipElements = ["manage", "follow", "about"];
 
   return (
     <>
       {/* Common Header */}
       <CommonHeader
         handleClose={() => {}}
-        title={"More Options"}
+        title={t("title")}
         showSettings={true}
       />
 
@@ -33,7 +32,7 @@ const More = () => {
           {chipElements.map((option) => (
             <ChipComponent
               key={option}
-              label={option}
+              label={t(option)}
               onClick={() => setMoreCurrentPage(option)}
               selected={moreCurrentPage}
               option={option}
@@ -43,7 +42,7 @@ const More = () => {
       </PaperComponent>
 
       {/* SettingsContent */}
-      {moreCurrentPage === "Manage" ? <Manage /> : null}
+      {moreCurrentPage === "manage" ? <Manage /> : null}
 
       {/* SettingsContent */}
       <Settings />

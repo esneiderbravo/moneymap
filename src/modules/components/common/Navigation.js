@@ -9,12 +9,14 @@ import {
   PaperContainer,
 } from "../../styles/common/Navigation.styled";
 import { getIconComponent } from "../../utils/common/icon";
+import { useTranslation } from "react-i18next";
 
 /**
  * Navigation Content Component (Fixed bottom navigation bar)
  * @returns {React.JSX.Element} Footer navigation bar with Home and Settings options
  */
 const Navigation = () => {
+  const { t } = useTranslation("navigation");
   const { state, dispatch } = useAppContext();
   const { authData, currentPage } = state;
   const navigate = useNavigate();
@@ -26,12 +28,12 @@ const Navigation = () => {
 
   const navigationElements = [
     {
-      label: "Dashboard",
+      label: t("dashboard"),
       value: "dashboard",
       icon: HomeIcon && <HomeIcon fontSize="large" />,
     },
     {
-      label: "More",
+      label: t("more"),
       value: "more",
       icon: MoreHorizIcon && <MoreHorizIcon fontSize="large" />,
     },

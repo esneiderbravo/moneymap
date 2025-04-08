@@ -15,6 +15,7 @@ import { AccountSection } from "../../../styles/dashboard/accounts/Accounts.styl
 import { getIconComponent } from "../../../utils/common/icon";
 import AccountInfo from "../../common/account/AccountInfo";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
+import { useTranslation } from "react-i18next";
 
 /**
  * AccountsContent Component
@@ -29,10 +30,7 @@ import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
  * @returns {React.JSX.Element}
  */
 const Accounts = ({ balance, showBalances }) => {
-  /**
-   * Local state to track the currently selected account
-   * @type {[Object|null, Function]}
-   */
+  const { t } = useTranslation("accounts");
   const [currentAccount, setCurrentAccount] = useState(null);
 
   const { accounts = [], totalBalance = 0 } = balance;
@@ -67,7 +65,7 @@ const Accounts = ({ balance, showBalances }) => {
       {/* Section title */}
       <Grid2 item size={12} display="flex" justifyContent="left" padding={2}>
         <Typography variant="subtitle1" color="text.secondary">
-          Accounts
+          {t("title")}
         </Typography>
       </Grid2>
 
@@ -133,7 +131,7 @@ const Accounts = ({ balance, showBalances }) => {
               <ListItemButton
                 sx={{ borderRadius: 2, justifyContent: "space-between" }}
               >
-                <ListItemText primary="Total" />
+                <ListItemText primary={t("total")} />
                 <ListItemText
                   primary={
                     showBalances ? (
