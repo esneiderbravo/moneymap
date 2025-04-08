@@ -15,8 +15,10 @@ import { setOpenSettings } from "../../../actions/state";
 import Profile from "./profile/Profile";
 import { getIconComponent } from "../../../utils/common/icon";
 import CommonHeader from "../../common/CommonHeader";
+import { useTranslation } from "react-i18next";
 
 const Settings = () => {
+  const { t } = useTranslation("settings");
   const { state, dispatch } = useAppContext();
   const { openSettings, authData } = state;
   const [selectedPage, setSelectedPage] = useState(null);
@@ -57,7 +59,7 @@ const Settings = () => {
         ModalProps={{ keepMounted: true }}
       >
         {/* Common Header */}
-        <CommonHeader handleClose={handleClose} title={"Settings"} />
+        <CommonHeader handleClose={handleClose} title={t("title")} />
         <Box component="nav" sx={{ width: "auto" }} padding={3}>
           {/* Settings Navigation */}
           <List>
@@ -73,14 +75,14 @@ const Settings = () => {
                   <Avatar alt={authData?.name} src={authData?.picture} />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Profile"
+                  primary={t("profile")}
                   secondary={
                     <Typography
                       component="span"
                       variant="body2"
                       sx={{ color: "text.info", display: "inline" }}
                     >
-                      {"Complete your registration..."}
+                      {t("profile_description")}
                     </Typography>
                   }
                 />
@@ -99,16 +101,14 @@ const Settings = () => {
                   )}
                 </ListItemIcon>
                 <ListItemText
-                  primary="Preferences"
+                  primary={t("preferences")}
                   secondary={
                     <Typography
                       component="span"
                       variant="body2"
                       sx={{ color: "text.info", display: "inline" }}
                     >
-                      {
-                        "Currency, Appearance, Show calculator, Show Expanded..."
-                      }
+                      {t("preferences_description")}
                     </Typography>
                   }
                 />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -18,6 +18,7 @@ import { useAppContext } from "../../../../providers/AppProvider";
 import { getIconComponent } from "../../../../utils/common/icon";
 import CommonHeader from "../../../common/CommonHeader";
 import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/Profile.styled";
+import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 /**
@@ -30,12 +31,15 @@ import LanguageSwitcher from "./LanguageSwitcher";
  * @returns {React.JSX.Element} The rendered ProfileContent component.
  */
 const Profile = ({ openProfile, handleClose }) => {
+  const { t } = useTranslation("profile");
   const navigate = useNavigate();
   const { state } = useAppContext();
   const { authData } = state;
+  const [openLanguageModal, setOpenLanguageModal] = useState(false);
 
   // Dynamically get the icons
   const LogoutIcon = getIconComponent("Logout");
+  const LanguageIcon = getIconComponent("Language");
 
   /**
    * Handles user logout and redirects to the logout page.
@@ -48,65 +52,89 @@ const Profile = ({ openProfile, handleClose }) => {
   };
 
   return (
-    <Drawer
-      open={openProfile}
-      onClose={handleClose}
-      anchor="bottom"
-      disableAutoFocus
-      ModalProps={{ keepMounted: true }}
-    >
-      {/* Common Header */}
-      <CommonHeader handleClose={handleClose} title={"Profile"} />
+    <>
+      <Drawer
+        open={openProfile}
+        onClose={handleClose}
+        anchor="bottom"
+        disableAutoFocus
+        ModalProps={{ keepMounted: true }}
+      >
+        {/* Common Header */}
+        <CommonHeader handleClose={handleClose} title={t("title")} />
 
-      <Grid2 container>
-        <Grid2
-          item
-          size={12}
-          display={"flex"}
-          alignItems={"center"}
-          flexDirection={"column"}
-          padding={2}
-        >
-          <Avatar
-            alt={authData?.name}
-            src={authData?.picture}
-            sx={{ width: 100, height: 100, marginBottom: 2 }}
-          />
-          <Typography sx={{ color: "highlight" }}>{authData?.name}</Typography>
-          <Typography sx={{ color: "highlight" }}>{authData?.email}</Typography>
+        <Grid2 container>
+          <Grid2
+            item
+            size={12}
+            display={"flex"}
+            alignItems={"center"}
+            flexDirection={"column"}
+            padding={2}
+          >
+            <Avatar
+              alt={authData?.name}
+              src={authData?.picture}
+              sx={{ width: 100, height: 100, marginBottom: 2 }}
+            />
+            <Typography sx={{ color: "highlight" }}>
+              {authData?.name}
+            </Typography>
+            <Typography sx={{ color: "highlight" }}>
+              {authData?.email}
+            </Typography>
+          </Grid2>
         </Grid2>
-      </Grid2>
 
-      {/* Profile Menu Options */}
-      <ProfileOptionsContainer item sx={{ backgroundColor: "secondary.main" }}>
-        <Box component="nav">
-          <List>
-            {/* Logout Option */}
-            <ListItem disablePadding sx={{ mb: 2 }}>
-              <ListItemButton onClick={handleLogout} aria-label="Logout">
-                <ListItemIcon>
-                  {LogoutIcon && (
-                    <LogoutIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary" }}
-                    />
-                  )}
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-          </List>
-          <List>
-            {/* Change Language */}
-            <ListItem disablePadding sx={{ mb: 2 }}>
-              <LanguageSwitcher />
-            </ListItem>
-            <Divider />
-          </List>
-        </Box>
-      </ProfileOptionsContainer>
-    </Drawer>
+        {/* Profile Menu Options */}
+        <ProfileOptionsContainer
+          item
+          sx={{ backgroundColor: "secondary.main" }}
+        >
+          <Box component="nav">
+            <List>
+              {/* Change Language */}
+              <ListItem disablePadding sx={{ mb: 2 }}>
+                <ListItemButton
+                  onClick={() => setOpenLanguageModal(true)}
+                  aria-label="Change language"
+                >
+                  <ListItemIcon>
+                    {LanguageIcon && (
+                      <LanguageIcon
+                        fontSize="large"
+                        sx={{ color: "text.secondary" }}
+                      />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={t("language")} />
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+              {/* Logout Option */}
+              <ListItem disablePadding sx={{ mb: 2 }}>
+                <ListItemButton onClick={handleLogout} aria-label="Logout">
+                  <ListItemIcon>
+                    {LogoutIcon && (
+                      <LogoutIcon
+                        fontSize="large"
+                        sx={{ color: "text.secondary" }}
+                      />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={t("logout")} />
+                </ListItemButton>
+              </ListItem>
+              <Divider />
+            </List>
+          </Box>
+        </ProfileOptionsContainer>
+      </Drawer>
+      <LanguageSwitcher
+        open={openLanguageModal}
+        setOpen={setOpenLanguageModal}
+      />
+    </>
   );
 };
 
