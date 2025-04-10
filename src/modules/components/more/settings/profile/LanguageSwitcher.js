@@ -8,6 +8,7 @@ import {
   LanguageSwitcherContainer,
   SaveButton,
 } from "../../../../styles/more/settings/profile/LanguageSwitcher.styled";
+import useSwipeClose from "../../../hooks/useSwipeClose";
 
 /**
  * LanguageSwitcher Component
@@ -44,6 +45,11 @@ const LanguageSwitcher = ({ open, setOpen }) => {
     i18n.changeLanguage(selectedLang);
     setOpen(false);
   };
+
+  useSwipeClose({
+    isOpen: open,
+    onClose: () => setOpen(false),
+  });
 
   return (
     <Dialog onClose={() => setOpen(false)} open={open} fullWidth>

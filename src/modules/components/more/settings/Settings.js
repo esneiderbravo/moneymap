@@ -16,6 +16,7 @@ import Profile from "./profile/Profile";
 import { getIconComponent } from "../../../utils/common/icon";
 import CommonHeader from "../../common/CommonHeader";
 import { useTranslation } from "react-i18next";
+import useSwipeClose from "../../hooks/useSwipeClose";
 
 const Settings = () => {
   const { t } = useTranslation("settings");
@@ -46,6 +47,11 @@ const Settings = () => {
     dispatch(setOpenSettings(true));
     setSelectedPage(null);
   };
+
+  useSwipeClose({
+    isOpen: openSettings,
+    onClose: (event) => handleClose(event),
+  });
 
   return (
     <>

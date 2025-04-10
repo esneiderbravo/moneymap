@@ -1,5 +1,6 @@
 // hooks/useBlockBack.ts
 import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /**
  * Custom hook that prevents the user from navigating backward using
@@ -9,22 +10,19 @@ import { useEffect } from "react";
  * Usage: Call this hook once in a top-level component like App or Layout.
  */
 const useBlockBack = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    // Push a new history entry to trap the user in the current view
-    window.history.pushState(null, "", window.location.href);
-
+    window.history.pushState(null, "", location.pathname);
     const handlePopState = () => {
-      // When the user attempts to go back, push them back to the same page
-      window.history.pushState(null, "", window.location.href);
+      navigate(location.pathname, { replace: true }); // fuerza quedarse
     };
-
-    // Listen to the popstate event, which is triggered by back/forward navigation
     window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [navigate, location]);
 
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, []);
+  return null;
 };
 
 export default useBlockBack;

@@ -20,6 +20,7 @@ import CommonHeader from "../../../common/CommonHeader";
 import { ProfileOptionsContainer } from "../../../../styles/more/settings/profile/Profile.styled";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+import useSwipeClose from "../../../hooks/useSwipeClose";
 
 /**
  * ProfileContent Component
@@ -50,6 +51,11 @@ const Profile = ({ openProfile, handleClose }) => {
     event.stopPropagation();
     navigate("/logout");
   };
+
+  useSwipeClose({
+    isOpen: openProfile,
+    onClose: (event) => handleClose(event),
+  });
 
   return (
     <>
