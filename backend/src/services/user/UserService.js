@@ -78,6 +78,9 @@ export const getUserAccounts = async (userId) => {
 
     const accounts = await prisma.account.findMany({
       where: { userId },
+      orderBy: {
+        description: "asc",
+      },
       select: {
         id: true,
         balance: true,

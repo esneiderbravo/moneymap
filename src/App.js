@@ -46,6 +46,7 @@ const theme = createTheme({
       grey: "#a8aba8",
       red: "#b64242",
       secondary: "#748d92",
+      info: "rgba(255,255,255,0.1)",
     },
     error: {
       main: "#f44336",

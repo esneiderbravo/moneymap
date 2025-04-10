@@ -14,6 +14,7 @@ import manage_en from "./locales/en/more/manage/manage.json";
 import manage_accounts_en from "./locales/en/more/manage/accounts/accounts.json";
 import register_en from "./locales/en/common/account/register.json";
 import account_info_en from "./locales/en/common/account/account_info.json";
+import keyboard_en from "./locales/en/common/keyboard.json";
 
 // Spanish
 import dashboard_es from "./locales/es/dashboard/dashboard.json";
@@ -28,6 +29,7 @@ import manage_es from "./locales/es/more/manage/manage.json";
 import manage_accounts_es from "./locales/es/more/manage/accounts/accounts.json";
 import register_es from "./locales/es/common/account/register.json";
 import account_info_es from "./locales/es/common/account/account_info.json";
+import keyboard_es from "./locales/es/common/keyboard.json";
 
 i18n
   .use(LanguageDetector)
@@ -54,6 +56,7 @@ i18n
         manage_accounts: manage_accounts_en,
         register_account: register_en,
         account_info: account_info_en,
+        keyboard: keyboard_en,
       },
       es: {
         dashboard: dashboard_es,
@@ -68,6 +71,7 @@ i18n
         manage_accounts: manage_accounts_es,
         register_account: register_es,
         account_info: account_info_es,
+        keyboard: keyboard_es,
       },
     },
   });

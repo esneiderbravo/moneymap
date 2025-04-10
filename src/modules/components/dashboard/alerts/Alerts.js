@@ -86,18 +86,19 @@ const Alerts = ({ showBalances }) => {
   return (
     <>
       {/* Section title */}
-      <Grid2 item xs={12} display="flex" justifyContent="left" padding={2}>
+      <Grid2 item size={12} display="flex" justifyContent="left" padding={2}>
         <Typography variant="subtitle1" color="text.secondary">
           {t("title")}
         </Typography>
       </Grid2>
-
-      {/* Render alert cards in a scrollable container */}
-      <StyledAlertBox>
-        {alertItems.map((item, idx) => (
-          <AlertCard key={idx} {...item} showBalances={showBalances} />
-        ))}
-      </StyledAlertBox>
+      <Grid2 item size={12}>
+        {/* Render alert cards in a scrollable container */}
+        <StyledAlertBox>
+          {alertItems.map((item, idx) => (
+            <AlertCard key={idx} {...item} showBalances={showBalances} />
+          ))}
+        </StyledAlertBox>
+      </Grid2>
     </>
   );
 };

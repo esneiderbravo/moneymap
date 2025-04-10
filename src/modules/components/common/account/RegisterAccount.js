@@ -29,6 +29,7 @@ import { setBalance, setNotification } from "../../../actions/state";
 import { useAppContext } from "../../../providers/AppProvider";
 import NumericKeyboard from "../NumericKeyboard";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../../utils/common/currency";
 
 /**
  * RegisterAccountContent
@@ -187,20 +188,17 @@ const RegisterAccount = ({
     });
   }, [currentAccount]);
 
-  const handleKeypadPress = (key) => {
+  /**
+   * Handles setting the balance field after numeric keyboard entry.
+   *
+   * @param {string|number} value - Value returned from NumericKeyboard.
+   */
+  const setBalanceField = (value) => {
     if (activeField === "balance") {
       setFormData((prev) => {
-        let newValue = prev.balance || "";
-        if (key === "Del") {
-          newValue = newValue.slice(0, -1) || "0";
-        } else if (key === "OK") {
-          setActiveField(null);
-        } else {
-          if (newValue === "0") newValue = "";
-          newValue += key;
-        }
-        return { ...prev, balance: parseFloat(newValue) };
+        return { ...prev, balance: parseFloat(value) };
       });
+      setActiveField(null);
     }
   };
 
@@ -234,9 +232,8 @@ const RegisterAccount = ({
               <InputRegister
                 id="balance"
                 name="balance"
-                value={formData.balance}
-                onFocus={() => setActiveField("balance")}
-                onChange={() => {}} // ignore native keyboard input
+                value={formatCurrency(formData.balance)}
+                onClick={() => setActiveField("balance")}
                 placeholder={t("balance_description")}
                 fullWidth
                 inputProps={{ readOnly: true }} // prevent native keyboard
@@ -365,9 +362,11 @@ const RegisterAccount = ({
           </RegisterAccountContainer>
         </RegisterBox>
       </Drawer>
-      {activeField === "balance" && (
-        <NumericKeyboard onKeyPress={handleKeypadPress} />
-      )}
+      <NumericKeyboard
+        isOpen={activeField === "balance"}
+        handleClose={() => setActiveField(null)}
+        setBalanceField={setBalanceField}
+      />
     </>
   );
 };
