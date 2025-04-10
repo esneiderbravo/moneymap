@@ -5,6 +5,7 @@ import WithAuth from "./hooks/withAuth";
 import DashboardContainer from "../containers/dashboard/DashboardContainer";
 import LogoutContainer from "../containers/auth/LogoutContainer";
 import MoreContainer from "../containers/more/MoreContainer";
+import useBlockBack from "./hooks/useBlockBack";
 
 /**
  * AppRoutes Component
@@ -16,6 +17,7 @@ import MoreContainer from "../containers/more/MoreContainer";
  * @returns {JSX.Element} The configured routes of the application.
  */
 const AppRoutes = () => {
+  useBlockBack();
   return (
     <Routes>
       {/* Public Route: Splash Screen */}
