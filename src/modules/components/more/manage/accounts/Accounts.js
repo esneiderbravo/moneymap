@@ -26,6 +26,7 @@ import { getLastDayOfMonth } from "../../../../utils/common/date";
 import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";
 import AccountInfo from "../../../common/account/AccountInfo";
 import { useTranslation } from "react-i18next";
+import useSwipeClose from "../../../hooks/useSwipeClose";
 
 /**
  * MoreAccountsContent Component
@@ -70,6 +71,11 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
     event.stopPropagation();
     setCurrentAccount(null);
   };
+
+  useSwipeClose({
+    isOpen: isOpen,
+    onClose: (event) => handleClose(event),
+  });
 
   return (
     <>

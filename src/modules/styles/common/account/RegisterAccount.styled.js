@@ -5,13 +5,13 @@ import Select from "@mui/material/Select";
 
 export const RegisterAccountContainer = styled(OptionsContainer)`
   padding: 40px;
-  margin: 0 5px 0 -1px;
+  margin: 0 3px 0 -4px;
 `;
 export const RegisterBox = styled(Box)`
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 16px;
+  gap: 1px;
+  padding: 6px;
 `;
 
 export const InputRegister = styled(Input)`

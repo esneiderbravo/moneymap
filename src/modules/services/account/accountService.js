@@ -6,10 +6,6 @@ import { ACCOUNT_SERVICE_URL } from "../../utils/constants";
  *
  * @async
  * @param {Object} formData - The account registration details.
- * @param {string} formData.balance - The account balance.
- * @param {string} formData.description - The account description.
- * @param {string} formData.type - The account type (e.g., "checking", "savings").
- * @param {string} formData.color - The selected color for the account.
  * @returns {Promise} Resolves with response data or null and the HTTP success.
  */
 export const upsertAccount = async (formData) => {

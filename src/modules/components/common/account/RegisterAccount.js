@@ -30,6 +30,7 @@ import { useAppContext } from "../../../providers/AppProvider";
 import NumericKeyboard from "../NumericKeyboard";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../../../utils/common/currency";
+import useSwipeClose from "../../hooks/useSwipeClose";
 
 /**
  * RegisterAccountContent
@@ -141,7 +142,18 @@ const RegisterAccount = ({
         ? balance.accounts.map((acc) => (acc.id === data.id ? data : acc))
         : [...balance.accounts, data];
 
-      dispatch(setBalance({ ...balance, accounts: updatedAccounts }));
+      const updatedTotalBalanceAmount = updatedAccounts.reduce(
+        (sum, acc) => sum + (parseFloat(acc.balance) || 0),
+        0
+      );
+
+      dispatch(
+        setBalance({
+          ...balance,
+          accounts: updatedAccounts,
+          totalBalanceAmount: updatedTotalBalanceAmount,
+        })
+      );
 
       dispatch(
         setNotification({
@@ -201,6 +213,11 @@ const RegisterAccount = ({
       setActiveField(null);
     }
   };
+
+  useSwipeClose({
+    isOpen: isOpen,
+    onClose: (event) => handleCloseLocal(event),
+  });
 
   return (
     <>

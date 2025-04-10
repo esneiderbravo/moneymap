@@ -22,6 +22,7 @@ import { getIconComponent } from "../../../utils/common/icon";
 import getIconColor from "../../../utils/common/color";
 import RegisterAccount from "./RegisterAccount";
 import { useTranslation } from "react-i18next";
+import useSwipeClose from "../../hooks/useSwipeClose";
 
 /**
  * AccountInfoContent component renders detailed information about a selected account,
@@ -60,6 +61,8 @@ const AccountInfo = ({
   const TrendingDownIcon = getIconComponent("TrendingDown");
   const TrendingUpIcon = getIconComponent("TrendingUp");
   const SyncIcon = getIconComponent("Sync");
+
+  useSwipeClose({ isOpen: isOpen, onClose: (event) => handleClose(event) });
 
   return (
     <>
