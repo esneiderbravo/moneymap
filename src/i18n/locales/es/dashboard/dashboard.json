@@ -1,3 +1,6 @@
 {
-  "title": "Balance de cuentas"
+  "title": "Balance de cuentas",
+  "incomes": "Ingresos",
+  "expenses": "Gastos",
+  "get_balances_error": "Error al obtener el balance de las cuentas."
 }

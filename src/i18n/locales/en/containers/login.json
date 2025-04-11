@@ -1,0 +1,4 @@
+{
+  "login_success": "You have been logged in successfully.",
+  "login_error": "Failed to authenticate with Google. Please try again."
+}

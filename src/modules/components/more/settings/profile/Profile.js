@@ -49,6 +49,7 @@ const Profile = ({ openProfile, handleClose }) => {
    */
   const handleLogout = (event) => {
     event.stopPropagation();
+    handleClose(event);
     navigate("/logout");
   };
 

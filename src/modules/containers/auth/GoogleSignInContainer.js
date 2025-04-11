@@ -10,6 +10,7 @@ import {
   setNotification,
 } from "../../actions/state";
 import { loginService } from "../../services/auth/authService";
+import { useTranslation } from "react-i18next";
 
 /**
  * Google Sign-In Container Component
@@ -24,6 +25,7 @@ import { loginService } from "../../services/auth/authService";
  * @returns {React.JSX.Element} The Google sign-in component.
  */
 const GoogleSignInContainer = () => {
+  const { t } = useTranslation("login");
   const { dispatch } = useAppContext();
   const navigate = useNavigate();
 
@@ -78,7 +80,7 @@ const GoogleSignInContainer = () => {
       dispatch(
         setNotification({
           type: "success",
-          info: "You have been logged in successfully.",
+          info: t("login_success"),
         })
       );
     } catch (error) {
@@ -86,7 +88,7 @@ const GoogleSignInContainer = () => {
       dispatch(
         setNotification({
           type: "error",
-          info: "Failed to authenticate with Google. Please try again.",
+          info: t("login_error"),
         })
       );
     }

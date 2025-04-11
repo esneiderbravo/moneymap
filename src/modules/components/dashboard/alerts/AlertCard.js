@@ -34,7 +34,7 @@ const AlertCard = ({
   const HorizontalRuleRoundedIcon = getIconComponent("HorizontalRuleRounded");
   return (
     <AlertSection
-      sx={{ backgroundColor: "secondary.main", p: 2 }}
+      sx={{ backgroundColor: "secondary.main", p: 3 }}
       onClick={onClick}
     >
       <AlertContainer item mb={amount ? 0 : 2}>

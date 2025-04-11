@@ -159,17 +159,18 @@ const RegisterAccount = ({
         setNotification({
           type: "success",
           info: currentAccount
-            ? "Account updated successfully!"
-            : "New account created successfully!",
+            ? t("update_account_success")
+            : t("create_account_success"),
         })
       );
 
       setCurrentAccount?.(data);
     } catch (error) {
+      console.error("❌ Error fetching balances:", error);
       dispatch(
         setNotification({
           type: "error",
-          info: error.message || "Something went wrong. Please try again.",
+          info: t("submit_error"),
         })
       );
     } finally {

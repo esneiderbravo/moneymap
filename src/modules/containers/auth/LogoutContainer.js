@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { setAuthData, setNotification } from "../../actions/state";
 import { useAppContext } from "../../providers/AppProvider";
 import LocalStorage from "../../utils/localStorage";
+import { useTranslation } from "react-i18next";
 
 /**
  * LogoutContainer Component
@@ -16,6 +17,7 @@ import LocalStorage from "../../utils/localStorage";
  * @returns {null} This component does not render any UI.
  */
 const LogoutContainer = () => {
+  const { t } = useTranslation("logout");
   const { dispatch } = useAppContext();
   const navigate = useNavigate();
 
@@ -33,10 +35,10 @@ const LogoutContainer = () => {
     dispatch(
       setNotification({
         type: "success",
-        info: "You have been logged out successfully.",
+        info: t("logout_success"),
       })
     );
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, t]);
 
   return null;
 };

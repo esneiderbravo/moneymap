@@ -6,5 +6,8 @@
   "savings": "Savings",
   "wallet": "Wallet",
   "save": "Save account",
-  "edit": "Edit account"
+  "edit": "Edit account",
+  "create_account_success": "New account created successfully!",
+  "update_account_success": "Account updated successfully!",
+  "submit_error": "Something went wrong. Please try again."
 }

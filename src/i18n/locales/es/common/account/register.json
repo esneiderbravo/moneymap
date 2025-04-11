@@ -6,5 +6,8 @@
   "savings": "Ahorros",
   "wallet": "Billetera",
   "save": "Guardar cuenta",
-  "edit": "Editar cuenta"
+  "edit": "Editar cuenta",
+  "create_account_success": "Cuenta creada exitosamente!",
+  "update_account_success": "Cuenta actualizada exitosamente!",
+  "submit_error": "Algo salió mal. Por favor, inténtalo de nuevo."
 }

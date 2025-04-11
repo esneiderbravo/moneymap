@@ -4,6 +4,7 @@ import { useAppContext } from "../../providers/AppProvider";
 import { setBalance, setNotification } from "../../actions/state";
 import LocalStorage from "../../utils/localStorage";
 import { getUserBalances } from "../../services/user/userBalanceService";
+import { useTranslation } from "react-i18next";
 
 /**
  * DashboardContainer Component
@@ -15,6 +16,7 @@ import { getUserBalances } from "../../services/user/userBalanceService";
  * @returns {React.JSX.Element} The rendered dashboard component.
  */
 const DashboardContainer = () => {
+  const { t } = useTranslation("dashboard");
   const { state, dispatch } = useAppContext();
   const { balance, authData } = state;
   const { id: userId } = authData || {}; // Fallback to prevent crashes
@@ -33,7 +35,7 @@ const DashboardContainer = () => {
           dispatch(
             setNotification({
               type: "error",
-              info: "Failed to fetch balances.",
+              info: t("get_balances_error"),
             })
           );
         }
@@ -42,13 +44,13 @@ const DashboardContainer = () => {
         dispatch(
           setNotification({
             type: "error",
-            info: "Error fetching balances.",
+            info: t("get_balances_error"),
           })
         );
       }
     };
     fetchBalances();
-  }, [dispatch, userId]);
+  }, [dispatch, t, userId]);
 
   return <Dashboard balance={balance} />;
 };
