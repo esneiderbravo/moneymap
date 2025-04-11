@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
-import { ChipComponent, PaperComponent } from "../../styles/more/More.styled";
 import Settings from "./settings/Settings";
 import Manage from "./manage/Manage";
 import CommonHeader from "../common/CommonHeader";
 import { useTranslation } from "react-i18next";
+import {
+  ChipComponent,
+  PaperComponent,
+} from "../../styles/common/CommonContainers.styled";
 
 /**
  * MoreContent Component

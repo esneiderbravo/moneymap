@@ -57,6 +57,21 @@ const setBalance = (balance) => {
   };
 };
 
+/**
+ * Redux action creator for setting categories.
+ *
+ * @param {Object} categories - An object containing expense and income categories.
+ * @param {Array} categories.expense - List of expense category objects.
+ * @param {Array} categories.income - List of income category objects.
+ * @returns {Object} Redux action with type 'setCategories' and payload containing categories.
+ */
+const setCategories = (categories) => {
+  return {
+    type: "setCategories",
+    payload: categories,
+  };
+};
+
 export {
   setNotification,
   setAuthData,
@@ -64,4 +79,5 @@ export {
   setMoreCurrentPage,
   setOpenSettings,
   setBalance,
+  setCategories,
 };

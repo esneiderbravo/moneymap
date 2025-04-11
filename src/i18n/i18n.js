@@ -17,6 +17,7 @@ import account_info_en from "./locales/en/common/account/account_info.json";
 import keyboard_en from "./locales/en/common/keyboard.json";
 import logout_en from "./locales/en/containers/logout.json";
 import login_en from "./locales/en/containers/login.json";
+import categories_en from "./locales/en/more/manage/categories/categories.json";
 
 // Spanish
 import dashboard_es from "./locales/es/dashboard/dashboard.json";
@@ -34,6 +35,7 @@ import account_info_es from "./locales/es/common/account/account_info.json";
 import keyboard_es from "./locales/es/common/keyboard.json";
 import logout_es from "./locales/es/containers/logout.json";
 import login_es from "./locales/es/containers/login.json";
+import categories_es from "./locales/es/more/manage/categories/categories.json";
 
 i18n
   .use(LanguageDetector)
@@ -63,6 +65,7 @@ i18n
         keyboard: keyboard_en,
         logout: logout_en,
         login: login_en,
+        categories: categories_en,
       },
       es: {
         dashboard: dashboard_es,
@@ -80,6 +83,7 @@ i18n
         keyboard: keyboard_es,
         logout: logout_es,
         login: login_es,
+        categories: categories_es,
       },
     },
   });

@@ -47,4 +47,18 @@ model Transaction {
   amount     Float
   type       String
   createdAt  DateTime @default(now())
+
+  categoryId  String
+  category   Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  icon       String
+  color      String
+  type       String
+  createdAt  DateTime @default(now())
+
+  Transaction Transaction[]
 }

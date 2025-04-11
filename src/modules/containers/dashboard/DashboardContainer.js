@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import Dashboard from "../../components/dashboard/Dashboard";
 import { useAppContext } from "../../providers/AppProvider";
-import { setBalance, setNotification } from "../../actions/state";
+import {
+  setBalance,
+  setCategories,
+  setNotification,
+} from "../../actions/state";
 import LocalStorage from "../../utils/localStorage";
 import { getUserBalances } from "../../services/user/userBalanceService";
 import { useTranslation } from "react-i18next";
+import { getAllCategories } from "../../services/category/categoryService";
 
 /**
  * DashboardContainer Component
@@ -49,7 +54,35 @@ const DashboardContainer = () => {
         );
       }
     };
-    fetchBalances();
+
+    const fetchCategories = async () => {
+      try {
+        const { data, success } = await getAllCategories();
+        if (success && data) {
+          dispatch(setCategories(data));
+          LocalStorage.setItem("categories", JSON.stringify(data));
+        } else {
+          console.warn(`⚠️ Failed to fetch categories.`);
+          dispatch(
+            setNotification({
+              type: "error",
+              info: t("get_categories_error"),
+            })
+          );
+        }
+      } catch (error) {
+        console.error("❌ Error fetching categories:", error);
+        dispatch(
+          setNotification({
+            type: "error",
+            info: t("get_categories_error"),
+          })
+        );
+      }
+    };
+
+    fetchBalances().then(() => {});
+    fetchCategories().then(() => {});
   }, [dispatch, t, userId]);
 
   return <Dashboard balance={balance} />;

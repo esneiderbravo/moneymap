@@ -2,5 +2,6 @@
   "title": "Balance de cuentas",
   "incomes": "Ingresos",
   "expenses": "Gastos",
-  "get_balances_error": "Error al obtener el balance de las cuentas."
+  "get_balances_error": "Error al obtener el balance de las cuentas.",
+  "get_categories_error": "Error al obtener las categorías."
 }

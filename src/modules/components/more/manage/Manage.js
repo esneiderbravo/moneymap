@@ -8,10 +8,11 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { AccountBalance } from "@mui/icons-material";
 import { ManageOptionsContainer } from "../../../styles/more/manage/Manage.styled";
 import Accounts from "./accounts/Accounts";
 import { useTranslation } from "react-i18next";
+import { getIconComponent } from "../../../utils/common/icon";
+import Categories from "./categories/Categories";
 
 const Manage = () => {
   const { t } = useTranslation("manage");
@@ -21,12 +22,22 @@ const Manage = () => {
     setSelectedOption(option);
   };
 
+  // Define icons
+  const AccountBalanceIcon = getIconComponent("AccountBalance");
+  const CategoryIcon = getIconComponent("Category");
+
   const optionElements = [
     {
       name: t("accounts"),
-      icon: <AccountBalance />,
+      icon: <AccountBalanceIcon />,
       color: "icon.white",
       onClick: () => handleOptionClick("accounts"),
+    },
+    {
+      name: t("categories"),
+      icon: <CategoryIcon />,
+      color: "icon.white",
+      onClick: () => handleOptionClick("categories"),
     },
   ];
 
@@ -38,7 +49,7 @@ const Manage = () => {
             <List>
               {optionElements.map((option) => (
                 <React.Fragment key={option.name}>
-                  <ListItem disablePadding sx={{ mb: 2 }}>
+                  <ListItem disablePadding sx={{ mb: 2, mt: 2 }}>
                     <ListItemButton
                       onClick={option.onClick}
                       aria-label={option.name}
@@ -61,6 +72,12 @@ const Manage = () => {
       <Accounts
         key="ManageAccounts"
         isOpen={selectedOption === "accounts"}
+        setSelectedOption={setSelectedOption}
+      />
+
+      <Categories
+        key="ManageCategories"
+        isOpen={selectedOption === "categories"}
         setSelectedOption={setSelectedOption}
       />
     </>

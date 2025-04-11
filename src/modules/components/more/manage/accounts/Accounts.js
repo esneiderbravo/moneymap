@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Box,
+  Button,
   Divider,
   Drawer,
   Grid2,
@@ -211,14 +212,18 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
 
           {/* Register Account Button */}
           <Grid2 item display="flex" justifyContent="center">
-            <Typography
-              color="text.highlight"
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "secondary.accent",
+              }}
               onClick={() => {
                 setRegisterAccount(true);
               }}
             >
               {t("register_account")}
-            </Typography>
+            </Button>
           </Grid2>
         </AccountsOptionsContainer>
       </Drawer>

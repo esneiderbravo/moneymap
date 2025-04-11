@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tooltip, IconButton, Popover } from "@mui/material";
 import PropTypes from "prop-types";
 import { getIconComponent } from "../../utils/common/icon";
@@ -106,6 +106,15 @@ const ColorSelector = ({ formData, onColorChange }) => {
       </TooltipBox>
     </Tooltip>
   );
+
+  useEffect(() => {
+    if (selectedColor && !quickColors.includes(selectedColor)) {
+      setQuickColors((prevColors) => [
+        selectedColor,
+        ...prevColors.slice(0, 4),
+      ]);
+    }
+  }, [quickColors, selectedColor]);
 
   return (
     <ColorSectionBox>

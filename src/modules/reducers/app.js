@@ -32,12 +32,15 @@ const balance = JSON.parse(LocalStorage.getItem("balance")) || {
   totalBalanceAmount: 0,
 };
 
+const categories = JSON.parse(LocalStorage.getItem("categories")) || [];
+
 const initialState = {
   notification,
   authData,
   currentPage,
   openSettings,
   balance,
+  categories,
 };
 
 /**
@@ -80,6 +83,12 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         balance: payload,
+      };
+
+    case "setCategories":
+      return {
+        ...state,
+        categories: payload,
       };
 
     default:
