@@ -8,6 +8,7 @@ export const AUTH_SERVICE_URL = `${API_URL}/users/auth`;
 export const ACCOUNT_SERVICE_URL = `${API_URL}/account`;
 export const TRANSACTION_SERVICE_URL = `${API_URL}/transaction`;
 export const USER_BALANCE_SERVICE_URL = `${API_URL}/users/balances`;
+export const CATEGORY_SERVICE_URL = `${API_URL}/category`;
 
 // UI Timings (in milliseconds)
 export const SPLASH_TIMEOUT = 3000; // Time before transitioning from splash screen

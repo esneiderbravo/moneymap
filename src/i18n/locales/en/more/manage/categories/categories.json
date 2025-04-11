@@ -1,0 +1,27 @@
+{
+  "title": "Categories",
+  "expense": "Expense",
+  "income": "Income",
+  "expense_categories": {
+    "Food & Groceries": "Food & Groceries",
+    "Transportation": "Transportation",
+    "Utilities": "Utilities",
+    "Rent": "Rent",
+    "Health": "Health",
+    "Entertainment": "Entertainment",
+    "Dining Out": "Dining Out",
+    "Subscriptions": "Subscriptions",
+    "Travel": "Travel",
+    "Clothing": "Clothing",
+    "Gifts": "Gifts",
+    "Insurance": "Insurance",
+    "Other": "Other"
+  },
+  "income_categories": {
+    "Salary": "Salary",
+    "Freelance": "Freelance",
+    "Investments": "Investments",
+    "Refunds": "Refunds",
+    "Rental Income": "Rental Income"
+  }
+}

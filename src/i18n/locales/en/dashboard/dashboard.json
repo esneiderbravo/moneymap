@@ -2,5 +2,6 @@
   "title": "Accounts balance",
   "incomes": "Incomes",
   "expenses": "Expenses",
-  "get_balances_error": "Failed to fetch balances."
+  "get_balances_error": "Failed to fetch balances.",
+  "get_categories_error": "Failed to fetch categories."
 }

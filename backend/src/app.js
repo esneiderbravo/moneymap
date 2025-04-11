@@ -4,6 +4,7 @@ import UserRoutes from "./routes/user/UserRoutes.js";
 import AccountRoutes from "./routes/account/AccountRoutes.js";
 import TransactionRoutes from "./routes/transaction/TransactionRoutes.js";
 import HealthRoutes from "./routes/HealthRoutes.js";
+import CategoryRoutes from "./routes/category/CategoryRoutes.js";
 
 /**
  * Express application instance.
@@ -36,6 +37,7 @@ app.use("/api/health", HealthRoutes);
 app.use("/api/users", UserRoutes);
 app.use("/api/account", AccountRoutes);
 app.use("/api/transaction", TransactionRoutes);
+app.use("/api/category", CategoryRoutes);
 
 /**
  * Global error handler.
