@@ -5,9 +5,9 @@ export const AlertSection = styled(Grid2)`
   border-radius: 28px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 30px;
-  margin: 0 3px 0 5px;
-  min-width: 180px !important;
-  min-height: 140px !important;
+  margin: 0 3px 0 4px;
+  min-width: 210px !important;
+  min-height: 170px !important;
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   outline: none;

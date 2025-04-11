@@ -1,3 +1,6 @@
 {
-  "title": "Accounts balance"
+  "title": "Accounts balance",
+  "incomes": "Incomes",
+  "expenses": "Expenses",
+  "get_balances_error": "Failed to fetch balances."
 }
