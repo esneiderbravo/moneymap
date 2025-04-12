@@ -186,6 +186,12 @@ const RegisterAccount = ({
    */
   const handleCloseLocal = (e) => {
     setErrors({});
+    setFormData({
+      balance: 0,
+      description: "",
+      type: "checking",
+      color: "",
+    });
     handleClose(e);
   };
 
@@ -250,7 +256,7 @@ const RegisterAccount = ({
               <InputRegister
                 id="balance"
                 name="balance"
-                value={formatCurrency(formData.balance)}
+                value={formatCurrency(formData.balance || 0)}
                 onClick={() => setActiveField("balance")}
                 placeholder={t("balance_description")}
                 fullWidth

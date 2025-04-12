@@ -14,3 +14,11 @@ export const BottomNavigationContent = styled(BottomNavigation)`
   border-radius: 28px 28px 0 0 !important;
   height: 100% !important;
 `;
+
+export const SpeedDialWrapper = styled.div`
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1500;
+`;

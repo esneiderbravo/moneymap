@@ -23,6 +23,7 @@ import getIconColor from "../../../utils/common/color";
 import RegisterAccount from "./RegisterAccount";
 import { useTranslation } from "react-i18next";
 import useSwipeClose from "../../hooks/useSwipeClose";
+import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
 
 /**
  * AccountInfoContent component renders detailed information about a selected account,
@@ -45,14 +46,9 @@ const AccountInfo = ({
   const { t } = useTranslation("account_info");
   const [editAccount, setEditAccount] = useState(false);
 
-  const accountIconsMapper = {
-    checking: "AssuredWorkloadSharp",
-    savings: "Savings",
-  };
-
   // Get icon component based on account type
   const IconComponent = currentAccount?.type
-    ? getIconComponent(accountIconsMapper[currentAccount?.type])
+    ? getIconComponent(ACCOUNTS_ICON_MAPPER[currentAccount?.type])
     : null;
 
   // Icons used in list items
@@ -158,7 +154,7 @@ const AccountInfo = ({
                           variant="subtitle2"
                           sx={{ color: "text.white" }}
                         >
-                          {`${t(currentAccount?.type) + " " + t("account")}`}
+                          {t(currentAccount?.type)}
                         </Typography>
                       }
                     />
