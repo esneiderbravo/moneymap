@@ -3,7 +3,33 @@
   "income": "Income",
   "credit_card": "Credit Card",
   "transfer": "Transfer",
-  "save": "Save",
+  "submit": "Save",
   "not_paid": "Not paid",
-  "paid": "Paid"
+  "paid": "Paid",
+  "pick_account": "Select an account",
+  "pick_date": "Pick a date",
+  "pick_category": "Pick a category",
+  "expense_categories": {
+    "Food & Groceries": "Food & Groceries",
+    "Transportation": "Transportation",
+    "Utilities": "Utilities",
+    "Rent": "Rent",
+    "Health": "Health",
+    "Entertainment": "Entertainment",
+    "Dining Out": "Dining Out",
+    "Subscriptions": "Subscriptions",
+    "Travel": "Travel",
+    "Clothing": "Clothing",
+    "Gifts": "Gifts",
+    "Insurance": "Insurance",
+    "Other": "Other"
+  },
+  "income_categories": {
+    "Salary": "Salary",
+    "Freelance": "Freelance",
+    "Investments": "Investments",
+    "Refunds": "Refunds",
+    "Rental Income": "Rental Income"
+  },
+  "balance_error": "Invalid transaction amount. Please ensure sufficient account balance."
 }

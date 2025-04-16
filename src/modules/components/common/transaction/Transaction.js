@@ -27,6 +27,8 @@ import { getIconComponent } from "../../../utils/common/icon";
 import { validateFormData } from "../../../utils/jsonschema";
 import CustomDatePicker from "../../../utils/common/datepicker";
 import { useAppContext } from "../../../providers/AppProvider";
+import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
+import { setNotification } from "../../../actions/state";
 
 /**
  * Transaction component renders a side drawer with a form to register different types of transactions
@@ -40,9 +42,10 @@ import { useAppContext } from "../../../providers/AppProvider";
  */
 const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
   const { t } = useTranslation("transaction");
-  const { state } = useAppContext();
-  const { balance } = state;
+  const { state, dispatch } = useAppContext();
+  const { balance, categories } = state;
   const { accounts = [] } = balance;
+  const currentCategories = categories[currentTransaction] || [];
 
   const [formData, setFormData] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -57,11 +60,38 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
   const TrendingUpIcon = getIconComponent("TrendingUp");
   const LoopIcon = getIconComponent("Loop");
   const AddCardIcon = getIconComponent("AddCard");
-  const ReceiptIcon = getIconComponent("Receipt");
   const PaidIcon = getIconComponent("Paid");
   const CheckCircleIcon = getIconComponent("CheckCircle");
   const CalendarMonthIcon = getIconComponent("CalendarMonth");
   const AccountBalanceIcon = getIconComponent("AccountBalance");
+  const CategoryIcon = getIconComponent("Category");
+
+  const typeOptions = [
+    {
+      icon: TrendingDownIcon,
+      name: t("expense"),
+      color: "icon.red",
+      value: "expense",
+    },
+    {
+      icon: TrendingUpIcon,
+      name: t("income"),
+      color: "icon.green",
+      value: "income",
+    },
+    {
+      icon: AddCardIcon,
+      name: t("credit_card"),
+      color: "icon.secondary",
+      value: "credit_card",
+    },
+    {
+      icon: LoopIcon,
+      name: t("transfer"),
+      color: "icon.blue",
+      value: "transfer",
+    },
+  ];
 
   /**
    * Handles the form submission by validating the data and simulating a submit action.
@@ -73,8 +103,24 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
     e.preventDefault();
     if (!validateFormData("registerTransaction", formData, setErrors)) return;
     setSubmitting(true);
+    if (!validateExpenseTransaction(formData)) {
+      dispatch(
+        setNotification({
+          type: "error",
+          info: t("balance_error"),
+        })
+      );
+      setSubmitting(false);
+      return;
+    }
     console.log(formData);
-    // Submit logic...
+  };
+
+  const validateExpenseTransaction = (formData) => {
+    const { amount, accountId, type, paid } = formData;
+    const account = accounts.find((account) => account.id === accountId);
+    const accountBalance = account.balance;
+    return !(["expense"].includes(type) && paid && amount > accountBalance);
   };
 
   /**
@@ -119,7 +165,6 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
       ...prev,
       date,
     }));
-    console.log(date);
   };
 
   useSwipeClose({ isOpen, onClose: (event) => handleClose(event) });
@@ -137,6 +182,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
       paid: true,
       date: "",
       accountId: "",
+      categoryId: "",
     });
     setSubmitting(false);
     setErrors({});
@@ -163,11 +209,10 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
             <FormControl
               variant="standard"
               fullWidth
-              sx={{ mb: 6 }}
+              sx={{ mb: 6, display: "none" }}
               error={!!errors.type}
             >
               <Box display="flex" alignItems="center" gap={2}>
-                {ReceiptIcon && <ReceiptIcon sx={{ color: "icon.white" }} />}
                 <SelectType
                   id="type"
                   name="type"
@@ -182,25 +227,22 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                     </InputAdornment>
                   }
                 >
-                  <MenuItem value="expense" sx={{ color: "icon.red" }}>
-                    {TrendingDownIcon && <TrendingDownIcon sx={{ mr: 1 }} />}
-                    {t("expense")}
-                  </MenuItem>
-                  <MenuItem value="income" sx={{ color: "icon.green" }}>
-                    {TrendingUpIcon && <TrendingUpIcon sx={{ mr: 1 }} />}
-                    {t("income")}
-                  </MenuItem>
-                  <MenuItem
-                    value="credit_card"
-                    sx={{ color: "icon.secondary" }}
-                  >
-                    {AddCardIcon && <AddCardIcon sx={{ mr: 1 }} />}
-                    {t("credit_card")}
-                  </MenuItem>
-                  <MenuItem value="transfer" sx={{ color: "icon.blue" }}>
-                    {LoopIcon && <LoopIcon sx={{ mr: 1 }} />}
-                    {t("transfer")}
-                  </MenuItem>
+                  {typeOptions.map((option, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        value={option.value}
+                        sx={{ color: `${option.color}` }}
+                      >
+                        {option.icon && (
+                          <option.icon
+                            sx={{ color: `${option.color}`, mr: 1 }}
+                          />
+                        )}
+                        {option.name}
+                      </MenuItem>
+                    );
+                  })}
                 </SelectType>
               </Box>
               {errors.type && (
@@ -224,7 +266,6 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               error={!!errors.amount}
             >
               <Box display="flex" alignItems="center" gap={2}>
-                {PaidIcon && <PaidIcon sx={{ color: "icon.white" }} />}
                 <InputTransaction
                   id="amount"
                   name="amount"
@@ -236,12 +277,14 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                     backgroundColor: ACCENT_BG,
                     "&::placeholder": { color: "grey", opacity: 1 },
                   }}
+                  startAdornment={
+                    PaidIcon && <PaidIcon sx={{ color: "icon.white", mr: 1 }} />
+                  }
                 />
               </Box>
               {errors.amount && (
                 <FormHelperText
                   sx={{
-                    marginLeft: "40px",
                     color: "error.main",
                     fontWeight: "bold",
                   }}
@@ -259,9 +302,17 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               error={!!errors.paid}
             >
               <Box display="flex" alignItems="center" gap={2}>
+                {/* Icon */}
                 {CheckCircleIcon && (
                   <CheckCircleIcon sx={{ color: "icon.white" }} />
                 )}
+
+                {/* Label Text */}
+                <Typography color="text.white">
+                  {formData.paid ? t("paid") : t("not_paid")}
+                </Typography>
+
+                {/* Align Switch to the right */}
                 <Switch
                   id="paid"
                   name="paid"
@@ -272,11 +323,21 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                       "aria-label": "controlled",
                     },
                   }}
+                  sx={{
+                    ml: "auto", // Pushes the switch to the right
+                    "& .MuiSwitch-thumb": {
+                      backgroundColor: "icon.white", // Default thumb color
+                    },
+                    "& .Mui-checked": {
+                      "& .MuiSwitch-thumb": {
+                        backgroundColor: "icon.green", // Thumb color when checked
+                      },
+                    },
+                  }}
                 />
-                <Typography color="text.white">
-                  {formData.paid ? t("paid") : t("not_paid")}
-                </Typography>
               </Box>
+
+              {/* Error message */}
               {errors.paid && (
                 <FormHelperText
                   sx={{
@@ -298,13 +359,11 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               error={!!errors.date}
             >
               <Box display="flex" alignItems="center" gap={2}>
-                {CalendarMonthIcon && (
-                  <CalendarMonthIcon sx={{ color: "icon.white" }} />
-                )}
                 <InputTransaction
                   id="date"
                   name="date"
-                  value={formData.date || "DD/MM/YYYY"}
+                  value={formData.date || ""}
+                  placeholder={t("pick_date")}
                   onClick={() => setOpenDatePickerModal(true)}
                   fullWidth
                   inputProps={{ readOnly: true }}
@@ -312,12 +371,16 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                     backgroundColor: ACCENT_BG,
                     "&::placeholder": { color: "grey", opacity: 1 },
                   }}
+                  startAdornment={
+                    CalendarMonthIcon && (
+                      <CalendarMonthIcon sx={{ color: "icon.white", mr: 1 }} />
+                    )
+                  }
                 />
               </Box>
               {errors.date && (
                 <FormHelperText
                   sx={{
-                    marginLeft: "40px",
                     color: "error.main",
                     fontWeight: "bold",
                   }}
@@ -327,7 +390,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               )}
             </FormControl>
 
-            {/* Account Id */}
+            {/* Account ID */}
             <FormControl
               variant="standard"
               fullWidth
@@ -335,9 +398,6 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               error={!!errors.accountId}
             >
               <Box display="flex" alignItems="center" gap={2}>
-                {AccountBalanceIcon && (
-                  <AccountBalanceIcon sx={{ color: "icon.white" }} />
-                )}
                 <SelectType
                   id="accountId"
                   name="accountId"
@@ -352,26 +412,100 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                     </InputAdornment>
                   }
                 >
-                  {accounts.map((acc) => (
-                    <MenuItem
-                      key={acc.id}
-                      value={acc.id}
-                      sx={{ color: "icon.white" }}
-                    >
-                      {acc.description}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value="" disabled sx={{ color: "grey.500" }}>
+                    {AccountBalanceIcon && (
+                      <AccountBalanceIcon sx={{ color: "icon.white", mr: 1 }} />
+                    )}
+                    {t("pick_account")}{" "}
+                  </MenuItem>
+                  {accounts.map((account) => {
+                    const IconComponent = getIconComponent(
+                      ACCOUNTS_ICON_MAPPER[account.type]
+                    );
+                    return (
+                      <MenuItem
+                        key={account.id}
+                        value={account.id}
+                        sx={{ color: `${account.color}` }}
+                      >
+                        {IconComponent && (
+                          <IconComponent
+                            sx={{ color: `${account.color}`, mr: 1 }}
+                          />
+                        )}
+                        {account.description}
+                      </MenuItem>
+                    );
+                  })}
                 </SelectType>
               </Box>
               {errors.accountId && (
                 <FormHelperText
                   sx={{
-                    marginLeft: "40px",
                     color: "error.main",
                     fontWeight: "bold",
                   }}
                 >
                   {errors.accountId}
+                </FormHelperText>
+              )}
+            </FormControl>
+
+            {/* Category ID */}
+            <FormControl
+              variant="standard"
+              fullWidth
+              sx={{ mb: 6 }}
+              error={!!errors.accountId}
+            >
+              <Box display="flex" alignItems="center" gap={2}>
+                <SelectType
+                  id="categoryId"
+                  name="categoryId"
+                  value={formData.categoryId || ""}
+                  onChange={handleInputChange}
+                  displayEmpty
+                  fullWidth
+                  sx={{ backgroundColor: ACCENT_BG }}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <ArrowForwardIosIcon sx={{ color: "icon.white" }} />
+                    </InputAdornment>
+                  }
+                >
+                  <MenuItem value="" disabled sx={{ color: "grey.500" }}>
+                    {CategoryIcon && (
+                      <CategoryIcon sx={{ color: "icon.white", mr: 1 }} />
+                    )}
+                    {t("pick_category")}{" "}
+                  </MenuItem>
+                  {currentCategories.map((category) => {
+                    const IconComponent = getIconComponent(category.icon);
+                    return (
+                      <MenuItem
+                        key={category.id}
+                        value={category.id}
+                        sx={{ color: `${category.color}` }}
+                      >
+                        {IconComponent && (
+                          <IconComponent
+                            sx={{ color: `${category.color}`, mr: 1 }}
+                          />
+                        )}
+                        {t(`${category.type}_categories.${category.name}`)}
+                      </MenuItem>
+                    );
+                  })}
+                </SelectType>
+              </Box>
+              {errors.categoryId && (
+                <FormHelperText
+                  sx={{
+                    color: "error.main",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {errors.categoryId}
                 </FormHelperText>
               )}
             </FormControl>
@@ -386,7 +520,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               {submitting ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
-                t("save")
+                t("submit")
               )}
             </SubmitButton>
           </TransactionContainer>
@@ -398,6 +532,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
         handleClose={() => setActiveField(null)}
         setBalanceField={setAmountField}
       />
+
       <CustomDatePicker
         open={openDatePickerModal}
         handleClose={() => setOpenDatePickerModal(false)}

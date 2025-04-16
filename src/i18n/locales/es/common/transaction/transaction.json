@@ -5,5 +5,31 @@
   "transfer": "Transferencia",
   "submit": "Guardar",
   "not_paid": "No pagado",
-  "paid": "Pagado"
+  "paid": "Pagado",
+  "pick_account": "Selecciona una cuenta",
+  "pick_date": "Escoge una fecha",
+  "pick_category": "Escoge una categoría",
+  "expense_categories": {
+    "Food & Groceries": "Comida y supermercado",
+    "Transportation": "Transporte",
+    "Utilities": "Servicios",
+    "Rent": "Alquiler",
+    "Health": "Salud",
+    "Entertainment": "Entretenimiento",
+    "Dining Out": "Comer fuera",
+    "Subscriptions": "Suscripciones",
+    "Travel": "Viajes",
+    "Clothing": "Ropa",
+    "Gifts": "Regalos",
+    "Insurance": "Seguro",
+    "Other": "Otros"
+  },
+  "income_categories": {
+    "Salary": "Salario",
+    "Freelance": "Freelance",
+    "Investments": "Inversiones",
+    "Refunds": "Reembolsos",
+    "Rental Income": "Ingresos por alquiler"
+  },
+  "balance_error": "Monto de transacción inválido. Por favor, asegúrese de tener saldo suficiente en la cuenta."
 }

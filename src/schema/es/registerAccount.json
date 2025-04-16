@@ -6,40 +6,40 @@
       "minimum": 0,
       "multipleOf": 0.01,
       "errorMessage": {
-        "type": "Balance must be a number.",
-        "minimum": "Balance cannot be negative.",
-        "multipleOf": "Balance must have up to two decimal places."
+        "type": "El saldo debe ser un número válido.",
+        "minimum": "El saldo no puede ser negativo.",
+        "multipleOf": "El saldo debe tener un máximo de dos decimales."
       }
     },
     "description": {
       "type": "string",
       "minLength": 1,
       "errorMessage": {
-        "minLength": "Description cannot be empty."
+        "minLength": "La descripción no puede estar vacía."
       }
     },
     "type": {
       "type": "string",
       "enum": ["checking", "savings", "wallet"],
       "errorMessage": {
-        "enum": "Type must be either 'checking' or 'savings'."
+        "enum": "El tipo debe ser 'checking', 'savings' o 'wallet'."
       }
     },
     "color": {
       "type": "string",
       "minLength": 1,
       "errorMessage": {
-        "minLength": "Color cannot be empty."
+        "minLength": "El color no puede estar vacío."
       }
     }
   },
   "required": ["balance", "description", "type", "color"],
   "errorMessage": {
     "required": {
-      "balance": "Balance is required.",
-      "description": "Description is required.",
-      "type": "Type is required.",
-      "color": "Color is required."
+      "balance": "El campo 'saldo' es obligatorio.",
+      "description": "El campo 'descripción' es obligatorio.",
+      "type": "El campo 'tipo' es obligatorio.",
+      "color": "El campo 'color' es obligatorio."
     }
   }
 }

@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["expense", "income", "credit_card", "transfer"],
+      "errorMessage": {
+        "enum": "Por favor, selecciona un tipo válido: 'gasto', 'ingreso', 'tarjeta de crédito' o 'transferencia'."
+      }
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 1,
+      "multipleOf": 0.01,
+      "errorMessage": {
+        "type": "El monto debe ser un número válido.",
+        "minimum": "El monto debe ser mayor a 0.",
+        "multipleOf": "El monto debe tener hasta dos decimales."
+      }
+    },
+    "paid": {
+      "type": "boolean",
+      "errorMessage": {
+        "type": "El campo 'Pagado' debe ser verdadero o falso."
+      }
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+      "errorMessage": {
+        "type": "La fecha debe ser una cadena válida.",
+        "pattern": "La fecha debe cumplir con el formato 'DD/MM/YYYY'."
+      }
+    },
+    "accountId": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "La cuenta debe ser una cadena válida.",
+        "minLength": "El ID de la cuenta no puede estar vacío."
+      }
+    },
+    "categoryId": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "La categoría debe ser una cadena válida.",
+        "minLength": "El ID de la categoría no puede estar vacío."
+      }
+    }
+  },
+  "required": ["amount", "type", "paid", "date", "accountId", "categoryId"],
+  "errorMessage": {
+    "required": {
+      "amount": "El campo 'monto' es obligatorio.",
+      "type": "El campo 'tipo' es obligatorio.",
+      "paid": "El campo 'pagado' es obligatorio.",
+      "date": "El campo 'fecha' es obligatorio.",
+      "accountId": "El campo 'cuenta' es obligatorio.",
+      "categoryId": "El campo 'categoría' es obligatorio."
+    }
+  }
+}

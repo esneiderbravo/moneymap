@@ -1,5 +1,6 @@
 import Ajv from "ajv";
 import addErrors from "ajv-errors";
+import i18next from "i18next";
 
 /**
  * Utility function to load JSON schema by name.
@@ -8,9 +9,16 @@ import addErrors from "ajv-errors";
  */
 export const getJsonSchema = (schemaName) => {
   try {
-    return require(`../../schema/${schemaName}.json`);
+    // Get the current language set in i18next
+    const currentLanguage = i18next.language || "en";
+
+    // Construct the path based on the current language
+    return require(`../../schema/${currentLanguage}/${schemaName}.json`);
   } catch (error) {
-    console.error(`Error loading schema: ${schemaName}`, error);
+    console.error(
+      `Error loading schema: ${schemaName} for language: ${i18next.language}`,
+      error
+    );
     return null;
   }
 };

@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "properties": {
+    "balance": {
+      "type": "number",
+      "minimum": 0,
+      "multipleOf": 0.01,
+      "errorMessage": {
+        "type": "The balance must be a valid number.",
+        "minimum": "The balance cannot be negative.",
+        "multipleOf": "The balance must have no more than two decimal places."
+      }
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "The description cannot be empty. Please provide a valid value."
+      }
+    },
+    "type": {
+      "type": "string",
+      "enum": ["checking", "savings", "wallet"],
+      "errorMessage": {
+        "enum": "The type must be one of the following: 'checking', 'savings', or 'wallet'."
+      }
+    },
+    "color": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "The color cannot be empty. Please select a valid value."
+      }
+    }
+  },
+  "required": ["balance", "description", "type", "color"],
+  "errorMessage": {
+    "required": {
+      "balance": "The 'balance' field is required. Please enter a valid amount.",
+      "description": "The 'description' field is required. Please provide a short description.",
+      "type": "The 'type' field is required. Please select a type from the list.",
+      "color": "The 'color' field is required. Please choose a valid color."
+    }
+  }
+}
