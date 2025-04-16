@@ -1,20 +1,26 @@
-import * as TransactionService from "../../services/transaction/TransactionService.js";
+import { processTransaction } from "../../services/transaction/TransactionService.js";
+import { affectBalances } from "../../services/account/AccountService.js";
 
 /**
  * Execute a new transaction.
  */
-export const initiateTransaction = async (req, res) => {
+export const createTransaction = async (req, res) => {
   try {
-    const { accountId, amount, type } = req.body;
-    if (!["credit", "debit"].includes(type)) {
-      return res.status(400).json({ error: "Invalid transaction type" });
-    }
-    const transaction = await TransactionService.processTransaction(
-      accountId,
+    const { type, amount, paid, date, accountId, categoryId } = req.body;
+    const transaction = await processTransaction(
+      type,
       amount,
-      type
+      paid,
+      date,
+      accountId,
+      categoryId
     );
-    res.status(201).json(transaction);
+    await affectBalances(
+      transaction.accountId,
+      transaction.type,
+      transaction.amount
+    );
+    res.status(201).json({ success: true, data: transaction });
   } catch (error) {
     res.status(500).json({ error: "Transaction processing failed" });
   }

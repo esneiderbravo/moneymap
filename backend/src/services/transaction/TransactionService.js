@@ -5,22 +5,26 @@ const prisma = new PrismaClient();
 /**
  * Process a new financial transaction.
  *
- * @param {string} accountId - The ID of the target account.
- * @param {number} transactionAmount - Amount to be credited/debited.
- * @param {"credit" | "debit"} transactionType - Type of transaction.
- * @returns {Promise<Object>} - The created transaction object.
+ * @param {"expense" | "income"} type - The type of transaction, either "credit" or "debit".
+ * @param {number} amount - The monetary amount involved in the transaction.
+ * @param {boolean} paid - Whether the transaction has been paid or is pending.
+ * @param {Date} date - The date of the transaction.
+ * @param {string} accountId - The ID of the account where the transaction will be recorded.
+ * @param {string} categoryId - The category ID associated with the transaction.
+ * @returns {Promise<Object>} - Returns a promise that resolves to the created transaction object or throws an error if the process fails.
  */
 export const processTransaction = async (
+  type,
+  amount,
+  paid,
+  date,
   accountId,
-  transactionAmount,
-  transactionType
+  categoryId
 ) => {
   try {
-    console.log(
-      `📌 Processing ${transactionType} transaction for account: ${accountId}`
-    );
+    console.log(`📌 Processing ${type} transaction for account: ${accountId}`);
     return await prisma.transaction.create({
-      data: { accountId, amount: transactionAmount, type: transactionType },
+      data: { type, amount, paid, date, accountId, categoryId },
     });
   } catch (error) {
     console.error("❌ Error processing transaction:", error);

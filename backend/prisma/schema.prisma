@@ -45,7 +45,7 @@ model Transaction {
   amount     Float
   type       String
   paid       Boolean
-  date       DateTime
+  date       String
   createdAt  DateTime @default(now())
 
   accountId  String
