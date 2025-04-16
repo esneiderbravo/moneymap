@@ -8,8 +8,6 @@ import {
   InputAdornment,
   MenuItem,
 } from "@mui/material";
-import Ajv from "ajv";
-import addErrors from "ajv-errors";
 
 import CommonHeader from "../CommonHeader";
 import ColorSelector from "../ColorSelector";
@@ -23,7 +21,6 @@ import {
 } from "../../../styles/common/account/RegisterAccount.styled";
 
 import { getIconComponent } from "../../../utils/common/icon";
-import { getJsonSchema } from "../../../utils/jsonschema";
 import { upsertAccount } from "../../../services/account/accountService";
 import { setBalance, setNotification } from "../../../actions/state";
 import { useAppContext } from "../../../providers/AppProvider";
@@ -31,6 +28,7 @@ import NumericKeyboard from "../NumericKeyboard";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../../../utils/common/currency";
 import useSwipeClose from "../../hooks/useSwipeClose";
+import { validateFormData } from "../../../utils/jsonschema";
 
 /**
  * RegisterAccountContent
@@ -88,34 +86,6 @@ const RegisterAccount = ({
   };
 
   /**
-   * Validates the formData using a JSON Schema defined in the project.
-   * Utilizes AJV and custom error messages to produce user-friendly feedback.
-   *
-   * @returns {boolean} - Returns true if the form is valid; false otherwise.
-   */
-  const validateFormData = () => {
-    const ajv = new Ajv({ allErrors: true });
-    addErrors(ajv);
-
-    const schema = getJsonSchema("registerAccount");
-    const validate = ajv.compile(schema);
-    const isValid = validate(formData);
-
-    if (!isValid) {
-      const fieldErrors = {};
-      for (const err of validate.errors) {
-        const field = err.instancePath.replace(/^\//, "");
-        fieldErrors[field] = err.message || "Invalid input";
-      }
-      setErrors(fieldErrors);
-      return false;
-    }
-
-    setErrors({});
-    return true;
-  };
-
-  /**
    * Handles form submission for creating or updating an account.
    * Validates the form, sends data to the server, updates global state,
    * and provides user feedback via notifications.
@@ -124,7 +94,7 @@ const RegisterAccount = ({
    */
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    if (!validateFormData()) return;
+    if (!validateFormData("registerAccount", formData, setErrors)) return;
 
     setSubmitting(true);
     let dataToSubmit = { userId: authData.id, ...formData };

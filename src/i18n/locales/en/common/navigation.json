@@ -1,4 +1,8 @@
 {
   "dashboard": "Dashboard",
-  "more": "More"
+  "more": "More",
+  "expense": "Expense",
+  "income": "Income",
+  "credit_card": "Credit Card",
+  "transfer": "Transfer"
 }
