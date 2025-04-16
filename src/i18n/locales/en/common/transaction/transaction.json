@@ -31,5 +31,7 @@
     "Refunds": "Refunds",
     "Rental Income": "Rental Income"
   },
-  "balance_error": "Invalid transaction amount. Please ensure sufficient account balance."
+  "balance_error": "Invalid transaction amount. Please ensure sufficient account balance.",
+  "create_transaction_success": "Transaction has been successfully created.",
+  "create_transaction_error": "An error occurred while creating the transaction. Please try again."
 }

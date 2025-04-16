@@ -28,7 +28,8 @@ import { validateFormData } from "../../../utils/jsonschema";
 import CustomDatePicker from "../../../utils/common/datepicker";
 import { useAppContext } from "../../../providers/AppProvider";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
-import { setNotification } from "../../../actions/state";
+import { setBalance, setNotification } from "../../../actions/state";
+import { createTransaction } from "../../../services/transaction/transactionService";
 
 /**
  * Transaction component renders a side drawer with a form to register different types of transactions
@@ -113,14 +114,102 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
       setSubmitting(false);
       return;
     }
-    console.log(formData);
+    await handleCreateTransaction(formData);
+    setSubmitting(false);
+    handleClose(e);
   };
 
+  /**
+   * Validates an expense transaction to ensure it meets the balance requirement.
+   *
+   * @param {Object} formData - The transaction data to validate.
+   * @returns {boolean} - Returns `true` if the transaction is valid, otherwise `false`.
+   */
   const validateExpenseTransaction = (formData) => {
     const { amount, accountId, type, paid } = formData;
     const account = accounts.find((account) => account.id === accountId);
     const accountBalance = account.balance;
+
+    // Validation to ensure that paid expenses do not exceed the account balance
     return !(["expense"].includes(type) && paid && amount > accountBalance);
+  };
+
+  /**
+   * Handles the creation of a transaction by sending the form data to the service
+   * and managing the application state and notifications accordingly.
+   *
+   * @param {Object} formData - The transaction data to be sent.
+   * @returns {Promise<void>} - Resolves when the transaction handling is complete. Any errors are caught and logged.
+   */
+  const handleCreateTransaction = async (formData) => {
+    try {
+      const { data, success } = await createTransaction(formData);
+
+      if (success && data) {
+        console.log("✅ Transaction created successfully.");
+
+        const account = accounts.find(
+          (account) => account.id === data.accountId
+        );
+
+        if (account) {
+          const type = data.type;
+          const amount = data.amount; // Get the amount from transaction data
+          const newBalance =
+            type === "income"
+              ? account.balance + amount // Add for income
+              : account.balance - amount; // Subtract for expense
+
+          // Update the account's balance in the state
+          const updatedAccounts = accounts.map((acc) =>
+            acc.id === account.id ? { ...acc, balance: newBalance } : acc
+          );
+          const updatedTotalBalanceAmount = updatedAccounts.reduce(
+            (sum, acc) => sum + (parseFloat(acc.balance) || 0),
+            0
+          );
+
+          dispatch(
+            setBalance({
+              ...balance,
+              accounts: updatedAccounts,
+              totalBalanceAmount: updatedTotalBalanceAmount,
+            })
+          );
+
+          dispatch(
+            setNotification({
+              type: "success",
+              info: t("create_transaction_success"), // Correct success message
+            })
+          );
+        } else {
+          console.warn("⚠️ Account not found for the transaction.");
+          dispatch(
+            setNotification({
+              type: "error",
+              info: t("account_not_found_error"), // Handle account not found separately
+            })
+          );
+        }
+      } else {
+        console.warn("⚠️ Transaction creation failed.");
+        dispatch(
+          setNotification({
+            type: "error",
+            info: t("create_transaction_error"),
+          })
+        );
+      }
+    } catch (error) {
+      console.error("❌ Error creating transaction:", error);
+      dispatch(
+        setNotification({
+          type: "error",
+          info: t("create_transaction_error"),
+        })
+      );
+    }
   };
 
   /**

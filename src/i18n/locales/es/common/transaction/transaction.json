@@ -31,5 +31,7 @@
     "Refunds": "Reembolsos",
     "Rental Income": "Ingresos por alquiler"
   },
-  "balance_error": "Monto de transacción inválido. Por favor, asegúrese de tener saldo suficiente en la cuenta."
+  "balance_error": "Monto de transacción inválido. Por favor, asegúrese de tener saldo suficiente en la cuenta.",
+  "create_transaction_success": "La transacción se ha creado con éxito.",
+  "create_transaction_error": "Ocurrió un error al crear la transacción. Por favor, inténtalo de nuevo."
 }
