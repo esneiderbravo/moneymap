@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["expense", "income", "credit_card", "transfer"],
+      "errorMessage": {
+        "enum": "Type must be either 'expense', 'income', 'credit_card', or 'transfer'."
+      }
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 1,
+      "multipleOf": 0.01,
+      "errorMessage": {
+        "type": "Amount must be a number.",
+        "minimum": "Amount should be > 0.",
+        "multipleOf": "Amount must have up to two decimal places."
+      }
+    },
+    "paid": {
+      "type": "boolean",
+      "errorMessage": {
+        "type": "Paid must be a boolean."
+      }
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+      "errorMessage": {
+        "type": "Date must be a string.",
+        "pattern": "Date must be in the format 'DD/MM/YYYY'."
+      }
+    },
+    "accountId": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Account must be a string.",
+        "minLength": "Account ID cannot be empty."
+      }
+    }
+  },
+  "required": ["amount", "type", "paid", "date", "accountId"],
+  "errorMessage": {
+    "required": {
+      "amount": "Amount is required.",
+      "type": "Type is required.",
+      "paid": "Paid is required.",
+      "date": "Date is required.",
+      "accountId": "Account is required."
+    }
+  }
+}

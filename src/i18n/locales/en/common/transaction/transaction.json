@@ -1,0 +1,9 @@
+{
+  "expense": "Expense",
+  "income": "Income",
+  "credit_card": "Credit Card",
+  "transfer": "Transfer",
+  "save": "Save",
+  "not_paid": "Not paid",
+  "paid": "Paid"
+}

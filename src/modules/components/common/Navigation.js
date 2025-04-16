@@ -17,6 +17,7 @@ import {
 } from "../../styles/common/Navigation.styled";
 import { getIconComponent } from "../../utils/common/icon";
 import { useTranslation } from "react-i18next";
+import Transaction from "./transaction/Transaction";
 
 /**
  * Navigation component displaying a fixed bottom navigation bar
@@ -33,7 +34,10 @@ const Navigation = () => {
   const { authData, currentPage } = state;
   const navigate = useNavigate();
   const location = useLocation();
+  const isDashboardRoute = location.pathname === "/dashboard";
   const [openDial, setOpenDial] = React.useState(false);
+  const [openTransaction, setOpenTransaction] = React.useState(false);
+  const [currentTransaction, setCurrentTransaction] = React.useState(null);
 
   // Dynamically load MUI icons
   const HomeIcon = getIconComponent("Home");
@@ -43,18 +47,40 @@ const Navigation = () => {
   const LoopIcon = getIconComponent("Loop");
   const AddCardIcon = getIconComponent("AddCard");
 
+  const handleOpenAction = (transactionName) => {
+    setOpenDial(false);
+    setOpenTransaction(true);
+    setCurrentTransaction(transactionName);
+  };
+
   /**
    * SpeedDial action items with associated icons and theme colors.
    */
   const actions = [
-    { icon: <LoopIcon />, name: "Transfer", color: "icon.blue" },
-    { icon: <TrendingUpIcon />, name: "Income", color: "icon.green" },
+    {
+      icon: <LoopIcon />,
+      name: t("transfer"),
+      color: "icon.blue",
+      onClick: () => handleOpenAction("transfer"),
+    },
     {
       icon: <AddCardIcon />,
-      name: "Credit Card",
+      name: t("credit_card"),
       color: "icon.secondary",
+      onClick: () => handleOpenAction("credit_card"),
     },
-    { icon: <TrendingDownIcon />, name: "Expense", color: "icon.red" },
+    {
+      icon: <TrendingUpIcon />,
+      name: t("income"),
+      color: "icon.green",
+      onClick: () => handleOpenAction("income"),
+    },
+    {
+      icon: <TrendingDownIcon />,
+      name: t("expense"),
+      color: "icon.red",
+      onClick: () => handleOpenAction("expense"),
+    },
   ];
 
   /**
@@ -96,41 +122,6 @@ const Navigation = () => {
           value={currentPage}
           onChange={handleChange}
         >
-          <Backdrop open={openDial} />
-
-          <SpeedDialWrapper>
-            <SpeedDial
-              ariaLabel="Main Speed Dial"
-              icon={<SpeedDialIcon />}
-              direction="up"
-              onClick={() => setOpenDial(!openDial)}
-              open={openDial}
-            >
-              {actions.map((action, index) => {
-                const positions = [
-                  { left: "-85px", bottom: "40px" },
-                  { left: "-30px", bottom: "65px" },
-                  { left: "30px", bottom: "65px" },
-                  { left: "85px", bottom: "40px" },
-                ];
-                return (
-                  <SpeedDialAction
-                    key={action.name}
-                    icon={React.cloneElement(action.icon, {
-                      sx: { color: action.color },
-                    })}
-                    onClick={() => setOpenDial(false)}
-                    sx={{
-                      position: "absolute",
-                      ...positions[index],
-                      backgroundColor: "secondary.main",
-                    }}
-                  />
-                );
-              })}
-            </SpeedDial>
-          </SpeedDialWrapper>
-
           {navigationElements.map(({ label, value, icon }) => (
             <BottomNavigationAction
               key={value}
@@ -140,7 +131,65 @@ const Navigation = () => {
             />
           ))}
         </BottomNavigationContent>
+        {isDashboardRoute ? (
+          <>
+            <Backdrop
+              open={openDial}
+              sx={{
+                backgroundColor: "rgba(0, 0, 0, 0.7)", // darker backdrop
+              }}
+            />
+
+            <SpeedDialWrapper>
+              <SpeedDial
+                ariaLabel="Main Speed Dial"
+                icon={<SpeedDialIcon />}
+                direction="up"
+                onClick={() => setOpenDial(!openDial)}
+                open={openDial}
+              >
+                {actions.map((action) => {
+                  return (
+                    <SpeedDialAction
+                      key={action.name}
+                      icon={React.cloneElement(action.icon, {
+                        sx: { color: action.color },
+                      })}
+                      onClick={() => action.onClick()}
+                      slotProps={{
+                        tooltip: {
+                          title: action.name,
+                          open: true,
+                          direction: "right",
+                        },
+                      }}
+                      sx={{
+                        ".MuiSpeedDialAction-staticTooltipLabel": {
+                          backgroundColor: "secondary.main",
+                          whiteSpace: "nowrap",
+                        },
+                        ".MuiButtonBase-root": {
+                          backgroundColor: "secondary.main",
+                        },
+                      }}
+                    />
+                  );
+                })}
+              </SpeedDial>
+            </SpeedDialWrapper>
+          </>
+        ) : null}
       </PaperContainer>
+      <Transaction
+        isOpen={openTransaction}
+        handleClose={(event) => {
+          event.stopPropagation();
+          document.activeElement?.blur();
+          setOpenTransaction(false);
+          setCurrentTransaction(null);
+        }}
+        currentTransaction={currentTransaction}
+      />
     </>
   ) : null;
 };

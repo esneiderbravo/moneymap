@@ -1,0 +1,9 @@
+{
+  "expense": "Gasto",
+  "income": "Ingreso",
+  "credit_card": "Tarjeta de crédito",
+  "transfer": "Transferencia",
+  "submit": "Guardar",
+  "not_paid": "No pagado",
+  "paid": "Pagado"
+}

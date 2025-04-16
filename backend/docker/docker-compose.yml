@@ -2,7 +2,6 @@ services:
   db:
     image: postgres
     container_name: money_map
-    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

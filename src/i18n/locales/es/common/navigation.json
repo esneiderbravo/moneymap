@@ -1,4 +1,8 @@
 {
   "dashboard": "Dashboard",
-  "more": "Más"
+  "more": "Más",
+  "expense": "Gasto",
+  "income": "Ingreso",
+  "credit_card": "Tarjeta de crédito",
+  "transfer": "Transferencia"
 }
