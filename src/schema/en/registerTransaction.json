@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["expense", "income", "credit_card", "transfer"],
+      "errorMessage": {
+        "enum": "Please select a valid type: 'expense', 'income', 'credit_card', or 'transfer'."
+      }
+    },
+    "amount": {
+      "type": "number",
+      "minimum": 1,
+      "multipleOf": 0.01,
+      "errorMessage": {
+        "type": "The amount must be a valid number.",
+        "minimum": "The amount must be greater than 0.",
+        "multipleOf": "The amount must have up to two decimal places."
+      }
+    },
+    "paid": {
+      "type": "boolean",
+      "errorMessage": {
+        "type": "The 'Paid' field must be true or false."
+      }
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$",
+      "errorMessage": {
+        "type": "The date must be a valid string.",
+        "pattern": "The date must follow the format 'DD/MM/YYYY'."
+      }
+    },
+    "accountId": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "The account must be a valid string.",
+        "minLength": "The account ID cannot be empty."
+      }
+    },
+    "categoryId": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "The category must be a valid string.",
+        "minLength": "The category ID cannot be empty."
+      }
+    }
+  },
+  "required": ["amount", "type", "paid", "date", "accountId", "categoryId"],
+  "errorMessage": {
+    "required": {
+      "amount": "The amount field is required.",
+      "type": "The type field is required.",
+      "paid": "The paid field is required.",
+      "date": "The date field is required.",
+      "accountId": "The account field is required.",
+      "categoryId": "The category field is required."
+    }
+  }
+}
