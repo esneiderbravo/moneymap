@@ -33,7 +33,7 @@ const Accounts = ({ balance, showBalances }) => {
   const { t } = useTranslation("accounts");
   const [currentAccount, setCurrentAccount] = useState(null);
 
-  const { accounts = [], totalBalance = 0 } = balance;
+  const { accounts = [], totalBalanceAmount = 0 } = balance;
 
   // Icon components retrieved dynamically
   const AddIcon = getIconComponent("Add");
@@ -135,7 +135,7 @@ const Accounts = ({ balance, showBalances }) => {
                 <ListItemText
                   primary={
                     showBalances ? (
-                      `${formatCurrency(totalBalance)}`
+                      `${formatCurrency(totalBalanceAmount)}`
                     ) : (
                       <span>
                         <HorizontalRuleRoundedIcon />
