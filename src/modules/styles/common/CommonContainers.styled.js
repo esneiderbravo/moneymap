@@ -24,7 +24,7 @@ export const PaperComponent = styled(Paper)`
 `;
 
 export const ChipComponent = styled(Chip)`
-  flex: 1;
+  flex: 1; // Allow chip to grow or shrink proportionally
   text-align: center;
   font-weight: bold;
   border: ${({ selected, option }) =>
@@ -36,6 +36,25 @@ export const ChipComponent = styled(Chip)`
   padding: 10px;
   height: 46px !important;
   font-size: 16px !important;
+  overflow: hidden; // Prevent content from overflowing
+  text-overflow: ellipsis; // Add ellipsis when text overflows
+  white-space: nowrap; // Keep text on a single line
+  cursor: pointer;
+  box-sizing: border-box;
+
+  // Responsive styling for smaller screens
+  @media (max-width: 600px) {
+    font-size: 14px; // Adjust font size
+  }
+
+  @media (max-width: 400px) {
+    font-size: 12px; // Further reduce font size if the screen is narrower
+  }
+
+  &:hover {
+    background-color: ${({ selected, option }) =>
+      selected === option ? "#c1c8c7" : "#f4f4f4"} !important;
+  }
 `;
 
 export const SelectContainer = styled(Select)({
