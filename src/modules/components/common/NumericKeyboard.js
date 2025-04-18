@@ -1,179 +1,242 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Drawer, Typography, IconButton } from "@mui/material";
-import Grid2 from "@mui/material/Grid2";
 import BackspaceIcon from "@mui/icons-material/Backspace";
-import { formatCurrency } from "../../utils/common/currency";
 import {
   BoxAmount,
   StyledDrawerPaper,
 } from "../../styles/common/NumericKeyboard.styled";
+import { formatCurrency } from "../../utils/common/currency";
 import { useTranslation } from "react-i18next";
 
-const keys = [
-  ["1", "2", "3"],
-  ["4", "5", "6"],
-  ["7", "8", "9"],
-];
-
 /**
- * NumericKeyboard component
+ * Numeric Keyboard Component
  *
- * Renders a numeric keypad inside a MUI Drawer that allows the user to input a numeric value.
- * This value is then passed to the parent component through the `setBalanceField` callback.
- * The component includes number buttons, a delete icon, and Cancel/Done buttons.
+ * This component renders a numeric keypad along with a display for numeric input inside an MUI `Drawer`.
+ * It is designed to be responsive, adjusting the height and width of the keyboard and buttons dynamically based on the viewport dimensions.
  *
  * Props:
- * @param {boolean} isOpen - Controls whether the drawer is open.
- * @param {function} handleClose - Function to close the drawer.
- * @param {function} setBalanceField - Callback to set the value inputted in the numeric keyboard.
+ * - `isOpen` (bool): Controls whether the numeric keyboard is open (visible) or closed.
+ * - `handleClose` (function): Callback fired when the drawer is closed.
+ * - `setBalanceField` (function): Callback receiving the numeric value entered into the keyboard when the "Done" button is clicked.
+ *
+ * Features:
+ * - Fully responsive design, dynamically adjusting button and font sizes for different screen sizes.
+ * - Displays the numeric input at the top and allows users to format it (e.g., as currency).
+ * - Functional numeric keys (0–9), a backspace button, and "Cancel" and "Done" options.
+ * - Dynamic height adjustment based on 50% of the device's viewport height.
+ *
+ * Dependencies:
+ * - MUI components such as `Drawer`, `Button`, `Box`, and `Typography`.
+ * - Translation functionality powered by `i18next`.
  */
 const NumericKeyboard = ({ isOpen, handleClose, setBalanceField }) => {
   const { t } = useTranslation("keyboard");
+
+  /**
+   * State to hold the numeric input value entered via the keyboard.
+   */
   const [input, setInput] = useState("");
 
   /**
-   * Handles number key presses.
+   * State to hold dynamic button dimensions based on the viewport size.
+   */
+  const [keyboardDimensions, setKeyboardDimensions] = useState({
+    buttonHeight: 20, // Default height of each button
+    fontSize: 18, // Default font size inside the buttons
+  });
+
+  /**
+   * Numeric keypad layout for keys (0–9).
+   * Divided into rows to enable flexible rendering.
+   */
+  const keys = [
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    ["0"], // Last row with a single "0" key
+  ];
+
+  /**
+   * Lifecycle hook to calculate dynamic button sizes based on the device viewport.
+   * This updates on component mount, and when the viewport is resized, to ensure proper responsiveness.
+   */
+  useEffect(() => {
+    const calculateDimensions = () => {
+      const viewportHeight =
+        window.visualViewport?.height || window.innerHeight; // Get viewport height
+      const viewportWidth = window.visualViewport?.width || window.innerWidth; // Get viewport width
+
+      // Height allocated for the entire keyboard (35% of the screen height)
+      const keyboardHeight = viewportHeight * 0.35;
+      const buttonRows = keys.length; // Total number of rows of buttons
+      const buttonColumns = 3; // Max number of buttons in a row
+
+      // Dynamically adjust button sizes and font size
+      const buttonHeight = Math.floor((keyboardHeight - 60) / buttonRows); // Subtract padding
+      const buttonWidth = Math.floor((viewportWidth - 60) / buttonColumns);
+      const fontSize = Math.min(buttonHeight * 0.4, 24); // Font size relative to button height
+
+      setKeyboardDimensions({
+        buttonHeight: buttonHeight,
+        buttonWidth: buttonWidth,
+        fontSize: fontSize,
+      });
+    };
+
+    if (isOpen) {
+      calculateDimensions(); // Perform sizing calculations when the component is opened
+      window.visualViewport?.addEventListener("resize", calculateDimensions); // Update on viewport resize
+    }
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", calculateDimensions); // Cleanup listener
+    };
+  }, [isOpen, keys.length]);
+
+  /**
+   * Handles numeric key presses. Appends the clicked key to the current input.
    *
-   * @param {string} key - The number key that was pressed.
-   * Appends the key to the current input state.
+   * @param {string} key - The pressed key (0–9).
    */
   const handleKeyClick = (key) => {
-    if (key) {
-      setInput((prev) => prev + key);
-    }
+    if (key) setInput((prev) => prev + key);
   };
 
   /**
-   * Removes the last digit from the input.
-   * Called when the delete icon is pressed.
+   * Deletes the last character of the current input.
    */
   const handleDelete = () => {
-    setInput((prev) => prev.slice(0, -1));
+    setInput((prev) => prev.slice(0, -1)); // Removes the last character
   };
 
   /**
-   * Finalizes the input and passes it to the parent via setBalanceField.
-   * Then clears the local input and closes the drawer.
+   * Finalizes the input value and sends it to the parent component. Closes the keyboard.
    */
   const handleDone = () => {
-    setBalanceField(input);
-    setInput("");
-    handleClose();
+    setBalanceField(input); // Send the input value to the parent
+    setInput(""); // Clear the input field
+    handleClose(); // Close the keyboard
   };
 
   return (
-    // Drawer wraps the entire keyboard interface
     <Drawer
-      key="NumericKeyboard"
-      open={isOpen}
-      onClose={handleClose}
-      anchor="bottom"
+      open={isOpen} // Controls whether the drawer is visible
+      onClose={handleClose} // Triggered when the drawer is closed
+      anchor="bottom" // Drawer opens from the bottom of the screen
       disableAutoFocus
-      ModalProps={{ keepMounted: true }}
+      ModalProps={{ keepMounted: true }} // Ensures the drawer stays mounted
       PaperProps={{
-        component: StyledDrawerPaper,
+        component: StyledDrawerPaper, // Styled wrapper component
+        style: {
+          "--drawer-height": `${
+            (window.visualViewport?.height || window.innerHeight) * 0.5
+          }px`, // 50% of viewport height
+        },
       }}
     >
-      <Box>
-        {/* Displays the formatted input and delete button */}
-        <BoxAmount sx={{ backgroundColor: "secondary.accent" }}>
-          <Typography variant="h4" sx={{ flexGrow: 1 }}>
-            {formatCurrency(input)}
-          </Typography>
-          {input && (
-            <IconButton onClick={handleDelete} color="primary">
-              <BackspaceIcon />
-            </IconButton>
-          )}
-        </BoxAmount>
+      {/* Input Display Section */}
+      <BoxAmount sx={{ backgroundColor: "secondary.accent", mb: 2 }}>
+        <Typography variant="h4" sx={{ flexGrow: 1 }}>
+          {formatCurrency(input)} {/* Display formatted input value */}
+        </Typography>
+        {input && (
+          <IconButton onClick={handleDelete} color="primary">
+            <BackspaceIcon /> {/* Deletes last character */}
+          </IconButton>
+        )}
+      </BoxAmount>
 
-        {/* Numeric keys in a 3x3 grid */}
+      {/* Numeric Keys Section */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "grid",
+          gap: 1,
+          gridTemplateRows: `repeat(${keys.length}, 1fr)`,
+        }}
+      >
         {keys.map((row, rowIndex) => (
-          <Grid2 container key={rowIndex} spacing={1} justifyContent="center">
+          <Box
+            key={rowIndex}
+            sx={{
+              display: "flex",
+              gap: 1,
+              gridTemplateColumns: `repeat(3, 1fr)`,
+              justifyItems: "center",
+              justifyContent: "center",
+            }}
+          >
             {row.map((key, index) => (
-              <Grid2 item size={4} key={`${key}-${index}`}>
-                <Button
-                  variant="contained"
-                  onClick={() => handleKeyClick(key)}
-                  fullWidth
-                  sx={{
-                    fontSize: "1.5rem",
-                    py: 1.5,
-                    mb: 1,
-                    backgroundColor: "icon.info",
-                  }}
-                  disabled={!key}
-                >
-                  {key}
-                </Button>
-              </Grid2>
+              <Button
+                key={`${key}-${index}`}
+                variant="contained"
+                onClick={() => handleKeyClick(key)}
+                sx={{
+                  height: `${keyboardDimensions.buttonHeight}px`,
+                  width: `${keyboardDimensions.buttonWidth}px`,
+                  fontSize: `${keyboardDimensions.fontSize}px`,
+                  backgroundColor: "icon.info",
+                }}
+              >
+                {key}
+              </Button>
             ))}
-          </Grid2>
+          </Box>
         ))}
+      </Box>
 
-        {/* Single row for "0" key */}
-        <Grid2 container spacing={1} justifyContent="center" sx={{ mt: 1 }}>
-          <Grid2 item size={4}>
-            <Button
-              variant="contained"
-              onClick={() => handleKeyClick("0")}
-              fullWidth
-              sx={{
-                fontSize: "1.5rem",
-                py: 1.5,
-                backgroundColor: "icon.info",
-              }}
-            >
-              0
-            </Button>
-          </Grid2>
-        </Grid2>
-
-        {/* Cancel and Done buttons */}
-        <Grid2 container spacing={2} justifyContent="center" sx={{ mt: 2 }}>
-          <Grid2 item size={6}>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => {
-                setInput("");
-                handleClose();
-              }}
-              fullWidth
-              sx={{ py: 1.5, textTransform: "none", borderRadius: 5 }}
-            >
-              {t("cancel")}
-            </Button>
-          </Grid2>
-          <Grid2 item size={6}>
-            <Button
-              variant="contained"
-              onClick={handleDone}
-              fullWidth
-              sx={{
-                py: 1.5,
-                textTransform: "none",
-                backgroundColor: "icon.info",
-                borderRadius: 5,
-              }}
-              disabled={!input}
-            >
-              {t("done")}
-            </Button>
-          </Grid2>
-        </Grid2>
+      {/* Action Buttons Section */}
+      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+        <Button
+          variant="contained"
+          color="error" // Cancel Button
+          onClick={() => {
+            setInput(""); // Clear input value
+            handleClose(); // Close the keyboard
+          }}
+          sx={{
+            py: 1.5,
+            textTransform: "none",
+            flex: 1,
+            mx: 1,
+          }}
+        >
+          {t("cancel")}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleDone} // Done Button
+          disabled={!input} // Disabled if no input is present
+          sx={{
+            py: 1.5,
+            textTransform: "none",
+            flex: 1,
+            mx: 1,
+            backgroundColor: "icon.info",
+          }}
+        >
+          {t("done")}
+        </Button>
       </Box>
     </Drawer>
   );
 };
 
-/**
- * PropTypes for NumericKeyboard.
- */
 NumericKeyboard.propTypes = {
+  /**
+   * Whether the numeric keyboard is open (visible) or not.
+   */
   isOpen: PropTypes.bool.isRequired,
+
+  /**
+   * Function to handle closing the numeric keyboard.
+   */
   handleClose: PropTypes.func.isRequired,
+
+  /**
+   * Function to receive the numeric input value when the "Done" button is clicked.
+   */
   setBalanceField: PropTypes.func.isRequired,
 };
 

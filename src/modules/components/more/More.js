@@ -30,8 +30,15 @@ const More = () => {
       />
 
       {/* ChipContent */}
-      <PaperComponent sx={{ backgroundColor: "secondary.main" }}>
-        <Box display="flex" justifyContent="space-between" gap={1}>
+      <PaperComponent
+        sx={{ backgroundColor: "secondary.main", padding: "16px" }}
+      >
+        <Box
+          display="flex"
+          flexWrap="wrap" // Enable chips to wrap on smaller screens
+          justifyContent="center" // Center align chips on smaller screens
+          gap={2} // Spacing between chips
+        >
           {chipElements.map((option) => (
             <ChipComponent
               key={option}
@@ -47,7 +54,6 @@ const More = () => {
       {/* SettingsContent */}
       {moreCurrentPage === "manage" ? <Manage /> : null}
 
-      {/* SettingsContent */}
       <Settings />
     </>
   );

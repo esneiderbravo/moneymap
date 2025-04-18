@@ -19,40 +19,46 @@ import useBlockBack from "./hooks/useBlockBack";
 const AppRoutes = () => {
   useBlockBack();
   return (
-    <Routes>
-      {/* Public Route: Splash Screen */}
-      <Route path="/" element={<SplashContainer />} />
+    <main
+      style={{
+        marginBottom: "100px",
+      }}
+    >
+      <Routes>
+        {/* Public Route: Splash Screen */}
+        <Route path="/" element={<SplashContainer />} />
 
-      {/* Protected Route: Dashboard - Requires Authentication */}
-      <Route
-        path="/dashboard"
-        element={
-          <WithAuth>
-            <DashboardContainer />
-          </WithAuth>
-        }
-      />
+        {/* Protected Route: Dashboard - Requires Authentication */}
+        <Route
+          path="/dashboard"
+          element={
+            <WithAuth>
+              <DashboardContainer />
+            </WithAuth>
+          }
+        />
 
-      {/* Protected Route: Logout - Requires Authentication */}
-      <Route
-        path="/logout"
-        element={
-          <WithAuth>
-            <LogoutContainer />
-          </WithAuth>
-        }
-      />
+        {/* Protected Route: Logout - Requires Authentication */}
+        <Route
+          path="/logout"
+          element={
+            <WithAuth>
+              <LogoutContainer />
+            </WithAuth>
+          }
+        />
 
-      {/* Protected Route: Logout - Requires Authentication */}
-      <Route
-        path="/more"
-        element={
-          <WithAuth>
-            <MoreContainer />
-          </WithAuth>
-        }
-      />
-    </Routes>
+        {/* Protected Route: Logout - Requires Authentication */}
+        <Route
+          path="/more"
+          element={
+            <WithAuth>
+              <MoreContainer />
+            </WithAuth>
+          }
+        />
+      </Routes>
+    </main>
   );
 };
 
