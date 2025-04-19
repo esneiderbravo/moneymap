@@ -118,8 +118,9 @@ const ColorSelector = ({ formData, onColorChange }) => {
 
   return (
     <ColorSectionBox>
-      <Title variant="subtitle1">
-        {ColorLensIcon && <ColorLensIcon sx={{ mr: 1 }} />} Color
+      <Title variant="subtitle1" sx={{ color: "text.primary" }}>
+        {ColorLensIcon && <ColorLensIcon sx={{ mr: 1, color: "icon.white" }} />}{" "}
+        Color
       </Title>
       <QuickColorBox>
         {quickColors.map((color) => renderColorOption(color))}

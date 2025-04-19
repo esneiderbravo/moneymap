@@ -87,7 +87,7 @@ const Alerts = ({ showBalances }) => {
     <>
       {/* Section title */}
       <Grid2 item size={12} display="flex" justifyContent="left" padding={2}>
-        <Typography variant="subtitle1" color="text.secondary">
+        <Typography variant="subtitle1" color="text.primary">
           {t("title")}
         </Typography>
       </Grid2>

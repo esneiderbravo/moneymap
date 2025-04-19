@@ -19,6 +19,7 @@ import logout_en from "./locales/en/containers/logout.json";
 import login_en from "./locales/en/containers/login.json";
 import categories_en from "./locales/en/more/manage/categories/categories.json";
 import transaction_en from "./locales/en/common/transaction/transaction.json";
+import theme_switcher_en from "./locales/en/more/settings/profile/theme_switcher.json";
 
 // Spanish
 import dashboard_es from "./locales/es/dashboard/dashboard.json";
@@ -38,6 +39,7 @@ import logout_es from "./locales/es/containers/logout.json";
 import login_es from "./locales/es/containers/login.json";
 import categories_es from "./locales/es/more/manage/categories/categories.json";
 import transaction_es from "./locales/es/common/transaction/transaction.json";
+import theme_switcher_es from "./locales/es/more/settings/profile/theme_switcher.json";
 
 i18n
   .use(LanguageDetector)
@@ -69,6 +71,7 @@ i18n
         login: login_en,
         categories: categories_en,
         transaction: transaction_en,
+        theme_switcher: theme_switcher_en,
       },
       es: {
         dashboard: dashboard_es,
@@ -88,8 +91,11 @@ i18n
         login: login_es,
         categories: categories_es,
         transaction: transaction_es,
+        theme_switcher: theme_switcher_es,
       },
     },
   });
+
+i18n.changeLanguage("en");
 
 export default i18n;

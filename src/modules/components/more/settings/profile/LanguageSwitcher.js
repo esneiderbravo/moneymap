@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { Dialog, InputAdornment, MenuItem, Typography } from "@mui/material";
 import { getIconComponent } from "../../../../utils/common/icon";
-import { SelectLanguage } from "../../../../styles/more/settings/profile/Language.styled";
-import {
-  LanguageSwitcherContainer,
-  SaveButton,
-} from "../../../../styles/more/settings/profile/LanguageSwitcher.styled";
 import useSwipeClose from "../../../hooks/useSwipeClose";
+import {
+  SaveButton,
+  SelectModal,
+  SwitcherContainer,
+} from "../../../../styles/common/CommonContainers.styled";
 
 /**
  * LanguageSwitcher Component
@@ -53,12 +53,14 @@ const LanguageSwitcher = ({ open, setOpen }) => {
 
   return (
     <Dialog onClose={() => setOpen(false)} open={open} fullWidth>
-      <LanguageSwitcherContainer variant="standard">
+      <SwitcherContainer variant="standard">
         {/* Modal title */}
-        <Typography sx={{ mb: 2 }}>{t("title")}</Typography>
+        <Typography sx={{ mb: 2, color: "text.primary" }}>
+          {t("title")}
+        </Typography>
 
         {/* Language selector dropdown */}
-        <SelectLanguage
+        <SelectModal
           id="language-switcher"
           name="language-switcher"
           value={selectedLang}
@@ -74,20 +76,13 @@ const LanguageSwitcher = ({ open, setOpen }) => {
         >
           <MenuItem value="en">{t("en")}</MenuItem>
           <MenuItem value="es">{t("es")}</MenuItem>
-        </SelectLanguage>
+        </SelectModal>
 
         {/* Save button */}
-        <SaveButton
-          variant="contained"
-          onClick={handleSave}
-          fullWidth
-          sx={{
-            backgroundColor: "secondary.accent",
-          }}
-        >
+        <SaveButton variant="contained" onClick={handleSave} fullWidth>
           {t("save")}
         </SaveButton>
-      </LanguageSwitcherContainer>
+      </SwitcherContainer>
     </Dialog>
   );
 };

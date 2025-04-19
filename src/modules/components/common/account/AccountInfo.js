@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Divider,
   Drawer,
@@ -24,6 +24,9 @@ import RegisterAccount from "./RegisterAccount";
 import { useTranslation } from "react-i18next";
 import useSwipeClose from "../../hooks/useSwipeClose";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
+import { setNotification } from "../../../actions/state";
+import { fetchTransactionsByAccount } from "../../../services/transaction/transactionService";
+import { useAppContext } from "../../../providers/AppProvider";
 
 /**
  * AccountInfoContent component renders detailed information about a selected account,
@@ -43,8 +46,10 @@ const AccountInfo = ({
   currentAccount,
   setCurrentAccount,
 }) => {
+  const { dispatch } = useAppContext();
   const { t } = useTranslation("account_info");
   const [editAccount, setEditAccount] = useState(false);
+  const [currentTransactions, setCurrentTransactions] = useState([]);
 
   // Get icon component based on account type
   const IconComponent = currentAccount?.type
@@ -59,6 +64,60 @@ const AccountInfo = ({
   const SyncIcon = getIconComponent("Sync");
 
   useSwipeClose({ isOpen: isOpen, onClose: (event) => handleClose(event) });
+
+  useEffect(() => {
+    // Ensure currentAccount is valid before fetching
+    if (!currentAccount?.id) {
+      console.info("ℹ️ No account ID provided. Skipping transaction fetch.");
+      return;
+    }
+
+    const fetchTransactions = async () => {
+      try {
+        console.info(
+          `ℹ️ Initiating fetch for transactions of account ID: ${currentAccount.id}`
+        );
+
+        const { data, success } = await fetchTransactionsByAccount(
+          currentAccount.id
+        );
+
+        if (success && data) {
+          console.info(
+            `✅ Successfully fetched ${data.length} transactions for account ID: ${currentAccount.id}`
+          );
+          setCurrentTransactions(data);
+        } else {
+          // Handle unsuccessful responses
+          console.warn(
+            `⚠️ Failed to fetch transactions for account ID: ${currentAccount.id}.`
+          );
+          dispatch(
+            setNotification({
+              type: "error",
+              info: t("get_categories_error"),
+            })
+          );
+        }
+      } catch (error) {
+        // Catch unexpected errors and notify the user
+        console.error(
+          `❌ Unexpected error while fetching transactions for account ID: ${currentAccount.id}`,
+          error
+        );
+        dispatch(
+          setNotification({
+            type: "error",
+            info: t("get_categories_error"),
+          })
+        );
+      }
+    };
+
+    fetchTransactions(); // Invoke the function
+  }, [currentAccount, dispatch, t]); // Add dependencies to avoid unnecessary re-executions
+
+  console.log("currentTransactions: ", currentTransactions);
 
   return (
     <>
@@ -82,10 +141,12 @@ const AccountInfo = ({
           {/* Header balance section */}
           <Grid2 container mb={5}>
             <Grid2 item size={12} display="flex" justifyContent="center">
-              <Typography variant="caption">{t("current_balance")}</Typography>
+              <Typography variant="caption" sx={{ color: "text.info" }}>
+                {t("current_balance")}
+              </Typography>
             </Grid2>
             <Grid2 item size={12} display="flex" justifyContent="center" mb={5}>
-              <Typography variant="h5" color="text.white">
+              <Typography variant="h5" sx={{ color: "text.primary" }}>
                 {formatCurrency(currentAccount?.balance)}
               </Typography>
             </Grid2>
@@ -141,18 +202,16 @@ const AccountInfo = ({
                       sx={{ textAlign: "left" }}
                       primary={
                         <Typography
-                          component="span"
                           variant="caption"
-                          sx={{ color: "text.secondary", display: "block" }}
+                          sx={{ color: "text.info", display: "block" }}
                         >
                           {t("account_type")}
                         </Typography>
                       }
                       secondary={
                         <Typography
-                          component="span"
-                          variant="subtitle2"
-                          sx={{ color: "text.white" }}
+                          variant="body1"
+                          sx={{ color: "text.primary" }}
                         >
                           {t(currentAccount?.type)}
                         </Typography>
@@ -175,18 +234,16 @@ const AccountInfo = ({
                       sx={{ textAlign: "left" }}
                       primary={
                         <Typography
-                          component="span"
                           variant="caption"
-                          sx={{ color: "text.secondary", display: "block" }}
+                          sx={{ color: "text.info", display: "block" }}
                         >
                           {t("initial_balance")}
                         </Typography>
                       }
                       secondary={
                         <Typography
-                          component="span"
-                          variant="subtitle2"
-                          sx={{ color: "text.white" }}
+                          variant="body1"
+                          sx={{ color: "text.primary" }}
                         >
                           {formatCurrency(currentAccount?.balance)}
                         </Typography>
@@ -211,17 +268,15 @@ const AccountInfo = ({
                       sx={{ textAlign: "left" }}
                       primary={
                         <Typography
-                          component="span"
                           variant="caption"
-                          sx={{ color: "text.secondary", display: "block" }}
+                          sx={{ color: "text.info", display: "block" }}
                         >
                           {t("expenses_quantity")}
                         </Typography>
                       }
                       secondary={
                         <Typography
-                          component="span"
-                          variant="subtitle2"
+                          variant="body1"
                           sx={{ color: "text.error" }}
                         >
                           {formatCurrency(0)}
@@ -242,17 +297,15 @@ const AccountInfo = ({
                       sx={{ textAlign: "left" }}
                       primary={
                         <Typography
-                          component="span"
                           variant="caption"
-                          sx={{ color: "text.secondary", display: "block" }}
+                          sx={{ color: "text.info", display: "block" }}
                         >
                           {t("incomes_quantity")}
                         </Typography>
                       }
                       secondary={
                         <Typography
-                          component="span"
-                          variant="subtitle2"
+                          variant="body1"
                           sx={{ color: "text.success" }}
                         >
                           {formatCurrency(0)}
@@ -276,18 +329,16 @@ const AccountInfo = ({
                       sx={{ textAlign: "left" }}
                       primary={
                         <Typography
-                          component="span"
                           variant="caption"
-                          sx={{ color: "text.white", display: "block" }}
+                          sx={{ color: "text.info", display: "block" }}
                         >
                           {t("transfer_quantity")}
                         </Typography>
                       }
                       secondary={
                         <Typography
-                          component="span"
-                          variant="subtitle2"
-                          sx={{ color: "text.white" }}
+                          variant="body1"
+                          sx={{ color: "text.primary" }}
                         >
                           0 {t("transfers")}
                         </Typography>

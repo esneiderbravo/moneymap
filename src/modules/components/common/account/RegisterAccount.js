@@ -59,13 +59,13 @@ const RegisterAccount = ({
   const [activeField, setActiveField] = useState(null);
 
   // Icons
-  const MicIcon = getIconComponent("Mic");
+  const DescriptionIcon = getIconComponent("Description");
   const AssuredWorkloadIcon = getIconComponent("AssuredWorkload");
   const ArrowForwardIosIcon = getIconComponent("ArrowForwardIos");
   const SavingsIcon = getIconComponent("Savings");
   const WalletIcon = getIconComponent("Wallet");
 
-  const ACCENT_BG = "secondary.accent";
+  const ACCENT_BG = "primary.main";
 
   /**
    * Handles input changes for the form fields and updates the local state.
@@ -233,12 +233,12 @@ const RegisterAccount = ({
                 inputProps={{ readOnly: true }} // prevent native keyboard
                 sx={{
                   backgroundColor: ACCENT_BG,
-                  "&::placeholder": { color: "grey", opacity: 1 },
+                  "& .MuiInputBase-input": { color: "text.info" },
                 }}
               />
               {errors.balance && (
                 <FormHelperText
-                  sx={{ color: "error.main", fontWeight: "bold" }}
+                  sx={{ color: "text.error", fontWeight: "bold" }}
                 >
                   {errors.balance}
                 </FormHelperText>
@@ -259,21 +259,21 @@ const RegisterAccount = ({
                 value={formData.description}
                 onChange={handleInputChange}
                 startAdornment={
-                  MicIcon && (
+                  DescriptionIcon && (
                     <InputAdornment position="start">
-                      <MicIcon sx={{ color: "icon.white" }} />
+                      <DescriptionIcon sx={{ color: "icon.white" }} />
                     </InputAdornment>
                   )
                 }
                 fullWidth
                 sx={{
                   backgroundColor: ACCENT_BG,
-                  "&::placeholder": { color: "white", opacity: 1 },
+                  "&::placeholder": { color: "text.info", opacity: 1 },
                 }}
               />
               {errors.description && (
                 <FormHelperText
-                  sx={{ color: "error.main", fontWeight: "bold" }}
+                  sx={{ color: "text.error", fontWeight: "bold" }}
                 >
                   {errors.description}
                 </FormHelperText>
@@ -294,14 +294,24 @@ const RegisterAccount = ({
                 onChange={handleInputChange}
                 displayEmpty
                 fullWidth
-                sx={{ backgroundColor: ACCENT_BG }}
+                sx={{
+                  backgroundColor: ACCENT_BG,
+                  "& .MuiSelect-select": {
+                    color: "text.info",
+                  },
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <ArrowForwardIosIcon sx={{ color: "icon.white" }} />
                   </InputAdornment>
                 }
               >
-                <MenuItem value="checking" sx={{ color: "icon.white" }}>
+                <MenuItem
+                  value="checking"
+                  sx={{
+                    color: "icon.white",
+                  }}
+                >
                   {AssuredWorkloadIcon && (
                     <AssuredWorkloadIcon sx={{ mr: 1 }} />
                   )}{" "}
@@ -316,7 +326,7 @@ const RegisterAccount = ({
               </SelectRegister>
               {errors.type && (
                 <FormHelperText
-                  sx={{ color: "error.main", fontWeight: "bold" }}
+                  sx={{ color: "text.error", fontWeight: "bold" }}
                 >
                   {errors.type}
                 </FormHelperText>
@@ -333,7 +343,7 @@ const RegisterAccount = ({
               <ColorSelector onColorChange={setFormData} formData={formData} />
               {errors.color && (
                 <FormHelperText
-                  sx={{ color: "error.main", fontWeight: "bold" }}
+                  sx={{ color: "text.error", fontWeight: "bold" }}
                 >
                   {errors.color}
                 </FormHelperText>
@@ -341,12 +351,7 @@ const RegisterAccount = ({
             </FormControl>
 
             {/* Submit */}
-            <SubmitButton
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{ backgroundColor: ACCENT_BG }}
-            >
+            <SubmitButton type="submit" variant="contained" fullWidth>
               {submitting ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (

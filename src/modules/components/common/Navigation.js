@@ -143,10 +143,25 @@ const Navigation = () => {
             <SpeedDialWrapper>
               <SpeedDial
                 ariaLabel="Main Speed Dial"
-                icon={<SpeedDialIcon />}
+                icon={
+                  <SpeedDialIcon
+                    sx={{
+                      color: "text.primary",
+                    }}
+                  />
+                }
                 direction="up"
                 onClick={() => setOpenDial(!openDial)}
                 open={openDial}
+                FabProps={{
+                  sx: {
+                    backgroundColor: "accent.main",
+                    "&:hover": {
+                      backgroundColor: "accent.main",
+                    },
+                    transition: "background-color 0.3s ease",
+                  },
+                }}
               >
                 {actions.map((action) => {
                   return (

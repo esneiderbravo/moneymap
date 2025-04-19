@@ -81,7 +81,11 @@ const Settings = () => {
                   <Avatar alt={authData?.name} src={authData?.picture} />
                 </ListItemIcon>
                 <ListItemText
-                  primary={t("profile")}
+                  primary={
+                    <Typography variant="body1" sx={{ color: "text.primary" }}>
+                      {t("profile")}
+                    </Typography>
+                  }
                   secondary={
                     <Typography
                       component="span"
@@ -107,7 +111,11 @@ const Settings = () => {
                   )}
                 </ListItemIcon>
                 <ListItemText
-                  primary={t("preferences")}
+                  primary={
+                    <Typography variant="body1" sx={{ color: "text.primary" }}>
+                      {t("preferences")}
+                    </Typography>
+                  }
                   secondary={
                     <Typography
                       component="span"

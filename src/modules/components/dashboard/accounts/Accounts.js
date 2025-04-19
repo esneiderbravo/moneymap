@@ -16,6 +16,7 @@ import { getIconComponent } from "../../../utils/common/icon";
 import AccountInfo from "../../common/account/AccountInfo";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
 import { useTranslation } from "react-i18next";
+import Transaction from "../../common/transaction/Transaction";
 
 /**
  * AccountsContent Component
@@ -32,6 +33,8 @@ import { useTranslation } from "react-i18next";
 const Accounts = ({ balance, showBalances }) => {
   const { t } = useTranslation("accounts");
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [openTransaction, setOpenTransaction] = React.useState(false);
+  const currentTransaction = "expense";
 
   const { accounts = [], totalBalanceAmount = 0 } = balance;
 
@@ -47,7 +50,7 @@ const Accounts = ({ balance, showBalances }) => {
    */
   const handleAddClick = (event) => {
     event.stopPropagation();
-    alert("Add Icon Clicked!");
+    setOpenTransaction(true);
   };
 
   /**
@@ -64,7 +67,7 @@ const Accounts = ({ balance, showBalances }) => {
     <>
       {/* Section title */}
       <Grid2 item size={12} display="flex" justifyContent="left" padding={2}>
-        <Typography variant="subtitle1" color="text.secondary">
+        <Typography variant="subtitle1" color="text.primary">
           {t("title")}
         </Typography>
       </Grid2>
@@ -156,6 +159,17 @@ const Accounts = ({ balance, showBalances }) => {
         handleClose={handleCloseAccount}
         currentAccount={currentAccount}
         setCurrentAccount={setCurrentAccount}
+      />
+
+      <Transaction
+        isOpen={openTransaction}
+        handleClose={(event) => {
+          event.stopPropagation();
+          document.activeElement?.blur();
+          setOpenTransaction(false);
+        }}
+        currentTransaction={currentTransaction}
+        currentAccount={currentAccount?.id}
       />
     </>
   );

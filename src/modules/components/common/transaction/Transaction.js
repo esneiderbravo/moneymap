@@ -40,8 +40,14 @@ import { createTransaction } from "../../../services/transaction/transactionServ
  * @param {boolean} props.isOpen - Indicates if the drawer is open
  * @param {function} props.handleClose - Function to handle closing the drawer
  * @param {string} props.currentTransaction - Current transaction type (e.g. "expense", "income")
+ * @param {string} props.currentAccount - Current account selected
  */
-const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
+const Transaction = ({
+  isOpen,
+  handleClose,
+  currentTransaction,
+  currentAccount = "",
+}) => {
   const { t } = useTranslation("transaction");
   const { state, dispatch } = useAppContext();
   const { balance, categories } = state;
@@ -54,7 +60,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
   const [activeField, setActiveField] = useState(null);
   const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
 
-  const ACCENT_BG = "secondary.accent";
+  const ACCENT_BG = "primary.main";
 
   const ArrowForwardIosIcon = getIconComponent("ArrowForwardIos");
   const TrendingDownIcon = getIconComponent("TrendingDown");
@@ -270,12 +276,12 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
       amount: 0,
       paid: true,
       date: "",
-      accountId: "",
+      accountId: currentAccount || "",
       categoryId: "",
     });
     setSubmitting(false);
     setErrors({});
-  }, [currentTransaction]);
+  }, [currentAccount, currentTransaction]);
 
   return (
     <>
@@ -338,7 +344,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                 <FormHelperText
                   sx={{
                     marginLeft: "40px",
-                    color: "error.main",
+                    color: "text.error",
                     fontWeight: "bold",
                   }}
                 >
@@ -364,7 +370,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                   inputProps={{ readOnly: true }}
                   sx={{
                     backgroundColor: ACCENT_BG,
-                    "&::placeholder": { color: "grey", opacity: 1 },
+                    "& .MuiInputBase-input": { color: "text.info" },
                   }}
                   startAdornment={
                     PaidIcon && <PaidIcon sx={{ color: "icon.white", mr: 1 }} />
@@ -374,7 +380,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               {errors.amount && (
                 <FormHelperText
                   sx={{
-                    color: "error.main",
+                    color: "text.error",
                     fontWeight: "bold",
                   }}
                 >
@@ -397,7 +403,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                 )}
 
                 {/* Label Text */}
-                <Typography color="text.white">
+                <Typography color="text.info">
                   {formData.paid ? t("paid") : t("not_paid")}
                 </Typography>
 
@@ -419,7 +425,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                     },
                     "& .Mui-checked": {
                       "& .MuiSwitch-thumb": {
-                        backgroundColor: "icon.green", // Thumb color when checked
+                        backgroundColor: "icon.accent", // Thumb color when checked
                       },
                     },
                   }}
@@ -431,7 +437,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                 <FormHelperText
                   sx={{
                     marginLeft: "40px",
-                    color: "error.main",
+                    color: "text.error",
                     fontWeight: "bold",
                   }}
                 >
@@ -458,7 +464,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                   inputProps={{ readOnly: true }}
                   sx={{
                     backgroundColor: ACCENT_BG,
-                    "&::placeholder": { color: "grey", opacity: 1 },
+                    "&::placeholder": { color: "text.info", opacity: 1 },
                   }}
                   startAdornment={
                     CalendarMonthIcon && (
@@ -470,7 +476,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               {errors.date && (
                 <FormHelperText
                   sx={{
-                    color: "error.main",
+                    color: "text.error",
                     fontWeight: "bold",
                   }}
                 >
@@ -494,7 +500,12 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                   onChange={handleInputChange}
                   displayEmpty
                   fullWidth
-                  sx={{ backgroundColor: ACCENT_BG }}
+                  sx={{
+                    backgroundColor: ACCENT_BG,
+                    "& .MuiSelect-select": {
+                      color: "text.info",
+                    },
+                  }}
                   endAdornment={
                     <InputAdornment position="end">
                       <ArrowForwardIosIcon sx={{ color: "icon.white" }} />
@@ -531,7 +542,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               {errors.accountId && (
                 <FormHelperText
                   sx={{
-                    color: "error.main",
+                    color: "text.error",
                     fontWeight: "bold",
                   }}
                 >
@@ -555,7 +566,12 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
                   onChange={handleInputChange}
                   displayEmpty
                   fullWidth
-                  sx={{ backgroundColor: ACCENT_BG }}
+                  sx={{
+                    backgroundColor: ACCENT_BG,
+                    "& .MuiSelect-select": {
+                      color: "text.info",
+                    },
+                  }}
                   endAdornment={
                     <InputAdornment position="end">
                       <ArrowForwardIosIcon sx={{ color: "icon.white" }} />
@@ -590,7 +606,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
               {errors.categoryId && (
                 <FormHelperText
                   sx={{
-                    color: "error.main",
+                    color: "text.error",
                     fontWeight: "bold",
                   }}
                 >
@@ -600,12 +616,7 @@ const Transaction = ({ isOpen, handleClose, currentTransaction }) => {
             </FormControl>
 
             {/* Submit */}
-            <SubmitButton
-              type="submit"
-              variant="contained"
-              fullWidth
-              sx={{ backgroundColor: ACCENT_BG }}
-            >
+            <SubmitButton type="submit" variant="contained" fullWidth>
               {submitting ? (
                 <CircularProgress size={24} color="inherit" />
               ) : (
@@ -635,6 +646,7 @@ Transaction.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   currentTransaction: PropTypes.string.isRequired,
+  currentAccount: PropTypes.string,
 };
 
 export default Transaction;

@@ -31,3 +31,30 @@ export const createTransaction = async (formData) => {
     return [null, statusCode, errorMessage];
   }
 };
+
+/**
+ * Fetches transactions for a specific account from the Transaction service.
+ *
+ * @param {string} accountId - The ID of the account whose transactions are to be retrieved.
+ *
+ * @returns {Promise<Object | Array>} - Resolves to the list of transactions on success,
+ * or returns an array with [null, statusCode, errorMessage] on failure.
+ *
+ * @throws {Error} - Throws an error if the HTTP request encounters an unexpected problem.
+ */
+export const fetchTransactionsByAccount = async (accountId) => {
+  try {
+    // Constructs the URL with the accountId
+    const url = `${TRANSACTION_SERVICE_URL}/${accountId}`;
+    return await HTTPHandler.get(url);
+  } catch (error) {
+    console.error("fetchTransactionsByAccount Error:", error.message);
+
+    const statusCode = error?.response?.status || 500;
+    const errorMessage =
+      error?.response?.data?.message || "An unexpected error occurred.";
+
+    // Returns error details in a standardized format
+    return [null, statusCode, errorMessage];
+  }
+};
