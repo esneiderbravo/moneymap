@@ -152,7 +152,9 @@ export default function CustomDatePicker({ open, handleClose, setDate }) {
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Select a date</DialogTitle>
+      <DialogTitle sx={{ color: "text.info", textAlign: "center" }}>
+        Select a date
+      </DialogTitle>
       <DialogContent>
         <Box
           sx={{
@@ -186,6 +188,7 @@ export default function CustomDatePicker({ open, handleClose, setDate }) {
           fullWidth
           variant="contained"
           color="error"
+          sx={{ backgroundColor: "icon.info", borderRadius: "20px" }}
         >
           Cancel
         </Button>
@@ -197,7 +200,7 @@ export default function CustomDatePicker({ open, handleClose, setDate }) {
             handleClose();
           }}
           fullWidth
-          sx={{ backgroundColor: "secondary.accent" }}
+          sx={{ borderRadius: "20px" }}
           variant="contained"
         >
           Select

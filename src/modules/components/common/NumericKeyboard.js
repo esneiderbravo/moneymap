@@ -136,12 +136,12 @@ const NumericKeyboard = ({ isOpen, handleClose, setBalanceField }) => {
       }}
     >
       {/* Input Display Section */}
-      <BoxAmount sx={{ backgroundColor: "secondary.accent", mb: 2 }}>
+      <BoxAmount sx={{ backgroundColor: "secondary.main", mb: 2 }}>
         <Typography variant="h4" sx={{ flexGrow: 1 }}>
           {formatCurrency(input)} {/* Display formatted input value */}
         </Typography>
         {input && (
-          <IconButton onClick={handleDelete} color="primary">
+          <IconButton onClick={handleDelete} sx={{ color: "icon.white" }}>
             <BackspaceIcon /> {/* Deletes last character */}
           </IconButton>
         )}
@@ -177,6 +177,7 @@ const NumericKeyboard = ({ isOpen, handleClose, setBalanceField }) => {
                   width: `${keyboardDimensions.buttonWidth}px`,
                   fontSize: `${keyboardDimensions.fontSize}px`,
                   backgroundColor: "icon.info",
+                  borderRadius: "30px",
                 }}
               >
                 {key}
@@ -197,9 +198,10 @@ const NumericKeyboard = ({ isOpen, handleClose, setBalanceField }) => {
           }}
           sx={{
             py: 1.5,
-            textTransform: "none",
             flex: 1,
             mx: 1,
+            backgroundColor: "icon.red",
+            borderRadius: "20px",
           }}
         >
           {t("cancel")}
@@ -210,10 +212,10 @@ const NumericKeyboard = ({ isOpen, handleClose, setBalanceField }) => {
           disabled={!input} // Disabled if no input is present
           sx={{
             py: 1.5,
-            textTransform: "none",
             flex: 1,
             mx: 1,
-            backgroundColor: "icon.info",
+            backgroundColor: "icon.accent",
+            borderRadius: "20px",
           }}
         >
           {t("done")}

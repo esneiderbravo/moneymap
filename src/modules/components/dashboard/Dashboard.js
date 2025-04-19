@@ -43,13 +43,13 @@ const Dashboard = ({ balance }) => {
       {/* Section for displaying total balance */}
       <BalanceSection item size={12}>
         <Grid2 item size={12} display="flex" justifyContent="center">
-          <Typography variant="subtitle2" color="text.secondary">
+          <Typography variant="subtitle2" color="text.info">
             {t("title")}
           </Typography>
         </Grid2>
 
         <Grid2 item size={12} display="flex" justifyContent="center">
-          <Typography variant="h4" color="text.highlight">
+          <Typography variant="h4" color="text.primary">
             {showBalances
               ? formatCurrency(balance.totalBalanceAmount)
               : HorizontalRuleRoundedIcon && (
@@ -63,17 +63,20 @@ const Dashboard = ({ balance }) => {
           <IconButton
             onClick={toggleBalances}
             aria-label={showBalances ? "Hide balances" : "Show balances"}
-            color="highlight"
           >
             {showBalances
-              ? RemoveRedEyeIcon && <RemoveRedEyeIcon />
-              : VisibilityOffIcon && <VisibilityOffIcon />}
+              ? RemoveRedEyeIcon && (
+                  <RemoveRedEyeIcon sx={{ color: "icon.white" }} />
+                )
+              : VisibilityOffIcon && (
+                  <VisibilityOffIcon sx={{ color: "icon.white" }} />
+                )}
           </IconButton>
         </Grid2>
         <Grid2 container size={12}>
           <IncomeSection item size={6}>
             <IncomeIconSection item size={2} mr={1}>
-              <ArrowUpwardIcon fontSize="large" color="white" />
+              <ArrowUpwardIcon fontSize="large" sx={{ color: "icon.white" }} />
             </IncomeIconSection>
             <Grid2 item size={4}>
               <Typography color="text.secondary" variant="caption">
@@ -90,7 +93,10 @@ const Dashboard = ({ balance }) => {
           </IncomeSection>
           <ExpenseSection item size={6}>
             <ExpenseIconSection item size={2} mr={1}>
-              <ArrowDownwardIcon fontSize="large" color="white" />
+              <ArrowDownwardIcon
+                fontSize="large"
+                sx={{ color: "icon.white" }}
+              />
             </ExpenseIconSection>
             <Grid2 item size={4}>
               <Typography color="text.secondary" variant="caption">

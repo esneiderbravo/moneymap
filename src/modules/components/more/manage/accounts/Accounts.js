@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
   Divider,
   Drawer,
   Grid2,
@@ -28,6 +27,7 @@ import { ACCOUNTS_ICON_MAPPER } from "../../../../utils/constants";
 import AccountInfo from "../../../common/account/AccountInfo";
 import { useTranslation } from "react-i18next";
 import useSwipeClose from "../../../hooks/useSwipeClose";
+import { SubmitButtonContainer } from "../../../../styles/common/CommonContainers.styled";
 
 /**
  * MoreAccountsContent Component
@@ -113,7 +113,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
                       <Typography
                         component="span"
                         variant="caption"
-                        sx={{ color: "text.secondary", display: "block" }}
+                        sx={{ color: "text.info", display: "block" }}
                       >
                         {t("current_balance")}
                       </Typography>
@@ -150,7 +150,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
                       <Typography
                         component="span"
                         variant="caption"
-                        sx={{ color: "text.secondary", display: "block" }}
+                        sx={{ color: "text.info", display: "block" }}
                       >
                         {t("total")} {getLastDayOfMonth()}
                       </Typography>
@@ -193,7 +193,14 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
                         )}
                       </ListItemIcon>
                       <ListItemText
-                        primary={account.description}
+                        primary={
+                          <Typography
+                            variant="body1"
+                            sx={{ color: "text.primary" }}
+                          >
+                            {account.description}
+                          </Typography>
+                        }
                         secondary={
                           <Typography
                             color="text.success"
@@ -212,7 +219,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
 
           {/* Register Account Button */}
           <Grid2 item display="flex" justifyContent="center">
-            <Button
+            <SubmitButtonContainer
               variant="contained"
               sx={{
                 textTransform: "none",
@@ -223,7 +230,7 @@ const Accounts = ({ isOpen, setSelectedOption }) => {
               }}
             >
               {t("register_account")}
-            </Button>
+            </SubmitButtonContainer>
           </Grid2>
         </AccountsOptionsContainer>
       </Drawer>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Settings from "./settings/Settings";
 import Manage from "./manage/Manage";
 import CommonHeader from "../common/CommonHeader";
@@ -19,6 +19,7 @@ const More = () => {
   const { t } = useTranslation("more");
   const [moreCurrentPage, setMoreCurrentPage] = useState("manage");
   const chipElements = ["manage", "follow", "about"];
+  const theme = useTheme();
 
   return (
     <>
@@ -44,8 +45,13 @@ const More = () => {
               key={option}
               label={t(option)}
               onClick={() => setMoreCurrentPage(option)}
-              selected={moreCurrentPage}
-              option={option}
+              selected={moreCurrentPage === option}
+              background_color={theme.palette.accent.main}
+              text_color={
+                moreCurrentPage === option
+                  ? theme.palette.text.primary
+                  : theme.palette.text.info
+              }
             />
           ))}
         </Box>

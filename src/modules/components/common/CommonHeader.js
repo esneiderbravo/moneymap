@@ -51,7 +51,7 @@ const CommonHeader = ({ handleClose, title, showSettings = false }) => {
 
       {/* Title */}
       <Grid2 item padding={3} size={10} display="flex" justifyContent="center">
-        <Typography color="text.secondary">{title}</Typography>
+        <Typography color="text.primary">{title}</Typography>
       </Grid2>
 
       {/* Settings Icon */}
