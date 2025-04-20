@@ -7,7 +7,6 @@ export const SplashBox = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: #212a31;
 `;
 
 export const Title = styled(motion.h1)`

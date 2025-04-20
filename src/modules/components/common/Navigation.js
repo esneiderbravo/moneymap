@@ -17,7 +17,7 @@ import {
 } from "../../styles/common/Navigation.styled";
 import { getIconComponent } from "../../utils/common/icon";
 import { useTranslation } from "react-i18next";
-import Transaction from "./transaction/Transaction";
+import NewTransaction from "./transaction/NewTransaction";
 
 /**
  * Navigation component displaying a fixed bottom navigation bar
@@ -195,7 +195,7 @@ const Navigation = () => {
           </>
         ) : null}
       </PaperContainer>
-      <Transaction
+      <NewTransaction
         isOpen={openTransaction}
         handleClose={(event) => {
           event.stopPropagation();

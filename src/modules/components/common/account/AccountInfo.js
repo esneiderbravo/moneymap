@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Divider,
   Drawer,
@@ -24,9 +24,7 @@ import RegisterAccount from "./RegisterAccount";
 import { useTranslation } from "react-i18next";
 import useSwipeClose from "../../hooks/useSwipeClose";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
-import { setNotification } from "../../../actions/state";
-import { fetchTransactionsByAccount } from "../../../services/transaction/transactionService";
-import { useAppContext } from "../../../providers/AppProvider";
+import AccountTransaction from "../transaction/AccountTransaction";
 
 /**
  * AccountInfoContent component renders detailed information about a selected account,
@@ -46,10 +44,10 @@ const AccountInfo = ({
   currentAccount,
   setCurrentAccount,
 }) => {
-  const { dispatch } = useAppContext();
   const { t } = useTranslation("account_info");
   const [editAccount, setEditAccount] = useState(false);
-  const [currentTransactions, setCurrentTransactions] = useState([]);
+  const [showTransaction, setShowTransaction] = useState(false);
+  const [transactionType, setTransactionType] = useState(null);
 
   // Get icon component based on account type
   const IconComponent = currentAccount?.type
@@ -65,59 +63,10 @@ const AccountInfo = ({
 
   useSwipeClose({ isOpen: isOpen, onClose: (event) => handleClose(event) });
 
-  useEffect(() => {
-    // Ensure currentAccount is valid before fetching
-    if (!currentAccount?.id) {
-      console.info("ℹ️ No account ID provided. Skipping transaction fetch.");
-      return;
-    }
-
-    const fetchTransactions = async () => {
-      try {
-        console.info(
-          `ℹ️ Initiating fetch for transactions of account ID: ${currentAccount.id}`
-        );
-
-        const { data, success } = await fetchTransactionsByAccount(
-          currentAccount.id
-        );
-
-        if (success && data) {
-          console.info(
-            `✅ Successfully fetched ${data.length} transactions for account ID: ${currentAccount.id}`
-          );
-          setCurrentTransactions(data);
-        } else {
-          // Handle unsuccessful responses
-          console.warn(
-            `⚠️ Failed to fetch transactions for account ID: ${currentAccount.id}.`
-          );
-          dispatch(
-            setNotification({
-              type: "error",
-              info: t("get_categories_error"),
-            })
-          );
-        }
-      } catch (error) {
-        // Catch unexpected errors and notify the user
-        console.error(
-          `❌ Unexpected error while fetching transactions for account ID: ${currentAccount.id}`,
-          error
-        );
-        dispatch(
-          setNotification({
-            type: "error",
-            info: t("get_categories_error"),
-          })
-        );
-      }
-    };
-
-    fetchTransactions(); // Invoke the function
-  }, [currentAccount, dispatch, t]); // Add dependencies to avoid unnecessary re-executions
-
-  console.log("currentTransactions: ", currentTransactions);
+  const handleTransaction = (transactionType) => {
+    setShowTransaction(true);
+    setTransactionType(transactionType);
+  };
 
   return (
     <>
@@ -258,7 +207,9 @@ const AccountInfo = ({
             <Grid2 item>
               <List sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
                 <ListItem disablePadding>
-                  <ListItemButtonAccountInfo>
+                  <ListItemButtonAccountInfo
+                    onClick={() => handleTransaction("expense")}
+                  >
                     <ListItemIcon sx={{ minWidth: "auto", mr: 1 }}>
                       {TrendingDownIcon && (
                         <TrendingDownIcon sx={{ color: "icon.white" }} />
@@ -279,7 +230,7 @@ const AccountInfo = ({
                           variant="body1"
                           sx={{ color: "text.error" }}
                         >
-                          {formatCurrency(0)}
+                          {currentAccount?.expenseCount}
                         </Typography>
                       }
                     />
@@ -287,7 +238,9 @@ const AccountInfo = ({
                 </ListItem>
 
                 <ListItem disablePadding>
-                  <ListItemButtonAccountInfo>
+                  <ListItemButtonAccountInfo
+                    onClick={() => handleTransaction("income")}
+                  >
                     <ListItemIcon sx={{ minWidth: "auto", mr: 1 }}>
                       {TrendingUpIcon && (
                         <TrendingUpIcon sx={{ color: "icon.white" }} />
@@ -308,7 +261,7 @@ const AccountInfo = ({
                           variant="body1"
                           sx={{ color: "text.success" }}
                         >
-                          {formatCurrency(0)}
+                          {currentAccount?.incomeCount}
                         </Typography>
                       }
                     />
@@ -363,6 +316,18 @@ const AccountInfo = ({
         }}
         currentAccount={currentAccount}
         setCurrentAccount={setCurrentAccount}
+      />
+
+      <AccountTransaction
+        isOpen={showTransaction}
+        handleClose={(event) => {
+          event.stopPropagation();
+          document.activeElement?.blur();
+          setShowTransaction(false);
+          setTransactionType(null);
+        }}
+        currentAccount={currentAccount}
+        transactionType={transactionType}
       />
     </>
   );

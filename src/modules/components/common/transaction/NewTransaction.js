@@ -42,7 +42,7 @@ import { createTransaction } from "../../../services/transaction/transactionServ
  * @param {string} props.currentTransaction - Current transaction type (e.g. "expense", "income")
  * @param {string} props.currentAccount - Current account selected
  */
-const Transaction = ({
+const NewTransaction = ({
   isOpen,
   handleClose,
   currentTransaction,
@@ -642,11 +642,11 @@ const Transaction = ({
   );
 };
 
-Transaction.propTypes = {
+NewTransaction.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   currentTransaction: PropTypes.string.isRequired,
   currentAccount: PropTypes.string,
 };
 
-export default Transaction;
+export default NewTransaction;

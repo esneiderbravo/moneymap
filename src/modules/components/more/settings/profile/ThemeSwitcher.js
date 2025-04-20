@@ -63,7 +63,7 @@ const ThemeSwitcher = ({ open, setOpen }) => {
       >
         {/* Header Title */}
         <Typography sx={{ mb: 2, color: "text.primary" }}>
-          {t("Select Theme")}
+          {t("select_theme")}
         </Typography>
 
         {/* Dropdown (Select) component for theme selection */}

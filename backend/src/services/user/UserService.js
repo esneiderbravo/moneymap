@@ -67,15 +67,16 @@ export const updateUserIfNeeded = async (existingUser, newUserData) => {
 };
 
 /**
- * Get all accounts for a specific user.
+ * Get all accounts for a specific user, along with the count of income and expense transactions for each account.
  *
  * @param {string} userId - The user's ID.
- * @returns {Promise<Object>} - The user's accounts and total balance.
+ * @returns {Promise<Object>} - The user's accounts with income and expense counts, alerts, and total balance.
  */
 export const getUserAccounts = async (userId) => {
   try {
     console.log(`📌 Fetching accounts for user: ${userId}`);
 
+    // Fetch all accounts for the user
     const accounts = await prisma.account.findMany({
       where: { userId },
       orderBy: {
@@ -90,17 +91,26 @@ export const getUserAccounts = async (userId) => {
       },
     });
 
-    const totalBalanceAmount = accounts.reduce(
-      (sum, acc) => sum + acc.balance,
-      0
-    );
+    const { accountsWithTransactionCounts, totalBalanceAmount } =
+      await fetchAccountsWithTransactions(accounts);
 
+    // Retrieve user alerts
     const alerts = await fetchUserAlerts();
 
-    return { accounts, alerts, totalBalanceAmount };
+    // Return formatted result
+    return {
+      accounts: accountsWithTransactionCounts,
+      alerts,
+      totalBalanceAmount,
+    };
   } catch (error) {
-    console.error("❌ Error fetching user accounts:", error);
-    throw new Error("Database error while retrieving user accounts");
+    console.error(
+      "❌ Error fetching user accounts with transaction counts:",
+      error
+    );
+    throw new Error(
+      "Database error while retrieving user accounts and transactions."
+    );
   }
 };
 
@@ -127,4 +137,45 @@ export const fetchUserAlerts = async () => {
       itemCount: 0,
     },
   };
+};
+
+/**
+ * Fetch accounts augmented with the number of income and expense transactions for each account.
+ *
+ * @param {Array<Object>} accounts - Array of account objects. Each account object should contain at least:
+ *    - `id` (string): The unique identifier of the account.
+ *    - `balance` (number): The current balance of the account.
+ * @returns {Promise<Object>} - A Promise that resolves to an object containing:
+ *    - `accountsWithTransactionCounts` (Array<Object>): Array of accounts, where each account also includes:
+ *        - `incomeCount` (number): The number of income transactions for the account.
+ *        - `expenseCount` (number): The number of expense transactions for the account.
+ *    - `totalBalanceAmount` (number): The sum of balances of all accounts.
+ */
+export const fetchAccountsWithTransactions = async (accounts) => {
+  // Fetch the number of income and expense transactions for each account
+  const accountsWithTransactionCounts = await Promise.all(
+    accounts.map(async (account) => {
+      const incomeCount = await prisma.transaction.count({
+        where: { accountId: account.id, type: "income" },
+      });
+
+      const expenseCount = await prisma.transaction.count({
+        where: { accountId: account.id, type: "expense" },
+      });
+
+      return {
+        ...account,
+        incomeCount,
+        expenseCount,
+      };
+    })
+  );
+
+  // Calculate the total balance for all accounts
+  const totalBalanceAmount = accountsWithTransactionCounts.reduce(
+    (sum, acc) => sum + acc.balance,
+    0
+  );
+
+  return { accountsWithTransactionCounts, totalBalanceAmount };
 };

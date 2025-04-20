@@ -16,7 +16,7 @@ import { getIconComponent } from "../../../utils/common/icon";
 import AccountInfo from "../../common/account/AccountInfo";
 import { ACCOUNTS_ICON_MAPPER } from "../../../utils/constants";
 import { useTranslation } from "react-i18next";
-import Transaction from "../../common/transaction/Transaction";
+import NewTransaction from "../../common/transaction/NewTransaction";
 
 /**
  * AccountsContent Component
@@ -161,7 +161,7 @@ const Accounts = ({ balance, showBalances }) => {
         setCurrentAccount={setCurrentAccount}
       />
 
-      <Transaction
+      <NewTransaction
         isOpen={openTransaction}
         handleClose={(event) => {
           event.stopPropagation();
