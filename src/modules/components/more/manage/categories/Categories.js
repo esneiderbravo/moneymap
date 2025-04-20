@@ -7,6 +7,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useTheme,
 } from "@mui/material";
 import CommonHeader from "../../../common/CommonHeader";
 import useSwipeClose from "../../../hooks/useSwipeClose";
@@ -26,6 +27,7 @@ const Categories = ({ isOpen, setSelectedOption }) => {
   const { categories } = state;
   const chipElements = ["expense", "income"];
   const [currentCategory, setCurrentCategory] = React.useState("expense");
+  const theme = useTheme();
 
   useSwipeClose({
     isOpen: isOpen,
@@ -63,8 +65,13 @@ const Categories = ({ isOpen, setSelectedOption }) => {
                 key={option}
                 label={t(option)}
                 onClick={() => setCurrentCategory(option)}
-                selected={currentCategory}
-                option={option}
+                selected={currentCategory === option}
+                background_color={theme.palette.accent.main}
+                text_color={
+                  currentCategory === option
+                    ? theme.palette.text.primary
+                    : theme.palette.text.info
+                }
               />
             ))}
           </Box>

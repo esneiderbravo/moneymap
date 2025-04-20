@@ -33,21 +33,33 @@ export const processTransaction = async (
 };
 
 /**
- * Retrieve all transactions for a specific account.
+ * Retrieve and format all transactions for a specific account into separate arrays for income and expenses.
  *
  * @param {string} accountId - The ID of the account for which transactions should be retrieved.
- * @returns {Promise<Array>} - Returns a promise that resolves to an array of transactions or throws an error.
+ * @returns {Promise<Object>} - Returns a promise that resolves to an object with `income` and `expenses` arrays.
  */
 export const getTransactionsByAccount = async (accountId) => {
   try {
     console.log(`📌 Fetching transactions for account: ${accountId}`);
-    return await prisma.transaction.findMany({
+
+    // Fetch all transactions for the account
+    const transactions = await prisma.transaction.findMany({
       where: { accountId },
       include: { category: true },
       orderBy: { date: "desc" },
     });
+
+    // Separate transactions into 'income' and 'expenses' arrays
+    return {
+      income: transactions.filter(
+        (transaction) => transaction.type === "income"
+      ),
+      expense: transactions.filter(
+        (transaction) => transaction.type === "expense"
+      ),
+    };
   } catch (error) {
-    console.error("❌ Error fetching transactions:", error);
+    console.error("❌ Error fetching and formatting transactions:", error);
     throw new Error("Database error while fetching transactions.");
   }
 };
